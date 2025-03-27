@@ -6,10 +6,10 @@ def main():
     expense_file_path = "expense.csv"
 
     #Get use input for expense.
-    expense = get_user_expense()
+    #expense = get_user_expense()
 
     #Write their expense in a file.
-    save_expense_file(expense, expense_file_path)
+    #save_expense_file(expense, expense_file_path)
 
     #Read file and summrize expenses.
     summarize_expenses(expense_file_path)
@@ -53,11 +53,30 @@ def save_expense_file(expense: Expense, expense_file_path):
 
 def summarize_expenses(expense_file_path):
     print(f"summarizing user expense")
+    expenses: list[Expense] = []
     with open(expense_file_path, "r") as f:
         lines = f.readlines()
         for line in lines:
-            print(line)
-            
+            expense_name, expense_amount, expense_catergory = line.strip().split(",")
+            line_expense = Expense(
+                name=expense_name, 
+                amount=float(expense_amount), 
+                catergory=expense_catergory
+                )
+            expenses.append(line_expense)
+
+    amount_by_catergory = {}
+    for expense in expenses:
+        key = expense.catergory
+        if key in amount_by_catergory:
+            amount_by_catergory[key] += expense.amount
+        else:
+            amount_by_catergory[key] = expense.amount
+    
+    print("Expenses by catergories :")
+    for key, amount in amount_by_catergory.items():
+        print(f"  {key}: ${amount:.2f}")
+
 if __name__ == "__main__":
     main()
 
