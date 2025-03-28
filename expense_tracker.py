@@ -6,10 +6,10 @@ def main():
     expense_file_path = "expense.csv"
 
     #Get use input for expense.
-    #expense = get_user_expense()
+    expense = get_user_expense()
 
     #Write their expense in a file.
-    #save_expense_file(expense, expense_file_path)
+    save_expense_file(expense, expense_file_path)
 
     #Read file and summrize expenses.
     summarize_expenses(expense_file_path)
