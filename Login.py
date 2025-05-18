@@ -47,12 +47,12 @@ class LoginMenu(ctk.CTk):
                                              fg_color="#FFFEFE",
                                              width=200, 
                                              height=25,
-                                             font=("Bold", 20),
+                                             font=("Bold", 60),
                                              corner_radius=5)
-        self.loginframe_label.pack(padx=10,
-                                   pady=10,
-                                   expand=True)
+        self.loginframe_label.place(relx=0.1,
+                                    rely=0.1,)
         
+        self.loginframe_username = ctk.CTk()
 
         #self.load_main_menu()
     
