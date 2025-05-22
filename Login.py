@@ -1,7 +1,6 @@
 import tkinter as tk
 
 import customtkinter as ctk
-import mysql.connector
 
 class LoginMenu(ctk.CTk):
 
@@ -25,6 +24,24 @@ class LoginMenu(ctk.CTk):
         self.mainframe_holder.pack(padx=10, pady=10, fill="both", expand=True)
 
         self.load_login_menu()
+
+    def signup(self):
+
+
+    def delete_current(self):
+        """Delete the current menu."""
+        for widget in self.mainframe_holder.winfo_children():
+            widget.forget()
+
+    def switch_login(self):
+        #trial
+        self.delete_current()
+        self.load_login_menu()
+
+    def switch_signup(self):
+        #trial
+        self.delete_current()
+        self.load_signup_menu()
 
     def load_login_menu(self):
 
@@ -55,7 +72,7 @@ class LoginMenu(ctk.CTk):
 
         self.loginframe_switchbtn = ctk.CTkButton(
         self.loginframe, text="or signup", text_color="black", width=200, height= 50, 
-        fg_color="#D9D9D9")
+        fg_color="#D9D9D9", command=self.switch_signup)
         self.loginframe_switchbtn.pack()
     
     def load_signup_menu(self):
@@ -66,7 +83,7 @@ class LoginMenu(ctk.CTk):
         self.signupframe.pack_propagate(False)
 
         self.signupframe_label = ctk.CTkLabel(
-        self.signupframe, text="LOG IN", text_color="black", fg_color="#FFFEFE",
+        self.signupframe, text="SIGN UP", text_color="black", fg_color="#FFFEFE",
         width=200, height=25, font=("Bold", 60), corner_radius=5)
         self.signupframe_label.pack(pady=25)
             
@@ -81,13 +98,13 @@ class LoginMenu(ctk.CTk):
         self.signupframe_password.pack(padx=50)
 
         self.signupframe_signupbtn = ctk.CTkButton(
-        self.signupframe, text="LOG IN", text_color="black", width=200, height= 50, 
+        self.signupframe, text="SIGN UP", text_color="black", width=200, height= 50, 
         fg_color="#D9D9D9")
         self.signupframe_signupbtn.pack(padx=50, pady=25)
 
         self.signupframe_switchbtn = ctk.CTkButton(
-        self.signupframe, text="or signup", text_color="black", width=200, height= 50, 
-        fg_color="#D9D9D9")
+        self.signupframe, text="or login", text_color="black", width=200, height= 50, 
+        fg_color="#D9D9D9", command=self.switch_login)
         self.signupframe_switchbtn.pack()
 
 if __name__ == "__main__":
