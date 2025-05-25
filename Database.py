@@ -1,11 +1,7 @@
-import mysql.connector
+import sqlite3
 
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="yourusername",
-  password="yourpassword"
-)
-
-mycursor = mydb.cursor()
-
-mycursor.execute("CREATE DATABASE mydatabase")
+def fectch_db():
+    connection = sqlite3.connect("data/Account.db") 
+    cursor = connection.cursor()
+    cursor.execute()
+    

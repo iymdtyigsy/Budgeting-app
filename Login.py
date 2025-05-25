@@ -26,7 +26,7 @@ class LoginMenu(ctk.CTk):
         self.load_login_menu()
 
     def signup(self):
-
+        return 0
 
     def delete_current(self):
         """Delete the current menu."""
