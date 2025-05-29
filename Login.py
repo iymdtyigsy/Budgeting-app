@@ -1,6 +1,11 @@
 import tkinter as tk
+import sqlite3
 
 import customtkinter as ctk
+
+conn = sqlite3.connect("data/Account.db") 
+
+c = conn.cursor()
 
 class LoginMenu(ctk.CTk):
 
