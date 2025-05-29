@@ -7,6 +7,12 @@ conn = sqlite3.connect("data/Account.db")
 
 c = conn.cursor()
 
+def get_username()
+
+def get_password()
+    
+
+
 class LoginMenu(ctk.CTk):
 
     #def load_main_menu(self):
