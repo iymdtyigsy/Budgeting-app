@@ -1,21 +1,10 @@
 import tkinter as tk
 import sqlite3
+from Database import conn, c
 
 import customtkinter as ctk
 
-conn = sqlite3.connect("data/Account.db") 
-
-c = conn.cursor()
-
-def get_username()
-
-def get_password()
-    
-
-
 class LoginMenu(ctk.CTk):
-
-    #def load_main_menu(self):
 
     def __init__(self):
         """Initialize the log in window."""
@@ -37,7 +26,8 @@ class LoginMenu(ctk.CTk):
         self.load_login_menu()
 
     def signup(self):
-        return 0
+        username = self.signupframe_username.cget()
+        password = self.signupframe_password.cget()
 
     def delete_current(self):
         """Delete the current menu."""
