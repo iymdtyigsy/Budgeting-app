@@ -24,10 +24,15 @@ class LoginMenu(ctk.CTk):
         self.mainframe_holder.pack(padx=10, pady=10, fill="both", expand=True)
 
         self.load_login_menu()
-
+    
     def signup(self):
+<<<<<<< Updated upstream
         username = self.signupframe_username.cget()
         password = self.signupframe_password.cget()
+=======
+        username = self.signupframe_username.cget("text")
+        password = self.signupframe_password.cget("text")
+>>>>>>> Stashed changes
 
     def delete_current(self):
         """Delete the current menu."""
