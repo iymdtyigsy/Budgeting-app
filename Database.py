@@ -1,6 +1,11 @@
 import sqlite3
+
+from sqlalchemy import Column, Integer, String, ForeignKey, Sequence, create_engine
+from sqlalchemy.orm import sessionmaker, relationship, declarative_base
+
 import bcrypt
 
+engine = create_engine('')
 def create_conn():
     conn = sqlite3.connect("data/Account.db") 
     return conn
