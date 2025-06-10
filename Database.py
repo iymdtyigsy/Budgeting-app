@@ -13,8 +13,10 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
+    username = Column(String(30), nullable=False)
+    password = Column(String())
     
-    
+
 
 
     
