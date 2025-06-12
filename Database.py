@@ -16,6 +16,16 @@ class User(Base):
     username = Column(String(30), unique=True, nullable=False)
     password = Column(String(256), nullable=False)
 
+    def checkpassword(self, password):
+        return bcrypt.checkpw(password.encode('utf-8'), self.hashed_password.encode('utf-8'))
+
+    def hashpassword(self, password):
+        salt = bcrypt.gensalt()
+        self.hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt.decode('utf-8'))
+    
+
+
+
 
     
 

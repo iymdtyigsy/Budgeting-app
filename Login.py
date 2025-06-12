@@ -57,7 +57,7 @@ class LoginMenu(ctk.CTk):
 
         self.loginframe_password = ctk.CTkEntry(
         self.loginframe, placeholder_text="password", placeholder_text_color= "black", 
-        text_color="black", width=300, height=50, fg_color="#D9D9D9")
+        text_color="black", width=300, height=50, fg_color="#D9D9D9", show="*")
         self.loginframe_password.pack(padx=50)
 
         self.loginframe_loginbtn = ctk.CTkButton(
@@ -89,7 +89,7 @@ class LoginMenu(ctk.CTk):
 
         self.signupframe_password = ctk.CTkEntry(
         self.signupframe, placeholder_text="password", placeholder_text_color= "black", 
-        text_color="black", width=300, height=50, fg_color="#D9D9D9")
+        text_color="black", width=300, height=50, fg_color="#D9D9D9", show="*")
         self.signupframe_password.pack(padx=50)
 
         self.signupframe_signupbtn = ctk.CTkButton(
