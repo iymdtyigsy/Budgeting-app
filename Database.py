@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Sequence, create_engine
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
-
+from sqlalchemy.exc import IntegrityError
 import bcrypt
 
 engine = create_engine('sqlite:///account.db', echo=True)
@@ -16,19 +16,12 @@ class User(Base):
     username = Column(String(30), unique=True, nullable=False)
     password = Column(String(256), nullable=False)
 
-    def checkpassword(self, password):
-        return bcrypt.checkpw(password.encode('utf-8'), self.hashed_password.encode('utf-8'))
-
-    def hashpassword(self, password):
+    def hashpassword(password):
         salt = bcrypt.gensalt()
-        self.hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt.decode('utf-8'))
-    
+        bytes = password.encode('utf-8')
+        return bcrypt.hashpw(bytes, salt)
 
-
-
-
-    
-
-
-
+    def checkpassword(password, hash):
+        bytes = password.encode('utf-8')
+        return bcrypt.checkpw(bytes, hash)
     
