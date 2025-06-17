@@ -5,8 +5,6 @@ import bcrypt
 
 engine = create_engine('sqlite:///account.db', echo=True)
 Session = sessionmaker(bind=engine)
-session = Session()
-
 Base = declarative_base()
 
 class User(Base):
@@ -26,3 +24,17 @@ class User(Base):
         return bcrypt.checkpw(bytes, self.hashedpassword)
     
 Base.metadata.create_all(engine)
+
+def create_user(username, password):
+    session = Session()
+    try:
+        new_user = User(username = username)
+        new_user.hashpassword(password)
+        session.add(new_user)
+        session.commit
+        return True, ""
+    except IntegrityError:
+        session.rollback()
+        return False, ""
+    finally:
+        session.close()
