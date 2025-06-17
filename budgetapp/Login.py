@@ -1,6 +1,6 @@
 import tkinter as tk
-
 import customtkinter as ctk
+from Database import add_user, auth_user
 
 class LoginMenu(ctk.CTk):
 
@@ -37,9 +37,6 @@ class LoginMenu(ctk.CTk):
         #trial
         self.delete_current()
         self.load_signup_menu()
-
-    def regiser_user(self):
-        
         
     def load_login_menu(self):
 
@@ -69,7 +66,7 @@ class LoginMenu(ctk.CTk):
         self.loginframe_loginbtn.pack(padx=50, pady=25)
 
         self.loginframe_switchbtn = ctk.CTkButton(
-        self.loginframe, text="or signup", text_color="black", width=200, height= 50, 
+        self.loginframe, text="or signup", text_color="black", width=200, height= 30, 
         fg_color="#D9D9D9", command=self.switch_signup)
         self.loginframe_switchbtn.pack()
     
@@ -95,16 +92,38 @@ class LoginMenu(ctk.CTk):
         text_color="black", width=300, height=50, fg_color="#D9D9D9", show="*")
         self.signupframe_password.pack(padx=50)
 
+        self.signupframe_status_label = ctk.CTkLabel(self.signupframe, text = "", text_color="red")
+        self.signupframe_status_label.pack()
+
         self.signupframe_signupbtn = ctk.CTkButton(
         self.signupframe, text="SIGN UP", text_color="black", width=200, height= 50, 
-        fg_color="#D9D9D9")
+        fg_color="#D9D9D9", command=self.regiser_user)
         self.signupframe_signupbtn.pack(padx=50, pady=25)
 
         self.signupframe_switchbtn = ctk.CTkButton(
-        self.signupframe, text="or login", text_color="black", width=200, height= 50, 
+        self.signupframe, text="or login", text_color="black", width=200, height= 30, 
         fg_color="#D9D9D9", command=self.switch_login)
         self.signupframe_switchbtn.pack()
 
+    def regiser_user(self):
+        username = self.signupframe_username.get().strip()
+        password = self.signupframe_password.get()
+
+        if not all([username, password]):
+            self.signupframe_status_label.configure(text = "Fill in the username and password")
+            return
+        if len(password) <8:
+            self.signupframe_status_label.configure(text = "password need to be atleast 8 letters")
+            return
+        
+        success, message = add_user(username, password)
+        if success:
+            self.signupframe_status_label.configure(text = f"{message}", text_color = "green")
+            self.after(2000, self.switch_login)
+        else:
+            self.signupframe_status_label.configure(text = f"{message}")
+        
+        
 if __name__ == "__main__":
     LoginMenu().mainloop()
     
