@@ -38,6 +38,9 @@ class LoginMenu(ctk.CTk):
         self.delete_current()
         self.load_signup_menu()
 
+    def regiser_user(self):
+        
+        
     def load_login_menu(self):
 
         self.loginframe = ctk.CTkFrame(

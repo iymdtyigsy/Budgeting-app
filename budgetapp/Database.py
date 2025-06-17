@@ -4,7 +4,6 @@ from sqlalchemy.exc import IntegrityError
 import bcrypt
 
 engine = create_engine('sqlite:///account.db', echo=True)
-
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -12,16 +11,18 @@ Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'users'
+
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
     username = Column(String(30), unique=True, nullable=False)
-    password = Column(String(256), nullable=False)
+    hashedpassword = Column(String(256), nullable=False)
 
-    def hashpassword(password):
+    def hashpassword(self, password):
         salt = bcrypt.gensalt()
         bytes = password.encode('utf-8')
-        return bcrypt.hashpw(bytes, salt)
+        self.hashedpassword = bcrypt.hashpw(bytes, salt)
 
-    def checkpassword(password, hash):
+    def checkpassword(self, password):
         bytes = password.encode('utf-8')
-        return bcrypt.checkpw(bytes, hash)
+        return bcrypt.checkpw(bytes, self.hashedpassword)
     
+Base.metadata.create_all(engine)
