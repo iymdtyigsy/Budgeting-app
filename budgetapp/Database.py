@@ -16,22 +16,22 @@ class User(Base):
 
     def hashpassword(self, password):
         salt = bcrypt.gensalt()
-        bytes = password.encode('utf-8')
-        self.hashedpassword = bcrypt.hashpw(bytes, salt)
+        bytes = password.encode()
+        self.hashedpassword = bcrypt.hashpw(bytes, salt).decode()
 
     def checkpassword(self, password):
-        bytes = password.encode('utf-8')
-        return bcrypt.checkpw(bytes, self.hashedpassword)
+        bytes = password.encode()
+        return bcrypt.checkpw(bytes, self.hashedpassword.encode())
     
 Base.metadata.create_all(engine)
 
 def add_user(username, password):
     session = Session()
     try:
-        new_user = User(username = username)
+        new_user = User(username=username)
         new_user.hashpassword(password)
         session.add(new_user)
-        session.commit
+        session.commit()
         return True, "registered"
     except IntegrityError:
         session.rollback()

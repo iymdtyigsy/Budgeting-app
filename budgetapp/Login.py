@@ -53,17 +53,20 @@ class LoginMenu(ctk.CTk):
         self.loginframe_username = ctk.CTkEntry(
         self.loginframe, placeholder_text="username", placeholder_text_color= "black", 
         text_color="black", fg_color="#D9D9D9", width=300, height=50)
-        self.loginframe_username.pack(padx=50, pady=25)
+        self.loginframe_username.pack(padx=50, pady=10)
 
         self.loginframe_password = ctk.CTkEntry(
         self.loginframe, placeholder_text="password", placeholder_text_color= "black", 
         text_color="black", width=300, height=50, fg_color="#D9D9D9", show="*")
-        self.loginframe_password.pack(padx=50)
+        self.loginframe_password.pack(padx=50, pady=10)
+        
+        self.loginframe_status_label = ctk.CTkLabel(self.loginframe, text = "", text_color="red")
+        self.loginframe_status_label.pack()
 
         self.loginframe_loginbtn = ctk.CTkButton(
         self.loginframe, text="LOG IN", text_color="black", width=200, height= 50, 
-        fg_color="#D9D9D9")
-        self.loginframe_loginbtn.pack(padx=50, pady=25)
+        fg_color="#D9D9D9", command=self.login_user)
+        self.loginframe_loginbtn.pack(padx=50, pady=10)
 
         self.loginframe_switchbtn = ctk.CTkButton(
         self.loginframe, text="or signup", text_color="black", width=200, height= 30, 
@@ -85,12 +88,17 @@ class LoginMenu(ctk.CTk):
         self.signupframe_username = ctk.CTkEntry(
         self.signupframe, placeholder_text="username", placeholder_text_color= "black", 
         text_color="black", fg_color="#D9D9D9", width=300, height=50)
-        self.signupframe_username.pack(padx=50, pady=25)
+        self.signupframe_username.pack(padx=50, pady=5)
 
         self.signupframe_password = ctk.CTkEntry(
         self.signupframe, placeholder_text="password", placeholder_text_color= "black", 
         text_color="black", width=300, height=50, fg_color="#D9D9D9", show="*")
-        self.signupframe_password.pack(padx=50)
+        self.signupframe_password.pack(padx=50, pady=5)
+
+        self.signupframe_confirmpassword = ctk.CTkEntry(
+        self.signupframe, placeholder_text="confirm password", placeholder_text_color= "black", 
+        text_color="black", width=300, height=50, fg_color="#D9D9D9", show="*")
+        self.signupframe_confirmpassword.pack(padx=50, pady=5)
 
         self.signupframe_status_label = ctk.CTkLabel(self.signupframe, text = "", text_color="red")
         self.signupframe_status_label.pack()
@@ -98,7 +106,7 @@ class LoginMenu(ctk.CTk):
         self.signupframe_signupbtn = ctk.CTkButton(
         self.signupframe, text="SIGN UP", text_color="black", width=200, height= 50, 
         fg_color="#D9D9D9", command=self.regiser_user)
-        self.signupframe_signupbtn.pack(padx=50, pady=25)
+        self.signupframe_signupbtn.pack(padx=50, pady=10)
 
         self.signupframe_switchbtn = ctk.CTkButton(
         self.signupframe, text="or login", text_color="black", width=200, height= 30, 
@@ -110,19 +118,33 @@ class LoginMenu(ctk.CTk):
         password = self.signupframe_password.get()
 
         if not all([username, password]):
-            self.signupframe_status_label.configure(text = "Fill in the username and password")
+            self.signupframe_status_label.configure(text="Fill in the username and password")
             return
         if len(password) <8:
-            self.signupframe_status_label.configure(text = "password need to be atleast 8 letters")
+            self.signupframe_status_label.configure(text="password need to be atleast 8 letters")
             return
         
         success, message = add_user(username, password)
         if success:
-            self.signupframe_status_label.configure(text = f"{message}", text_color = "green")
+            self.signupframe_status_label.configure(text=message, text_color="green")
             self.after(2000, self.switch_login)
         else:
-            self.signupframe_status_label.configure(text = f"{message}")
+            self.signupframe_status_label.configure(text=message)
+    
+    def login_user(self):
+        username = self.loginframe_username.get().strip()
+        password = self.loginframe_password.get()
+
+        if not username or not password:
+            self.loginframe_status_label.configure(text="Fill in the username and password")
+            return
         
+        success, message = auth_user(username, password)
+        if success:
+            self.loginframe_status_label.configure(text=message, text_color="green")
+        else:
+            self.loginframe_status_label.configure(text=message)
+
         
 if __name__ == "__main__":
     LoginMenu().mainloop()
