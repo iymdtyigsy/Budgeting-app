@@ -10,8 +10,8 @@ class LoginMenu(ctk.CTk):
 
         self.title("Budget app")
         self.geometry("844x844")
-        self.minsize(844, 844)
-        self.maxsize(844, 844)
+        self.minsize(951, 951)
+        self.maxsize(951, 951)
 
         self.mainframe = ctk.CTkFrame(
         self, fg_color="black", width=744, height=744)
@@ -116,18 +116,24 @@ class LoginMenu(ctk.CTk):
     def regiser_user(self):
         username = self.signupframe_username.get().strip()
         password = self.signupframe_password.get()
+        confirm = self.signupframe_confirmpassword.get()
 
-        if not all([username, password]):
-            self.signupframe_status_label.configure(text="Fill in the username and password")
+        if not all([username, password, confirm]):
+            self.signupframe_status_label.configure(text="Fill in the username, password, and confirm password")
             return
+        
         if len(password) <8:
             self.signupframe_status_label.configure(text="password need to be atleast 8 letters")
+            return
+        
+        if confirm != password:
+            self.signupframe_status_label.configure(text ="confirm password does not match")
             return
         
         success, message = add_user(username, password)
         if success:
             self.signupframe_status_label.configure(text=message, text_color="green")
-            self.after(2000, self.switch_login)
+            self.after(300, self.switch_login)
         else:
             self.signupframe_status_label.configure(text=message)
     
