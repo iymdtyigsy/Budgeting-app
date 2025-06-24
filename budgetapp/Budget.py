@@ -20,7 +20,7 @@ class BudgetMenu(ctk.CTk):
         self.mainframe, fg_color="#D9D9D9", width=644, height=644)
         self.mainframe_holder.pack(padx=10, pady=10, fill="both", expand=True)
 
-        self.load_set_budget()
+        self.load_set_expense_catergorie()
 
 
     def delete_current(self):
@@ -63,12 +63,79 @@ create one?
         self.mainframe_holder, fg_color="white", width=810, height=780)
         self.set_budget_frame.pack(padx=10, pady=10, expand=True)
         self.set_budget_frame.pack_propagate(False)
+
+        self.set_budget_label = ctk.CTkLabel(
+        self.set_budget_frame, text="Create Budget", text_color="black", 
+        fg_color="white", font=("Bold", 96))
+        self.set_budget_label.pack(padx=10, pady=40)
+
+        self.budget_name_entry = ctk.CTkEntry(
+        self.set_budget_frame, placeholder_text="Budget name", placeholder_text_color="black",
+        text_color="black", font=("Bold", 40), fg_color="#D9D9D9", width=726, height=74)
+        self.budget_name_entry.pack(padx=50, pady=30)
+
+        self.budget_balance_entry = ctk.CTkEntry(
+        self.set_budget_frame, placeholder_text="Budget balance", placeholder_text_color="black",
+        text_color="black", font=("Bold", 40), fg_color="#D9D9D9", width=726, height=74)
+        self.budget_balance_entry.pack(padx=50)
+
+        self.budget_income_entry = ctk.CTkEntry(
+        self.set_budget_frame, placeholder_text="Budget income", placeholder_text_color="black",
+        text_color="black", font=("Bold", 40), fg_color="#D9D9D9", width=726, height=74)
+        self.budget_income_entry.pack(padx=50, pady=30)
+
+        self.confirm_btn = ctk.CTkButton(
+        self.set_budget_frame, text="confirm", font=("Bold", 40), 
+        text_color="black", width=293, height= 51, fg_color="#D9D9D9", command=None)
+        self.confirm_btn.pack(padx=50, pady=10)
+
+        self.return_btn = ctk.CTkButton(
+        self.set_budget_frame, text="return", font=("Bold", 40), 
+        text_color="black", width=293, height= 51, fg_color="#D9D9D9", command=None)
+        self.return_btn.pack(padx=50, pady=10)
     
     def load_set_expense_catergorie(self):
-        None
+        
+        self.set_expense_catergorie_frame = ctk.CTkFrame(
+        self.mainframe_holder, fg_color="white", width=810, height=780)
+        self.set_expense_catergorie_frame.pack(padx=10, pady=10, expand=True)
+        self.set_expense_catergorie_frame.pack_propagate(False)
+
+        self.set_expense_catergorie_label = ctk.CTkLabel(
+        self.set_expense_catergorie_frame, text="Set Expense Catergories", text_color="black", 
+        fg_color="white", font=("Bold", 64))
+        self.set_expense_catergorie_label.pack(padx=10, pady=40)
+
+        self.expense_name_entry = ctk.CTkEntry(
+        self. set_expense_catergorie_frame, placeholder_text="Expense name", placeholder_text_color="black",
+        text_color="black", font=("Bold", 53), fg_color="#D9D9D9", width=726, height=74)
+        self.expense_name_entry.pack(pady=10)
+
+        self.expense_amount_entry = ctk.CTkEntry(
+        self. set_expense_catergorie_frame, placeholder_text="Expense amount", placeholder_text_color="black",
+        text_color="black", font=("Bold", 53), fg_color="#D9D9D9", width=726, height=74)
+        self.expense_amount_entry.pack(pady=10)
+
+        self.confirm_btn = ctk.CTkButton(
+        self.set_expense_catergorie_frame, text="confirm", font=("Bold", 40), 
+        text_color="black", width=293, height= 51, fg_color="#D9D9D9", command=None)
+        self.confirm_btn.pack(padx=50, pady=10)
+
+        self.return_btn = ctk.CTkButton(
+        self.set_expense_catergorie_frame, text="return", font=("Bold", 40), 
+        text_color="black", width=293, height= 51, fg_color="#D9D9D9", command=None)
+        self.return_btn.pack(padx=50, pady=10)
 
     def load_set_expense(self):
-        None
+        plus_image = ctk.CTkImage(
+            size=(1,1),
+            light_image="/images/plus.png",
+            dark_image="/images/plus.png",
+        )
+
+        ctk.CTkButton(
+            image=plus_image
+        )
     
     def load_set_goal(self):
         None
