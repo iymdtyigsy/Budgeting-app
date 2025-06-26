@@ -263,7 +263,9 @@ create one?
             self.set_expense_frame,
             width=757,
             height=411)
-        self.contain_scroll_frame.pack()
+        self.contain_scroll_frame.grid_columnconfigure((0,1), weight=1)
+        self.contain_scroll_frame.grid_rowconfigure((0,1), weight=1)
+        self.contain_scroll_frame.pack(pady=20, padx=20)
         
         self.add_btn = ctk.CTkButton(
             self.contain_scroll_frame,
@@ -273,13 +275,23 @@ create one?
             height=83,
             fg_color="#3EA428",
             command=None)
-        self.add_btn.grid(row=0,)
+        self.add_btn.grid(row=0, column=0, sticky = 'nswe', pady=10, padx=10)
+
+        self.cater_label = ctk.CTkLabel(
+            self.contain_scroll_frame,
+            text="catergory",
+            text_color="black", 
+            fg_color="white", 
+            font=("Bold", 40),
+            corner_radius=5)
+        self.cater_label.grid(row=0, column=1, sticky="nswe", pady=10, padx=10)
 
         self.scrollable_frame = ctk.CTkScrollableFrame(
             self.contain_scroll_frame,
             width=675,
-            height=311)
-        self.scrollable_frame.pack()
+            height=311, 
+            fg_color="#D9D9D9")
+        self.scrollable_frame.grid(row=1, column=1, sticky='nswe')
 
         self.confirm_btn = ctk.CTkButton(
             self.set_expense_frame, 
