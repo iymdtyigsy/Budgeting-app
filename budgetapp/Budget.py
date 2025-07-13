@@ -16,17 +16,19 @@ class BudgetMenu(ctk.CTk):
             self, 
             fg_color="black", 
             width=744, 
-            height=744)
+            height=744
+            )
         self.mainframe.pack(fill="both", expand=True)
 
         self.mainframe_holder = ctk.CTkFrame(
             self.mainframe, 
             fg_color="#D9D9D9", 
             width=644, 
-            height=644)
+            height=644
+            )
         self.mainframe_holder.pack(padx=10, pady=10, fill="both", expand=True)
 
-        self.load_set_expense()
+        self.load_dashboard()
 
 
     def delete_current(self):
@@ -40,7 +42,8 @@ class BudgetMenu(ctk.CTk):
             self.mainframe_holder, 
             fg_color="white", 
             width=707, 
-            height=585)
+            height=585
+            )
         self.create_budget_frame.pack(padx=10, pady=10, expand=True)
         self.create_budget_frame.pack_propagate(False)
 
@@ -56,7 +59,8 @@ create one?
             text_color="black", 
             fg_color="white", 
             font=("Bold", 55), 
-            corner_radius=5)
+            corner_radius=5
+            )
         self.create_budget_label.pack(padx=10, pady=5)
 
         self.yes_btn = ctk.CTkButton(
@@ -67,7 +71,8 @@ create one?
             width=200, 
             height= 50, 
             fg_color="#D9D9D9", 
-            command=None)
+            command=None
+            )
         self.yes_btn.pack(padx=50, pady=10)
 
         self.return_btn = ctk.CTkButton(
@@ -78,7 +83,8 @@ create one?
             width=200, 
             height= 50, 
             fg_color="#D9D9D9", 
-            command=None)
+            command=None
+            )
         self.return_btn.pack(padx=50, pady=10)
 
     def load_set_budget(self):
@@ -87,7 +93,8 @@ create one?
             self.mainframe_holder, 
             fg_color="white", 
             width=810, 
-            height=780)
+            height=780
+            )
         self.set_budget_frame.pack(padx=10, pady=10, expand=True)
         self.set_budget_frame.pack_propagate(False)
 
@@ -96,7 +103,8 @@ create one?
             text="Create Budget", 
             text_color="black", 
             fg_color="white", 
-            font=("Bold", 96))
+            font=("Bold", 96)
+            )
         self.set_budget_label.pack(padx=10, pady=40)
 
         self.set_budget_label_2 = ctk.CTkLabel(
@@ -104,7 +112,8 @@ create one?
             text="(Monthly)", 
             text_color="black", 
             fg_color="white", 
-            font=("Bold", 50))
+            font=("Bold", 50)
+            )
         self.set_budget_label_2.pack(padx=10, pady=20)
 
         self.budget_name_entry = ctk.CTkEntry(
@@ -115,7 +124,8 @@ create one?
             font=("Bold", 40), 
             fg_color="#D9D9D9", 
             width=726, 
-            height=74)
+            height=74
+            )
         self.budget_name_entry.pack(padx=50, pady=30)
 
         self.budget_balance_entry = ctk.CTkEntry(
@@ -126,7 +136,8 @@ create one?
             font=("Bold", 40), 
             fg_color="#D9D9D9", 
             width=726, 
-            height=74)
+            height=74
+            )
         self.budget_balance_entry.pack(padx=50)
 
         self.budget_income_entry = ctk.CTkEntry(
@@ -137,7 +148,8 @@ create one?
             font=("Bold", 40), 
             fg_color="#D9D9D9", 
             width=726, 
-            height=74)
+            height=74
+            )
         self.budget_income_entry.pack(padx=50, pady=30)
 
         self.confirm_btn = ctk.CTkButton(
@@ -148,7 +160,8 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=None)
+            command=None
+            )
         self.confirm_btn.pack(padx=50, pady=10)
 
         self.return_btn = ctk.CTkButton(
@@ -159,7 +172,8 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=None)
+            command=None
+            )
         self.return_btn.pack(padx=50, pady=10)
     
     def load_set_expense_catergorie(self):
@@ -168,7 +182,8 @@ create one?
             self.mainframe_holder, 
             fg_color="white", 
             width=810, 
-            height=780)
+            height=780
+            )
         self.set_expense_catergorie_frame.pack(padx=10, pady=10, expand=True)
         self.set_expense_catergorie_frame.pack_propagate(False)
 
@@ -177,7 +192,8 @@ create one?
             text="Set Expense Catergories", 
             text_color="black", 
             fg_color="white", 
-            font=("Bold", 64))
+            font=("Bold", 64)
+            )
         self.set_expense_catergorie_label.pack(padx=10, pady=40)
 
         self.set_expense_catergorie_label_2 = ctk.CTkLabel(
@@ -185,7 +201,8 @@ create one?
             text="(Monthly)", 
             text_color="black", 
             fg_color="white", 
-            font=("Bold", 50))
+            font=("Bold", 50)
+            )
         self.set_expense_catergorie_label_2.pack(padx=10, pady=20)
 
         self.expense_name_entry = ctk.CTkEntry(
@@ -196,7 +213,8 @@ create one?
             font=("Bold", 53), 
             fg_color="#D9D9D9", 
             width=726, 
-            height=74)
+            height=74
+            )
         self.expense_name_entry.pack(pady=10)
 
         self.expense_amount_entry = ctk.CTkEntry(
@@ -207,7 +225,8 @@ create one?
             font=("Bold", 53), 
             fg_color="#D9D9D9", 
             width=726, 
-            height=74)
+            height=74
+            )
         self.expense_amount_entry.pack(pady=10)
 
         self.confirm_btn = ctk.CTkButton(
@@ -218,7 +237,8 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=None)
+            command=None
+            )
         self.confirm_btn.pack(padx=50, pady=10)
 
         self.return_btn = ctk.CTkButton(
@@ -229,7 +249,8 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=None)
+            command=None
+            )
         self.return_btn.pack(padx=50, pady=10)
 
     def load_set_expense(self):
@@ -247,7 +268,8 @@ create one?
             self.mainframe_holder, 
             fg_color="white", 
             width=810, 
-            height=780)
+            height=780
+            )
         self.set_expense_frame.pack(padx=10, pady=10, expand=True)
         self.set_expense_frame.pack_propagate(False)
 
@@ -256,13 +278,15 @@ create one?
             text="Set Expense Catergories", 
             text_color="black", 
             fg_color="white", 
-            font=("Bold", 64))
+            font=("Bold", 64)
+            )
         self.set_expense_label.pack(padx=10, pady=30)
 
         self.contain_scroll_frame = ctk.CTkFrame(
             self.set_expense_frame,
             width=757,
-            height=411)
+            height=411
+            )
         self.contain_scroll_frame.grid_columnconfigure((0,1), weight=1)
         self.contain_scroll_frame.grid_rowconfigure((0,1), weight=1)
         self.contain_scroll_frame.pack(pady=20, padx=20)
@@ -274,23 +298,26 @@ create one?
             width=86,
             height=83,
             fg_color="#3EA428",
-            command=None)
+            command=None
+            )
         self.add_btn.grid(row=0, column=0, sticky = 'nswe', pady=10, padx=10)
 
-        self.cater_label = ctk.CTkLabel(
+        self.catergory_label = ctk.CTkLabel(
             self.contain_scroll_frame,
             text="catergory",
             text_color="black", 
             fg_color="white", 
-            font=("Bold", 40),
-            corner_radius=5)
-        self.cater_label.grid(row=0, column=1, sticky="nswe", pady=10, padx=10)
+            font=("Bold", 30),
+            corner_radius=5
+            )
+        self.catergory_label.grid(row=0, column=1, sticky="nswe", pady=10, padx=10)
 
         self.scrollable_frame = ctk.CTkScrollableFrame(
             self.contain_scroll_frame,
             width=675,
             height=311, 
-            fg_color="#D9D9D9")
+            fg_color="#D9D9D9"
+            )
         self.scrollable_frame.grid(row=1, column=1, sticky='nswe')
 
         self.confirm_btn = ctk.CTkButton(
@@ -301,7 +328,8 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=None)
+            command=None
+            )
         self.confirm_btn.pack(padx=50, pady=10)
 
         self.return_btn = ctk.CTkButton(
@@ -312,14 +340,87 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=None)
+            command=None
+            )
         self.return_btn.pack(padx=50, pady=10)
 
     def load_set_goal(self):
-        None
+        self.set_goal_frame = ctk.CTkFrame(
+            self.mainframe_holder, 
+            fg_color="white", 
+            width=810, 
+            height=780
+            )
+        self.set_goal_frame.pack(padx=10, pady=10, expand=True)
+        self.set_goal_frame.pack_propagate(False)
+
+        self.set_goal_frame_label = ctk.CTkLabel(
+            self.set_goal_frame, 
+            text="Set goal", 
+            text_color="black", 
+            fg_color="white", 
+            font=("Bold", 64)
+            )
+        self.set_goal_frame_label.pack(padx=10, pady=90)
+
+        self.goal_name_entry = ctk.CTkEntry(
+            self.set_goal_frame, 
+            placeholder_text="Goal name", 
+            placeholder_text_color="black",
+            text_color="black", 
+            font=("Bold", 53), 
+            fg_color="#D9D9D9", 
+            width=726, 
+            height=74
+            )
+        self.goal_name_entry.pack(pady=10)
+
+        self.goal_amount_entry = ctk.CTkEntry(
+            self.set_goal_frame, 
+            placeholder_text="Goal amount", 
+            placeholder_text_color="black",
+            text_color="black", 
+            font=("Bold", 53), 
+            fg_color="#D9D9D9", 
+            width=726, 
+            height=74
+            )
+        self.goal_amount_entry.pack(pady=10)
+
+        self.confirm_btn = ctk.CTkButton(
+            self.set_goal_frame, 
+            text="confirm", 
+            font=("Bold", 40), 
+            text_color="black", 
+            width=293, 
+            height= 51, 
+            fg_color="#D9D9D9", 
+            command=None
+            )
+        self.confirm_btn.pack(padx=50, pady=10)
+
+        self.return_btn = ctk.CTkButton(
+            self.set_goal_frame, 
+            text="return", 
+            font=("Bold", 40), 
+            text_color="black", 
+            width=293, 
+            height= 51, 
+            fg_color="#D9D9D9", 
+            command=None
+            )
+        self.return_btn.pack(padx=50, pady=10)
 
     def load_dashboard(self):
-        None
+        self.dashboard_frame = ctk.CTkFrame(
+        self.mainframe_holder,
+        fg_color="white", 
+        width=810, 
+        height=780
+        )
+        self.dashboard_frame.pack(padx=10, pady=10, expand=True)
+        self.dashboard_frame.pack_propagate(False)
+        
 
     def load_edit_budget(self):
         None
