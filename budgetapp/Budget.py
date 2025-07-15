@@ -28,7 +28,7 @@ class BudgetMenu(ctk.CTk):
         )
         self.mainframe_holder.pack(padx=10, pady=10, fill="both", expand=True)
 
-        self.load_dashboard()
+        self.load_edit_budget()
 
 
     def delete_current(self):
@@ -487,16 +487,93 @@ create one?
         )
         self.progess_bar.place(relx=0.05, rely=0.45)
 
-        self.
+        self.goal_name_label = ctk.CTkLabel(
+            self.dashboard_frame,
+            text="goal name",
+            text_color="black",
+            font=("Bold", 32),
+            fg_color="#D9D9D9",
+            width=210,
+            height=32
+        )
+        self.goal_name_label.place(relx=0.72, rely=0.33)
+
+        self.goal_amount_label = ctk.CTkLabel(
+            self.dashboard_frame,
+            text="goal amount",
+            text_color="black",
+            font=("Bold", 32),
+            fg_color="#D9D9D9",
+            width=210,
+            height=32
+        )
+        self.goal_amount_label.place(relx=0.72, rely=0.39)
+
+        self.expense_scroll_frame = ctk.CTkScrollableFrame(
+            self.dashboard_frame,
+            width=673,
+            height=320, 
+            fg_color="#D9D9D9"
+        )
+        self.expense_scroll_frame.place(relx=0.07, rely=0.53)
 
     def load_edit_budget(self):
-        None
-    
-    def load_edit_expense_catergorie(self):
-        None
+        self.edit_budget_frame = ctk.CTkFrame(
+            self.mainframe_holder,
+            fg_color="white", 
+            width=810, 
+            height=780
+        )
+        self.edit_budget_frame.pack(padx=10, pady=10, expand=True)
+        self.edit_budget_frame.pack_propagate(False)
 
-    def load_edit_expense(self):
-        None
+        self.edit_budget_btn = ctk.CTkButton(
+            self.edit_budget_frame, 
+            text="edit budget", 
+            font=("Bold", 40), 
+            text_color="black", 
+            width=293, 
+            height= 51, 
+            fg_color="#D9D9D9", 
+            command=None
+        )
+        self.edit_budget_btn.pack(pady=50)
+
+        self.edit_expense_btn = ctk.CTkButton(
+            self.edit_budget_frame, 
+            text="edit expense", 
+            font=("Bold", 40), 
+            text_color="black", 
+            width=293, 
+            height= 51, 
+            fg_color="#D9D9D9", 
+            command=None
+        )
+        self.edit_expense_btn.pack(pady=50)
+
+        self.edit_goal_btn = ctk.CTkButton(
+            self.edit_budget_frame, 
+            text="edit goal", 
+            font=("Bold", 40), 
+            text_color="black", 
+            width=293, 
+            height= 51, 
+            fg_color="#D9D9D9", 
+            command=None
+        )
+        self.edit_goal_btn.pack(pady=50)
+
+        self.return_edit_budget_btn = ctk.CTkButton(
+            self.edit_budget_frame, 
+            text="return", 
+            font=("Bold", 40), 
+            text_color="black", 
+            width=293, 
+            height= 51, 
+            fg_color="#D9D9D9", 
+            command=None
+        )
+        self.return_edit_budget_btn.pack(pady=100)
     
     def load_edit_goal(self):
         None
