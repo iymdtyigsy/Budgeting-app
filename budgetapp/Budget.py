@@ -28,7 +28,7 @@ class BudgetMenu(ctk.CTk):
         )
         self.mainframe_holder.pack(padx=10, pady=10, fill="both", expand=True)
 
-        self.load_edit_budget()
+        self.load_set_expense()
 
 
     def delete_current(self):
@@ -574,12 +574,53 @@ create one?
             command=None
         )
         self.return_edit_budget_btn.pack(pady=100)
-    
-    def load_edit_goal(self):
-        None
-    def log_out(self):
-        None
 
+    def log_out(self):
+        self.log_out_frame = ctk.CTkFrame(
+            self.mainframe_holder,
+            fg_color="white", 
+            width=810, 
+            height=780
+        )
+        self.log_out_frame.pack(padx=10, pady=10, expand=True)
+        self.log_out_frame.pack_propagate(False)
+
+        self.confirm_label = ctk.CTkLabel(
+            self.log_out_frame,
+            text=
+"""Are you sure you want 
+to log out?""",
+            text_color="black",
+            font=("Bold", 70),
+            fg_color="white",
+            width=210,
+            height=40
+        )
+        self.confirm_label.pack(pady=100)
+
+        self.confirm_btn = ctk.CTkButton(
+            self.log_out_frame, 
+            text="confirm", 
+            font=("Bold", 40), 
+            text_color="black", 
+            width=293, 
+            height= 51, 
+            fg_color="#D9D9D9", 
+            command=None
+        )
+        self.confirm_btn.place(relx=0.3, rely=0.5)
+
+        self.return_btn = ctk.CTkButton(
+            self.log_out_frame, 
+            text="return", 
+            font=("Bold", 40), 
+            text_color="black", 
+            width=293, 
+            height= 51, 
+            fg_color="#D9D9D9", 
+            command=None
+        )
+        self.return_btn.place(relx=0.3, rely=0.6)
 
 if __name__ == "__main__":
     BudgetMenu().mainloop()
