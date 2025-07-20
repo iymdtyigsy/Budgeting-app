@@ -22,7 +22,12 @@ class User(Base):
     def checkpassword(self, password):
         bytes = password.encode()
         return bcrypt.checkpw(bytes, self.hashedpassword.encode())
-    
+
+class Budget(User):
+    __tablename__ = 'Budgets'
+
+    id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
+
 Base.metadata.create_all(engine)
 
 def add_user(username, password):
