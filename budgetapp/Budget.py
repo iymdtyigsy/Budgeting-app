@@ -28,7 +28,7 @@ class BudgetMenu(ctk.CTk):
         )
         self.mainframe_holder.pack(padx=10, pady=10, fill="both", expand=True)
 
-        self.load_set_expense()
+        self.load_create_budget()
 
 
     def delete_current(self):
@@ -37,7 +37,9 @@ class BudgetMenu(ctk.CTk):
             widget.forget()
 
     def load_create_budget(self):
-        
+
+        self.delete_current()
+
         self.create_budget_frame = ctk.CTkFrame(
             self.mainframe_holder, 
             fg_color="white", 
@@ -71,7 +73,7 @@ create one?
             width=200, 
             height= 50, 
             fg_color="#D9D9D9", 
-            command=None
+            command=self.load_set_budget
         )
         self.yes_btn.pack(padx=50, pady=10)
 
@@ -88,6 +90,8 @@ create one?
         self.return_btn.pack(padx=50, pady=10)
 
     def load_set_budget(self):
+
+        self.delete_current()
         
         self.set_budget_frame = ctk.CTkFrame(
             self.mainframe_holder, 
@@ -160,7 +164,7 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=None
+            command=self.load_set_expense_catergorie
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
@@ -177,6 +181,8 @@ create one?
         self.return_btn.pack(padx=50, pady=10)
     
     def load_set_expense_catergorie(self):
+
+        self.delete_current()
         
         self.set_expense_catergorie_frame = ctk.CTkFrame(
             self.mainframe_holder, 
@@ -237,7 +243,7 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=None
+            command=self.load_set_expense
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
@@ -254,6 +260,9 @@ create one?
         self.return_btn.pack(padx=50, pady=10)
 
     def load_set_expense(self):
+
+        self.delete_current()
+
         """plus_image = ctk.CTkImage(
             size=(1,1),
             light_image="/images/plus.png",
@@ -328,7 +337,7 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=None
+            command=self.load_set_goal
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
@@ -345,6 +354,9 @@ create one?
         self.return_btn.pack(padx=50, pady=10)
 
     def load_set_goal(self):
+
+        self.delete_current()
+
         self.set_goal_frame = ctk.CTkFrame(
             self.mainframe_holder, 
             fg_color="white", 
@@ -395,7 +407,7 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=None
+            command=self.load_dashboard
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
@@ -412,6 +424,9 @@ create one?
         self.return_btn.pack(padx=50, pady=10)
 
     def load_dashboard(self):
+
+        self.delete_current()
+
         self.dashboard_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white", 
@@ -452,7 +467,7 @@ create one?
             width=140, 
             height= 39, 
             fg_color="#D9D9D9", 
-            command=None
+            command=self.load_edit_budget
         )
         self.edit_btn.place(relx=0.64, rely=0.01)
 
@@ -464,7 +479,7 @@ create one?
             width=140, 
             height= 39, 
             fg_color="#D9D9D9", 
-            command=None
+            command=self.log_out
         )
         self.log_out_btn.place(relx=0.82, rely=0.01)
 
@@ -518,6 +533,9 @@ create one?
         self.expense_scroll_frame.place(relx=0.07, rely=0.53)
 
     def load_edit_budget(self):
+
+        self.delete_current()
+
         self.edit_budget_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white", 
@@ -576,6 +594,9 @@ create one?
         self.return_edit_budget_btn.pack(pady=100)
 
     def log_out(self):
+
+        self.delete_current()
+
         self.log_out_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white", 

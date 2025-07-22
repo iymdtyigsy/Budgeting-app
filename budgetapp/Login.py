@@ -27,18 +27,10 @@ class LoginMenu(ctk.CTk):
         """Delete the current menu."""
         for widget in self.mainframe_holder.winfo_children():
             widget.forget()
-
-    def switch_login(self):
-        #trial
-        self.delete_current()
-        self.load_login_menu()
-
-    def switch_signup(self):
-        #trial
-        self.delete_current()
-        self.load_signup_menu()
-        
+       
     def load_login_menu(self):
+
+        self.delete_current
 
         self.loginframe = ctk.CTkFrame(
         self.mainframe_holder, fg_color="white", width=605, height=500)
@@ -70,10 +62,12 @@ class LoginMenu(ctk.CTk):
 
         self.loginframe_switchbtn = ctk.CTkButton(
         self.loginframe, text="or signup", text_color="black", width=200, height= 30, 
-        fg_color="#D9D9D9", command=self.switch_signup)
+        fg_color="#D9D9D9", command=self.load_signup_menu)
         self.loginframe_switchbtn.pack()
     
     def load_signup_menu(self):
+
+        self.delete_current
 
         self.signupframe = ctk.CTkFrame(
         self.mainframe_holder, fg_color="white", width=605, height=500)
@@ -110,7 +104,7 @@ class LoginMenu(ctk.CTk):
 
         self.signupframe_switchbtn = ctk.CTkButton(
         self.signupframe, text="or login", text_color="black", width=200, height= 30, 
-        fg_color="#D9D9D9", command=self.switch_login)
+        fg_color="#D9D9D9", command=self.load_login_menu)
         self.signupframe_switchbtn.pack()
 
     def regiser_user(self):
