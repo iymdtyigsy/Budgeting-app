@@ -14,6 +14,9 @@ class User(Base):
     username = Column(String(30), unique=True, nullable=False)
     hashedpassword = Column(String(256), nullable=False)
 
+    budget = relationship("Budget", back_populates="users")
+    catergory = relationship("Catergory", back_populates="users")
+
     def hashpassword(self, password):
         salt = bcrypt.gensalt()
         bytes = password.encode()
@@ -23,10 +26,28 @@ class User(Base):
         bytes = password.encode()
         return bcrypt.checkpw(bytes, self.hashedpassword.encode())
 
-class Budget(User):
-    __tablename__ = 'Budgets'
+class Budget(Base):
+    __tablename__ = 'budgets'
 
-    id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
+    id = Column(Integer, Sequence('budget_id_seq'), primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    budget_name = Column(String, unique=True, nullable=False)
+    budget_amount = Column(Integer, nullable=False)
+
+    user = relationship("User", back_populates="budgets")
+    catergory = relationship("Catergory", back_populates="budgets")
+
+class Catergory(Base):
+    __tablename__ = 'catergories'
+
+    id = Column(Integer, Sequence('catergory_id_seq'), primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    budget_id = Column(Integer, ForeignKey('budgets.id'))
+    catergory_name = Column(String, unique=True, nullable=False)
+    catergory_amount = Column(Integer, nullable=False)
+
+    user = relationship("User", back_populates="catergories")
+    budget = relationship("Budget", back_populates="catergories")
 
 Base.metadata.create_all(engine)
 
@@ -53,4 +74,23 @@ def auth_user(username, password):
         return False, "Wrong username or password"
     finally:
         session.close()
+
+def add_budget(name, amount):
+    session = Session()
+    try:
+        new_budget = Budget(budget_name = name, budget_amount = amount)
+        session.add(new_budget)
+        session.commit()
+        return True, 'added'
+    except IntegrityError:
+        session.rollback()
+        return False, 'budget name already exist'
+    finally:
+        session.close()
+
+def get_catergories
+
+def add_catergory(catergorys, amount):
+
+        
 
