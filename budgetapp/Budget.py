@@ -643,5 +643,12 @@ to log out?""",
         )
         self.return_btn.place(relx=0.3, rely=0.6)
 
+    def create_budget(self):
+        name = self.budget_name_entry.get()
+        amount = self.budget_balance_entry.get()
+
+        if not all([name, amount]):
+            
+
 if __name__ == "__main__":
     BudgetMenu().mainloop()

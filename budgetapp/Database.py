@@ -14,9 +14,9 @@ class User(Base):
     username = Column(String(30), unique=True, nullable=False)
     hashedpassword = Column(String(256), nullable=False)
 
-    """budget = relationship("Budget", back_populates="user")
+    budget = relationship("Budget", back_populates="user")
     catergory = relationship("Catergory", back_populates="user")
-    goal = relationship("Goal", back_populates="user")"""
+    goal = relationship("Goal", back_populates="user")
 
     def hashpassword(self, password):
         salt = bcrypt.gensalt()
@@ -27,7 +27,7 @@ class User(Base):
         bytes = password.encode()
         return bcrypt.checkpw(bytes, self.hashedpassword.encode())
 
-"""class Budget(Base):
+class Budget(Base):
     __tablename__ = 'budget'
 
     id = Column(Integer, Sequence('budget_id_seq'), primary_key=True)
@@ -65,7 +65,7 @@ class Goal(Base):
 
     user = relationship("User", back_populates="goal")
     budget = relationship("Budget", back_populates="goal")
-    catergory = relationship("Catergory", back_populates="goal")"""
+    catergory = relationship("Catergory", back_populates="goal")
 
 Base.metadata.create_all(engine)
 
@@ -93,7 +93,7 @@ def auth_user(username, password):
     finally:
         session.close()
 
-"""def add_budget(name, amount):
+def add_budget(name, amount):
     session = Session()
     try:
         new_budget = Budget(budget_name = name, budget_amount = amount)
@@ -109,10 +109,10 @@ def auth_user(username, password):
 def get_catergories():
     catergory = []
 
-
     return catergory
 
-
+def add_catergories():
+    return None
 
 def add_goal(name, amount):
     session = Session()
@@ -126,4 +126,4 @@ def add_goal(name, amount):
         session.rollback()
         return False, 'goal name already exist'
     finally:
-        session.close()"""
+        session.close()
