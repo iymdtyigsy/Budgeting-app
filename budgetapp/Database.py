@@ -14,9 +14,9 @@ class User(Base):
     username = Column(String(30), unique=True, nullable=False)
     hashedpassword = Column(String(256), nullable=False)
 
-    budget = relationship("Budget", back_populates="user")
+    """budget = relationship("Budget", back_populates="user")
     catergory = relationship("Catergory", back_populates="user")
-    goal = relationship("Goal", back_populates="user")
+    goal = relationship("Goal", back_populates="user")"""
 
     def hashpassword(self, password):
         salt = bcrypt.gensalt()
@@ -27,11 +27,11 @@ class User(Base):
         bytes = password.encode()
         return bcrypt.checkpw(bytes, self.hashedpassword.encode())
 
-class Budget(Base):
+"""class Budget(Base):
     __tablename__ = 'budget'
 
     id = Column(Integer, Sequence('budget_id_seq'), primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('user.id'))
     budget_name = Column(String, unique=True, nullable=False)
     budget_amount = Column(Integer, nullable=False)
 
@@ -43,8 +43,8 @@ class Catergory(Base):
     __tablename__ = 'catergory'
 
     id = Column(Integer, Sequence('catergory_id_seq'), primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    budget_id = Column(Integer, ForeignKey('budgets.id'))
+    user_id = Column(Integer, ForeignKey('user.id'))
+    budget_id = Column(Integer, ForeignKey('budget.id'))
     catergory_name = Column(String, unique=True, nullable=False)
     catergory_amount = Column(Integer, nullable=False)
 
@@ -54,21 +54,18 @@ class Catergory(Base):
 
 
 class Goal(Base):
-    __tablename_ = 'goal'
+    __tablename__ = 'goal'
 
     id = Column(Integer, Sequence('catergory_id_seq'), primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    budget_id = Column(Integer, ForeignKey('budgets.id'))
-    catergory_id = Column(Integer, ForeignKey('catergories.id'))
+    user_id = Column(Integer, ForeignKey('user.id'))
+    budget_id = Column(Integer, ForeignKey('budget.id'))
+    catergory_id = Column(Integer, ForeignKey('catergory.id'))
     goal_name = Column(String, unique=True, nullable=False)
     goal_amount = Column(Integer, nullable=False)
 
     user = relationship("User", back_populates="goal")
     budget = relationship("Budget", back_populates="goal")
-    catergory = relationship("Catergory", back_populates="goal")
-
-
-
+    catergory = relationship("Catergory", back_populates="goal")"""
 
 Base.metadata.create_all(engine)
 
@@ -96,7 +93,7 @@ def auth_user(username, password):
     finally:
         session.close()
 
-def add_budget(name, amount):
+"""def add_budget(name, amount):
     session = Session()
     try:
         new_budget = Budget(budget_name = name, budget_amount = amount)
@@ -110,10 +107,23 @@ def add_budget(name, amount):
         session.close()
 
 def get_catergories():
-
     catergory = []
 
 
     return catergory
 
-def add_catergory(catergorys, amount):
+
+
+def add_goal(name, amount):
+    session = Session()
+
+    try:
+        new_goal = Goal(goal_name = name, goal_amount = amount)
+        session.add(new_goal)
+        session.commit()
+        return True, 'added'
+    except IntegrityError:
+        session.rollback()
+        return False, 'goal name already exist'
+    finally:
+        session.close()"""
