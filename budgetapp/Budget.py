@@ -1,5 +1,6 @@
 import tkinter as tk
 import customtkinter as ctk
+from Database import add_budget
 
 class BudgetMenu(ctk.CTk):
     
@@ -109,7 +110,7 @@ create one?
             fg_color="white", 
             font=("Bold", 96)
         )
-        self.set_budget_label.pack(padx=10, pady=40)
+        self.set_budget_label.pack(padx=10, pady=20)
 
         self.set_budget_label_2 = ctk.CTkLabel(
             self.set_budget_frame, 
@@ -155,6 +156,14 @@ create one?
             height=74
         )
         self.budget_income_entry.pack(padx=50, pady=30)
+
+        self.set_budget_status_label = ctk.CTkLabel(
+            self.set_budget_frame, 
+            text = "",
+            font=("Bold", 20), 
+            text_color="red"
+        )
+        self.set_budget_status_label.pack(pady=10)
 
         self.confirm_btn = ctk.CTkButton(
             self.set_budget_frame, 
@@ -262,16 +271,6 @@ create one?
     def load_set_expense(self):
 
         self.delete_current()
-
-        """plus_image = ctk.CTkImage(
-            size=(1,1),
-            light_image="/images/plus.png",
-            dark_image="/images/plus.png",
-        )
-
-        ctk.CTkButton(
-            image=plus_image
-        )"""
 
         self.set_expense_frame = ctk.CTkFrame(
             self.mainframe_holder, 
@@ -645,10 +644,19 @@ to log out?""",
 
     def create_budget(self):
         name = self.budget_name_entry.get()
-        amount = self.budget_balance_entry.get()
+        balance = self.budget_balance_entry.get()
+        income = self.budget_income_entry.get()
 
-        if not all([name, amount]):
-            
+        if not all([name, balance, income]):
+            self.set_budget_status_label.configure(text="Fill in name, balance, and income")
+            return
+        
+        success, message = add_budget(name, balance, income)
+        if success:
+            self.set_budget_status_label.configure(text=message, text_color="green")
+        else:
+            self.set_budget_status_label.configure(text=message)
+    
 
 if __name__ == "__main__":
     BudgetMenu().mainloop()
