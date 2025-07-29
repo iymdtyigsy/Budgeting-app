@@ -1,12 +1,11 @@
 import tkinter as tk
 import customtkinter as ctk
-from Database import add_budget
+from Database import add_budget, check_budget
 
 class BudgetMenu(ctk.CTk):
-    
-    def __init__(self):
-
+    def __init__(self, username):
         super().__init__()
+        self.username = username
 
         self.title("Budget app")
         self.geometry("844x844")
@@ -30,7 +29,6 @@ class BudgetMenu(ctk.CTk):
         self.mainframe_holder.pack(padx=10, pady=10, fill="both", expand=True)
 
         self.load_create_budget()
-
 
     def delete_current(self):
         """Delete the current menu."""
@@ -173,7 +171,7 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=self.load_set_expense_catergorie
+            command=self.create_budget
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
@@ -642,6 +640,15 @@ to log out?""",
         )
         self.return_btn.place(relx=0.3, rely=0.6)
 
+    def check_if_budget_exist(self):
+        username = self.username
+
+        exist = check_budget(username)
+        if exist:
+            self.load_dashboard()
+        else:
+            self.load_create_budget()
+
     def create_budget(self):
         name = self.budget_name_entry.get()
         balance = self.budget_balance_entry.get()
@@ -654,9 +661,9 @@ to log out?""",
         success, message = add_budget(name, balance, income)
         if success:
             self.set_budget_status_label.configure(text=message, text_color="green")
+            self.load_set_expense()
         else:
             self.set_budget_status_label.configure(text=message)
-    
 
 if __name__ == "__main__":
     BudgetMenu().mainloop()

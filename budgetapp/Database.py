@@ -34,6 +34,7 @@ class Budget(Base):
     user_id = Column(Integer, ForeignKey('user.id'))
     budget_name = Column(String, unique=True, nullable=False)
     budget_amount = Column(Integer, nullable=False)
+    budget_income = Column(Integer, nullable=False)
 
     user = relationship("User", back_populates="budget")
     catergory = relationship("Catergory", back_populates="budget")
@@ -93,10 +94,20 @@ def auth_user(username, password):
     finally:
         session.close()
 
-def add_budget(name, amount):
+def check_budget():
     session = Session()
     try:
-        new_budget = Budget(budget_name = name, budget_amount = amount)
+        user_budget = session.query(Budget).filter(User.id == Budget.user_id)
+        if user_budget:
+            return True
+        return False
+    finally:
+        session.close()
+
+def add_budget(name, amount, income):
+    session = Session()
+    try:
+        new_budget = Budget(budget_name = name, budget_amount = amount, budget_income = income)
         session.add(new_budget)
         session.commit()
         return True, 'added'
@@ -105,11 +116,6 @@ def add_budget(name, amount):
         return False, 'budget name already exist'
     finally:
         session.close()
-
-def get_catergories():
-    catergory = []
-
-    return catergory
 
 def add_catergories():
     return None

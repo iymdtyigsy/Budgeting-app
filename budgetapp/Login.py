@@ -1,9 +1,9 @@
 import tkinter as tk
 import customtkinter as ctk
 from Database import add_user, auth_user
+from Budget import BudgetMenu
 
 class LoginMenu(ctk.CTk):
-
     def __init__(self):
         """Initialize the log in window."""
         super().__init__()
@@ -18,7 +18,7 @@ class LoginMenu(ctk.CTk):
             fg_color="black", 
             width=744, 
             height=744
-            )
+        )
         self.mainframe.pack(fill="both", expand=True)
 
         self.mainframe_holder = ctk.CTkFrame(
@@ -26,7 +26,7 @@ class LoginMenu(ctk.CTk):
             fg_color="#D9D9D9", 
             width=644, 
             height=644
-            )
+        )
         self.mainframe_holder.pack(padx=10, pady=10, fill="both", expand=True)
 
         self.load_login_menu()
@@ -88,7 +88,7 @@ class LoginMenu(ctk.CTk):
             self.loginframe, 
             text = "", 
             text_color="red"
-            )
+        )
         self.loginframe_status_label.pack()
 
         self.loginframe_loginbtn = ctk.CTkButton(
@@ -99,7 +99,7 @@ class LoginMenu(ctk.CTk):
             height= 50, 
             fg_color="#D9D9D9", 
             command=self.login_user
-            )
+        )
         self.loginframe_loginbtn.pack(padx=50, pady=10)
 
         self.loginframe_switchbtn = ctk.CTkButton(
@@ -110,7 +110,7 @@ class LoginMenu(ctk.CTk):
             height= 30, 
             fg_color="#D9D9D9", 
             command=self.load_signup_menu
-            )
+        )
         self.loginframe_switchbtn.pack()
     
     def load_signup_menu(self):
@@ -122,7 +122,7 @@ class LoginMenu(ctk.CTk):
             fg_color="white", 
             width=605, 
             height=500
-            )
+        )
         self.signupframe.pack(padx=10, pady=10, expand=True)
         self.signupframe.pack_propagate(False)
 
@@ -135,7 +135,7 @@ class LoginMenu(ctk.CTk):
             height=25, 
             font=("Bold", 60), 
             corner_radius=5
-            )
+        )
         self.signupframe_label.pack(pady=25)
             
         self.signupframe_username = ctk.CTkEntry(
@@ -146,7 +146,7 @@ class LoginMenu(ctk.CTk):
             fg_color="#D9D9D9", 
             width=300, 
             height=50
-            )
+        )
         self.signupframe_username.pack(padx=50, pady=5)
 
         self.signupframe_password = ctk.CTkEntry(
@@ -158,7 +158,7 @@ class LoginMenu(ctk.CTk):
             height=50, 
             fg_color="#D9D9D9", 
             show="*"
-            )
+        )
         self.signupframe_password.pack(padx=50, pady=5)
 
         self.signupframe_confirmpassword = ctk.CTkEntry(
@@ -170,14 +170,14 @@ class LoginMenu(ctk.CTk):
             height=50, 
             fg_color="#D9D9D9", 
             show="*"
-            )
+        )
         self.signupframe_confirmpassword.pack(padx=50, pady=5)
 
         self.signupframe_status_label = ctk.CTkLabel(
             self.signupframe, 
             text = "", 
             text_color="red"
-            )
+        )
         self.signupframe_status_label.pack()
 
         self.signupframe_signupbtn = ctk.CTkButton(
@@ -188,7 +188,7 @@ class LoginMenu(ctk.CTk):
             height= 50, 
             fg_color="#D9D9D9", 
             command=self.regiser_user
-            )
+        )
         self.signupframe_signupbtn.pack(padx=50, pady=10)
 
         self.signupframe_switchbtn = ctk.CTkButton(
@@ -199,7 +199,7 @@ class LoginMenu(ctk.CTk):
             height= 30, 
             fg_color="#D9D9D9", 
             command=self.load_login_menu
-            )
+        )
         self.signupframe_switchbtn.pack()
 
     def regiser_user(self):
@@ -237,10 +237,11 @@ class LoginMenu(ctk.CTk):
         success, message = auth_user(username, password)
         if success:
             self.loginframe_status_label.configure(text=message, text_color="green")
+            self.destroy()
+            BudgetMenu(username).mainloop()
         else:
             self.loginframe_status_label.configure(text=message)
-
-        
+    
 if __name__ == "__main__":
     LoginMenu().mainloop()
     
