@@ -15,7 +15,7 @@ class User(Base):
     hashedpassword = Column(String(256), nullable=False)
 
     budget = relationship("Budget", back_populates="user")
-    catergory = relationship("Catergory", back_populates="user")
+    category = relationship("Category", back_populates="user")
     goal = relationship("Goal", back_populates="user")
 
     def hashpassword(self, password):
@@ -37,36 +37,26 @@ class Budget(Base):
     budget_income = Column(Integer, nullable=False)
 
     user = relationship("User", back_populates="budget")
-    catergory = relationship("Catergory", back_populates="budget")
-    goal = relationship("Goal", back_populates="budget")
 
-class Catergory(Base):
-    __tablename__ = 'catergory'
+class Category(Base):
+    __tablename__ = 'category'
 
-    id = Column(Integer, Sequence('catergory_id_seq'), primary_key=True)
+    id = Column(Integer, Sequence('category_id_seq'), primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
-    budget_id = Column(Integer, ForeignKey('budget.id'))
-    catergory_name = Column(String, unique=True, nullable=False)
-    catergory_amount = Column(Integer, nullable=False)
+    category_name = Column(String, unique=True, nullable=False)
+    category_amount = Column(Integer, nullable=False)
 
-    user = relationship("User", back_populates="catergory")
-    budget = relationship("Budget", back_populates="catergory")
-    goal = relationship("Goal", back_populates="catergory")
-
+    user = relationship("User", back_populates="category")
 
 class Goal(Base):
     __tablename__ = 'goal'
 
-    id = Column(Integer, Sequence('catergory_id_seq'), primary_key=True)
+    id = Column(Integer, Sequence('goal_id_seq'), primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
-    budget_id = Column(Integer, ForeignKey('budget.id'))
-    catergory_id = Column(Integer, ForeignKey('catergory.id'))
     goal_name = Column(String, unique=True, nullable=False)
     goal_amount = Column(Integer, nullable=False)
 
     user = relationship("User", back_populates="goal")
-    budget = relationship("Budget", back_populates="goal")
-    catergory = relationship("Catergory", back_populates="goal")
 
 Base.metadata.create_all(engine)
 
@@ -94,20 +84,24 @@ def auth_user(username, password):
     finally:
         session.close()
 
-def check_budget():
+def check_budget(username):
     session = Session()
+    user = session.query(User).filter(User.username == username).first()
+    if not user:
+        return False
     try:
-        user_budget = session.query(Budget).filter(User.id == Budget.user_id)
-        if user_budget:
+        budget_exist = session.query(Budget).filter(Budget.user_id == user.id).first()
+        if budget_exist is not None:
             return True
         return False
     finally:
         session.close()
 
-def add_budget(name, amount, income):
+def add_budget(username, name, amount, income):
     session = Session()
+    user = session.query(User).filter(User.username == username).first()
     try:
-        new_budget = Budget(budget_name = name, budget_amount = amount, budget_income = income)
+        new_budget = Budget(user_id = user.id, budget_name = name, budget_amount = amount, budget_income = income)
         session.add(new_budget)
         session.commit()
         return True, 'added'

@@ -28,7 +28,7 @@ class BudgetMenu(ctk.CTk):
         )
         self.mainframe_holder.pack(padx=10, pady=10, fill="both", expand=True)
 
-        self.load_create_budget()
+        self.check_if_budget_exist()
 
     def delete_current(self):
         """Delete the current menu."""
@@ -653,12 +653,13 @@ to log out?""",
         name = self.budget_name_entry.get()
         balance = self.budget_balance_entry.get()
         income = self.budget_income_entry.get()
+        username = self.username
 
         if not all([name, balance, income]):
             self.set_budget_status_label.configure(text="Fill in name, balance, and income")
             return
         
-        success, message = add_budget(name, balance, income)
+        success, message = add_budget(username, name, balance, income)
         if success:
             self.set_budget_status_label.configure(text=message, text_color="green")
             self.load_set_expense()
