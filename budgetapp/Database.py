@@ -105,9 +105,6 @@ def add_budget(username, name, amount, income):
         session.add(new_budget)
         session.commit()
         return True, 'added'
-    except IntegrityError:
-        session.rollback()
-        return False, 'budget name already exist'
     finally:
         session.close()
 
