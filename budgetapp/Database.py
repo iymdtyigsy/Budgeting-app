@@ -108,19 +108,25 @@ def add_budget(username, name, amount, income):
     finally:
         session.close()
 
-def add_catergories():
-    return None
-
-def add_goal(name, amount):
+def add_catergories(username, name, amount):
     session = Session()
-
+    user = session.query(User).filter(User.username == username).first()
     try:
-        new_goal = Goal(goal_name = name, goal_amount = amount)
+        new_catergory = Category(user_id = user.id, category_name = name, category_amount = amount)
+        session.add(new_catergory)
+        session.commit()
+        return True, "added"
+    finally:
+        session.close()
+
+def add_goal(username, name, amount):
+    session = Session()
+    user = session.query(User).filter(User.username == username).first()
+    
+    try:
+        new_goal = Goal(user_id = user.id, goal_name = name, goal_amount = amount)
         session.add(new_goal)
         session.commit()
         return True, 'added'
-    except IntegrityError:
-        session.rollback()
-        return False, 'goal name already exist'
     finally:
         session.close()
