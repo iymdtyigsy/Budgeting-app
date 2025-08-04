@@ -1,7 +1,7 @@
 import tkinter as tk
 import customtkinter as ctk
 from Database import add_budget, check_budget
-
+username = 'test3'
 class BudgetMenu(ctk.CTk):
     def __init__(self, username):
         super().__init__()
@@ -28,7 +28,7 @@ class BudgetMenu(ctk.CTk):
         )
         self.mainframe_holder.pack(padx=10, pady=10, fill="both", expand=True)
 
-        self.check_if_budget_exist()
+        self.load_set_expense()
 
     def delete_current(self):
         """Delete the current menu."""
@@ -186,8 +186,92 @@ create one?
             command=None
         )
         self.return_btn.pack(padx=50, pady=10)
+
+    def load_set_expense(self):
+
+        self.delete_current()
+
+        self.set_expense_frame = ctk.CTkFrame(
+            self.mainframe_holder, 
+            fg_color="white", 
+            width=810, 
+            height=780
+        )
+        self.set_expense_frame.pack(padx=10, pady=10, expand=True)
+        self.set_expense_frame.pack_propagate(False)
+
+        self.set_expense_label = ctk.CTkLabel(
+            self.set_expense_frame, 
+            text="Set Expense Catergories", 
+            text_color="black", 
+            fg_color="white", 
+            font=("Bold", 64)
+        )
+        self.set_expense_label.pack(padx=10, pady=30)
+
+        self.contain_scroll_frame = ctk.CTkFrame(
+            self.set_expense_frame,
+            width=757,
+            height=411
+        )
+        self.contain_scroll_frame.grid_columnconfigure((0,1), weight=1)
+        self.contain_scroll_frame.grid_rowconfigure((0,1), weight=1)
+        self.contain_scroll_frame.pack(pady=20, padx=20)
+        
+        self.add_btn = ctk.CTkButton(
+            self.contain_scroll_frame,
+            text="add",
+            font=("bold",20),
+            width=86,
+            height=83,
+            fg_color="#3EA428",
+            command=self.load_set_expense_catergory
+        )
+        self.add_btn.grid(row=0, column=0, sticky = 'nswe', pady=10, padx=10)
+
+        self.catergory_label = ctk.CTkLabel(
+            self.contain_scroll_frame,
+            text="catergory",
+            text_color="black", 
+            fg_color="white", 
+            font=("Bold", 30),
+            corner_radius=5
+        )
+        self.catergory_label.grid(row=0, column=1, sticky="nswe", pady=10, padx=10)
+
+        self.scrollable_frame = ctk.CTkScrollableFrame(
+            self.contain_scroll_frame,
+            width=675,
+            height=311, 
+            fg_color="#D9D9D9"
+        )
+        self.scrollable_frame.grid(row=1, column=1, sticky='nswe')
+
+        self.confirm_btn = ctk.CTkButton(
+            self.set_expense_frame, 
+            text="confirm", 
+            font=("Bold", 40), 
+            text_color="black", 
+            width=293, 
+            height= 51, 
+            fg_color="#D9D9D9", 
+            command=self.load_set_goal
+        )
+        self.confirm_btn.pack(padx=50, pady=10)
+
+        self.return_btn = ctk.CTkButton(
+            self.set_expense_frame, 
+            text="return", 
+            font=("Bold", 40), 
+            text_color="black", 
+            width=293, 
+            height= 51, 
+            fg_color="#D9D9D9", 
+            command=None
+        )
+        self.return_btn.pack(padx=50, pady=10)
     
-    def load_set_expense_catergorie(self):
+    def load_set_expense_catergory(self):
 
         self.delete_current()
         
@@ -256,90 +340,6 @@ create one?
 
         self.return_btn = ctk.CTkButton(
             self.set_expense_catergorie_frame, 
-            text="return", 
-            font=("Bold", 40), 
-            text_color="black", 
-            width=293, 
-            height= 51, 
-            fg_color="#D9D9D9", 
-            command=None
-        )
-        self.return_btn.pack(padx=50, pady=10)
-
-    def load_set_expense(self):
-
-        self.delete_current()
-
-        self.set_expense_frame = ctk.CTkFrame(
-            self.mainframe_holder, 
-            fg_color="white", 
-            width=810, 
-            height=780
-        )
-        self.set_expense_frame.pack(padx=10, pady=10, expand=True)
-        self.set_expense_frame.pack_propagate(False)
-
-        self.set_expense_label = ctk.CTkLabel(
-            self.set_expense_frame, 
-            text="Set Expense Catergories", 
-            text_color="black", 
-            fg_color="white", 
-            font=("Bold", 64)
-        )
-        self.set_expense_label.pack(padx=10, pady=30)
-
-        self.contain_scroll_frame = ctk.CTkFrame(
-            self.set_expense_frame,
-            width=757,
-            height=411
-        )
-        self.contain_scroll_frame.grid_columnconfigure((0,1), weight=1)
-        self.contain_scroll_frame.grid_rowconfigure((0,1), weight=1)
-        self.contain_scroll_frame.pack(pady=20, padx=20)
-        
-        self.add_btn = ctk.CTkButton(
-            self.contain_scroll_frame,
-            text="add",
-            font=("bold",20),
-            width=86,
-            height=83,
-            fg_color="#3EA428",
-            command=None
-        )
-        self.add_btn.grid(row=0, column=0, sticky = 'nswe', pady=10, padx=10)
-
-        self.catergory_label = ctk.CTkLabel(
-            self.contain_scroll_frame,
-            text="catergory",
-            text_color="black", 
-            fg_color="white", 
-            font=("Bold", 30),
-            corner_radius=5
-        )
-        self.catergory_label.grid(row=0, column=1, sticky="nswe", pady=10, padx=10)
-
-        self.scrollable_frame = ctk.CTkScrollableFrame(
-            self.contain_scroll_frame,
-            width=675,
-            height=311, 
-            fg_color="#D9D9D9"
-        )
-        self.scrollable_frame.grid(row=1, column=1, sticky='nswe')
-
-        self.confirm_btn = ctk.CTkButton(
-            self.set_expense_frame, 
-            text="confirm", 
-            font=("Bold", 40), 
-            text_color="black", 
-            width=293, 
-            height= 51, 
-            fg_color="#D9D9D9", 
-            command=self.load_set_goal
-        )
-        self.confirm_btn.pack(padx=50, pady=10)
-
-        self.return_btn = ctk.CTkButton(
-            self.set_expense_frame, 
             text="return", 
             font=("Bold", 40), 
             text_color="black", 
@@ -641,9 +641,8 @@ to log out?""",
         self.return_btn.place(relx=0.3, rely=0.6)
 
     def check_if_budget_exist(self):
-        username = self.username
-
-        exist = check_budget(username)
+        
+        exist = check_budget(self.username)
         if exist:
             self.load_dashboard()
         else:
@@ -667,4 +666,4 @@ to log out?""",
             self.set_budget_status_label.configure(text=message)
 
 if __name__ == "__main__":
-    BudgetMenu().mainloop()
+    BudgetMenu(username).mainloop()
