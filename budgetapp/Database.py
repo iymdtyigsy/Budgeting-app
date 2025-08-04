@@ -122,7 +122,6 @@ def add_catergories(username, name, amount):
 def add_goal(username, name, amount):
     session = Session()
     user = session.query(User).filter(User.username == username).first()
-    
     try:
         new_goal = Goal(user_id = user.id, goal_name = name, goal_amount = amount)
         session.add(new_goal)

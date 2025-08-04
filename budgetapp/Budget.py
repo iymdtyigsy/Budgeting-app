@@ -1,6 +1,7 @@
 import tkinter as tk
 import customtkinter as ctk
-from Database import add_budget, check_budget
+from Database import add_budget, check_budget, add_catergories, add_goal, get_expense_catergories
+
 username = 'test3'
 class BudgetMenu(ctk.CTk):
     def __init__(self, username):
@@ -190,6 +191,7 @@ create one?
     def load_set_expense(self):
 
         self.delete_current()
+        self.create_expense_catergory_card()
 
         self.set_expense_frame = ctk.CTkFrame(
             self.mainframe_holder, 
@@ -274,7 +276,7 @@ create one?
     def load_set_expense_catergory(self):
 
         self.delete_current()
-        
+
         self.set_expense_catergorie_frame = ctk.CTkFrame(
             self.mainframe_holder, 
             fg_color="white", 
@@ -326,6 +328,14 @@ create one?
         )
         self.expense_amount_entry.pack(pady=10)
 
+        self.set_expense_catergorie_status_label = ctk.CTkLabel(
+            self.set_expense_catergorie_frame, 
+            text = "",
+            font=("Bold", 20), 
+            text_color="red"
+        )
+        self.set_expense_catergorie_status_label.pack(pady=10)
+
         self.confirm_btn = ctk.CTkButton(
             self.set_expense_catergorie_frame, 
             text="confirm", 
@@ -334,7 +344,7 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=self.load_set_expense
+            command=self.create_expense_catergory
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
@@ -664,6 +674,42 @@ to log out?""",
             self.load_set_expense()
         else:
             self.set_budget_status_label.configure(text=message)
+
+    def create_expense_catergory(self):
+        name = self.expense_name_entry.get()
+        amount = self.expense_amount_entry.get()
+        username = self.username
+
+        if not all([name, amount]):
+            self.set_expense_catergorie_status_label.configure(text="Fill in name and amount")
+            return
+        
+        success, message = add_catergories(username, name, amount)
+        if success:
+            self.set_expense_catergorie_status_label.configure(text=message, text_color="green")
+            self.load_set_expense()
+        else:
+            self.set_expense_catergorie_status_label.configure(text=message)
+
+    def create_expense_catergory_card(self):
+        for widget in self.scrollable_frame.winfo_children():
+            widget.destroy()
+
+        username = self.username
+        expense_catergories = get_expense_catergories(username)
+
+        for category in expense_catergories:
+            name = category['name']
+            amount = category['amount']
+
+            category_frame = ctk.CTkFrame(self.scrollable_frame, bg="white", padx=10, pady=5)
+            category_frame.pack(fill="x", pady=5)
+
+            name_label = ctk.CTkLabel(category_frame, text=name, font=("Arial", 12), anchor="w", bg="white")
+            name_label.pack(side="left", fill="x", expand=True)
+
+            amount_label = ctk.CTkLabel(category_frame, text=f"${amount}", font=("Arial", 12), anchor="e", bg="white")
+            amount_label.pack(side="right")
 
 if __name__ == "__main__":
     BudgetMenu(username).mainloop()
