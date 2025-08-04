@@ -119,6 +119,15 @@ def add_catergories(username, name, amount):
     finally:
         session.close()
 
+def get_expense_catergories(username):
+    session = Session()
+    user = session.query(User).filter(User.username == username).first()
+    try:
+        categories = session.query(Category).filter(Category.user_id == user.id).all()
+        return categories
+    finally:
+        session.close()
+
 def add_goal(username, name, amount):
     session = Session()
     user = session.query(User).filter(User.username == username).first()
