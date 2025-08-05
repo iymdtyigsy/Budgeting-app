@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Sequence, create_engine
+from sqlalchemy import Column, Integer, String, ForeignKey, Sequence, UniqueConstraint, create_engine
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 from sqlalchemy.exc import IntegrityError
 import bcrypt
@@ -36,6 +36,10 @@ class Budget(Base):
     budget_amount = Column(Integer, nullable=False)
     budget_income = Column(Integer, nullable=False)
 
+    __table_args__ = (
+        UniqueConstraint('user_id', 'budget_name', name='unique_user_budget_name'),
+    )
+
     user = relationship("User", back_populates="budget")
 
 class Category(Base):
@@ -45,6 +49,10 @@ class Category(Base):
     user_id = Column(Integer, ForeignKey('user.id'))
     category_name = Column(String, unique=True, nullable=False)
     category_amount = Column(Integer, nullable=False)
+
+    __table_args__ = (
+        UniqueConstraint('user_id', 'category_name', name='unique_user_category_name'),
+    )
 
     user = relationship("User", back_populates="category")
 
@@ -56,12 +64,17 @@ class Goal(Base):
     goal_name = Column(String, unique=True, nullable=False)
     goal_amount = Column(Integer, nullable=False)
 
+    __table_args__ = (
+        UniqueConstraint('user_id', 'goal_name', name='unique_user_goal_name'),
+    )
+
     user = relationship("User", back_populates="goal")
 
 Base.metadata.create_all(engine)
 
 def add_user(username, password):
     session = Session()
+
     try:
         new_user = User(username=username)
         new_user.hashpassword(password)
@@ -76,6 +89,7 @@ def add_user(username, password):
 
 def auth_user(username, password):
     session = Session()
+
     try:
         user = session.query(User).filter(User.username == username).first()
         if user and user.checkpassword(password):
@@ -87,8 +101,10 @@ def auth_user(username, password):
 def check_budget(username):
     session = Session()
     user = session.query(User).filter(User.username == username).first()
+
     if not user:
         return False
+    
     try:
         budget_exist = session.query(Budget).filter(Budget.user_id == user.id).first()
         if budget_exist is not None:
@@ -100,6 +116,7 @@ def check_budget(username):
 def add_budget(username, name, amount, income):
     session = Session()
     user = session.query(User).filter(User.username == username).first()
+
     try:
         new_budget = Budget(user_id = user.id, budget_name = name, budget_amount = amount, budget_income = income)
         session.add(new_budget)
@@ -111,6 +128,7 @@ def add_budget(username, name, amount, income):
 def add_catergories(username, name, amount):
     session = Session()
     user = session.query(User).filter(User.username == username).first()
+
     try:
         new_catergory = Category(user_id = user.id, category_name = name, category_amount = amount)
         session.add(new_catergory)
@@ -122,15 +140,19 @@ def add_catergories(username, name, amount):
 def get_expense_catergories(username):
     session = Session()
     user = session.query(User).filter(User.username == username).first()
+
     try:
         categories = session.query(Category).filter(Category.user_id == user.id).all()
         return categories
+    except not categories:
+        return False
     finally:
         session.close()
 
 def add_goal(username, name, amount):
     session = Session()
     user = session.query(User).filter(User.username == username).first()
+
     try:
         new_goal = Goal(user_id = user.id, goal_name = name, goal_amount = amount)
         session.add(new_goal)
