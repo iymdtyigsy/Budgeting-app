@@ -1,6 +1,6 @@
 import tkinter as tk
 import customtkinter as ctk
-from Database import add_budget, check_budget, add_catergories, add_goal, get_expense_catergories
+from Database import add_budget, check_budget, add_categories, add_goal, get_expense_categories
 
 class BudgetMenu(ctk.CTk):
     def __init__(self, username):
@@ -202,7 +202,6 @@ create one?
     def load_set_expense(self):
 
         self.delete_current()
-        self.create_expense_catergory_card()
 
         self.set_expense_frame = ctk.CTkFrame(
             self.mainframe_holder, 
@@ -238,19 +237,19 @@ create one?
             width=86,
             height=83,
             fg_color="#3EA428",
-            command=self.load_set_expense_catergory
+            command=self.load_set_expense_category
         )
         self.add_btn.grid(row=0, column=0, sticky = 'nswe', pady=10, padx=10)
 
-        self.catergory_label = ctk.CTkLabel(
+        self.category_label = ctk.CTkLabel(
             self.contain_scroll_frame,
-            text="catergory",
+            text="category",
             text_color="black", 
             fg_color="white", 
             font=("Bold", 30),
             corner_radius=5
         )
-        self.catergory_label.grid(row=0, column=1, sticky="nswe", pady=10, padx=10)
+        self.category_label.grid(row=0, column=1, sticky="nswe", pady=10, padx=10)
 
         self.scrollable_frame = ctk.CTkScrollableFrame(
             self.contain_scroll_frame,
@@ -283,8 +282,10 @@ create one?
             command=None
         )
         self.return_btn.pack(padx=50, pady=10)
+
+        self.create_expense_category_card()
     
-    def load_set_expense_catergory(self):
+    def load_set_expense_category(self):
 
         self.delete_current()
 
@@ -355,7 +356,7 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=self.create_expense_catergory
+            command=self.create_expense_category
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
@@ -416,6 +417,14 @@ create one?
             height=74
         )
         self.goal_amount_entry.pack(pady=10)
+
+        self.set_goal_frame_status_label = ctk.CTkLabel(
+            self.set_goal_frame, 
+            text = "",
+            font=("Bold", 20), 
+            text_color="red"
+        )
+        self.set_goal_frame_status_label.pack(pady=10)
 
         self.confirm_btn = ctk.CTkButton(
             self.set_goal_frame, 
@@ -686,7 +695,7 @@ to log out?""",
         else:
             self.set_budget_status_label.configure(text=message)
 
-    def create_expense_catergory(self):
+    def create_expense_category(self):
         name = self.expense_name_entry.get()
         amount = self.expense_amount_entry.get()
         username = self.username
@@ -695,52 +704,79 @@ to log out?""",
             self.set_expense_catergorie_status_label.configure(text="Fill in name and amount")
             return
         
-        success, message = add_catergories(username, name, amount)
+        success, message = add_categories(username, name, amount)
         if success:
             self.set_expense_catergorie_status_label.configure(text=message, text_color="green")
             self.load_set_expense()
         else:
             self.set_expense_catergorie_status_label.configure(text=message)
 
-    def create_expense_catergory_card(self):
+    def create_expense_category_card(self):
         for widget in self.scrollable_frame.winfo_children():
             widget.forget()
 
         username = self.username
-        expense_catergories = get_expense_catergories(username)
+        expense_catergories = get_expense_categories(username)
 
         if not expense_catergories:
-            self.set_expense_frame()
+            ctk.CTkLabel(
+                self.scrollable_frame, 
+                text="No expense categories found.", 
+                font=("Arial", 20), 
+                fg_color="white",
+                width=675,
+                height=300,
+                corner_radius=10,
+            ).pack(pady=20)
 
         for category in expense_catergories:
-            name = category['name']
-            amount = category['amount']
+            name = category.category_name
+            amount = category.category_amount
 
             category_frame = ctk.CTkFrame(
-                self.scrollable_frame, 
-                bg="white", 
-                padx=10, 
-                pady=5
+                self.scrollable_frame,
+                width=675,
+                height=300,   
+                fg_color="white",
+                corner_radius=10 
                 )
-            category_frame.pack(fill="x", pady=5)
+            category_frame.pack(fill="x", pady=5, padx=10)
 
             name_label = ctk.CTkLabel(
                 category_frame,
-                text=name, 
-                font=("Arial", 12), 
-                anchor="w", 
-                bg="white"
+                text=name,
+                font=("Arial", 20),
+                anchor="w",
+                fg_color="white",
+                text_color="black"
                 )
             name_label.pack(side="left", fill="x", expand=True)
 
             amount_label = ctk.CTkLabel(
                 category_frame, 
                 text=f"${amount}", 
-                font=("Arial", 12), 
+                font=("Arial", 20), 
                 anchor="e", 
-                bg="white"
+                fg_color="white",
+                text_color="black"
                 )
             amount_label.pack(side="right")
+
+    def create_goal(self):
+        name = self.goal_name_entry.get()
+        amount = self.goal_amount_entry.get()
+        username = self.username
+
+        if not all([name, amount]):
+            self.set_goal_frame_status_label.configure(text="Fill in name and amount")
+            return
+        
+        success, message = add_goal(username, name, amount)
+        if success:
+            self.set_goal_frame_status_label.configure(text=message, text_color="green")
+            self.load_dashboard()
+        else:
+            self.set_goal_frame_status_label.configure(text=message)
 
 if __name__ == "__main__":
     BudgetMenu().mainloop()

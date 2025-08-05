@@ -128,7 +128,7 @@ def add_budget(username, name, amount, income):
     finally:
         session.close()
 
-def add_catergories(username, name, amount):
+def add_categories(username, name, amount):
     session = Session()
     user = session.query(User).filter(User.username == username).first()
 
@@ -143,17 +143,17 @@ def add_catergories(username, name, amount):
     finally:
         session.close()
 
-def get_expense_catergories(username):
+def get_expense_categories(username):
     session = Session()
     user = session.query(User).filter(User.username == username).first()
 
-    try:
-        categories = session.query(Category).filter(Category.user_id == user.id).all()
-        return categories
-    except not categories:
-        return False
-    finally:
+    if not user:
         session.close()
+        return []
+    
+    categories = session.query(Category).filter(Category.user_id == user.id).all()
+    session.close()
+    return categories
 
 def add_goal(username, name, amount):
     session = Session()
@@ -170,4 +170,4 @@ def add_goal(username, name, amount):
     finally:
         session.close()
 
-add_user("testuser", "testpassword")
+add_user("testuser", "12345678")
