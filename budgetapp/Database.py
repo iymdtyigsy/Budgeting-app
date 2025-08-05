@@ -32,7 +32,7 @@ class Budget(Base):
 
     id = Column(Integer, Sequence('budget_id_seq'), primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
-    budget_name = Column(String, unique=True, nullable=False)
+    budget_name = Column(String, nullable=False)
     budget_amount = Column(Integer, nullable=False)
     budget_income = Column(Integer, nullable=False)
 
@@ -47,7 +47,7 @@ class Category(Base):
 
     id = Column(Integer, Sequence('category_id_seq'), primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
-    category_name = Column(String, unique=True, nullable=False)
+    category_name = Column(String, nullable=False)
     category_amount = Column(Integer, nullable=False)
 
     __table_args__ = (
@@ -61,7 +61,7 @@ class Goal(Base):
 
     id = Column(Integer, Sequence('goal_id_seq'), primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
-    goal_name = Column(String, unique=True, nullable=False)
+    goal_name = Column(String, nullable=False)
     goal_amount = Column(Integer, nullable=False)
 
     __table_args__ = (
@@ -122,6 +122,9 @@ def add_budget(username, name, amount, income):
         session.add(new_budget)
         session.commit()
         return True, 'added'
+    except IntegrityError:
+        session.rollback()
+        return False, "Budget name already exist"
     finally:
         session.close()
 
@@ -134,6 +137,9 @@ def add_catergories(username, name, amount):
         session.add(new_catergory)
         session.commit()
         return True, "added"
+    except IntegrityError:
+        session.rollback()
+        return False, "Category name already exist"
     finally:
         session.close()
 
@@ -158,5 +164,10 @@ def add_goal(username, name, amount):
         session.add(new_goal)
         session.commit()
         return True, 'added'
+    except IntegrityError:
+        session.rollback()
+        return False, "Goal name already exist"
     finally:
         session.close()
+
+add_user("testuser", "testpassword")

@@ -9,8 +9,20 @@ class BudgetMenu(ctk.CTk):
 
         self.title("Budget app")
         self.geometry("844x844")
-        self.minsize(800, 600)
-        self.maxsize(951, 951)
+        self.maxsize(844, 844)
+        self.minsize(844, 844)
+
+        """screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+
+        window_width = int(screen_width * 0.6)
+        window_height = int(screen_height * 0.6)
+
+        x_coordinate = int((screen_width - window_width) / 2)
+        y_coordinate = int((screen_height - window_height) / 2)
+
+        self.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
+        self.resizable(False, False)"""
 
         self.mainframe = ctk.CTkFrame(
             self, 
