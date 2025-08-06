@@ -15,7 +15,7 @@ class User(Base):
     hashedpassword = Column(String(256), nullable=False)
 
     budget = relationship("Budget", back_populates="user")
-    category = relationship("Category", back_populates="user")
+    expense = relationship("Expense", back_populates="user")
     goal = relationship("Goal", back_populates="user")
 
     def hashpassword(self, password):

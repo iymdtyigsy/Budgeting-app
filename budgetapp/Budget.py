@@ -780,6 +780,7 @@ to log out?""",
         else:
             self.set_goal_frame_status_label.configure(text=message)
 
-    def
+    
+
 if __name__ == "__main__":
     BudgetMenu().mainloop()
