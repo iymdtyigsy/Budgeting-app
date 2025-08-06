@@ -1,4 +1,3 @@
-import tkinter as tk
 import customtkinter as ctk
 from Database import add_user, auth_user
 from Budget import BudgetMenu

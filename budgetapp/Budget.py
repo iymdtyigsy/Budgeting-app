@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from Database import add_budget, check_budget, add_expenses, add_goal, get_expense
+from Database import add_budget, check_budget, add_expenses, add_goal, get_expense, get_user_data
 
 
 class BudgetMenu(ctk.CTk):
@@ -239,17 +239,6 @@ create one?
             command=self.load_set_your_expenses
         )
         self.add_btn.grid(row=0, column=0, sticky='nswe', pady=10, padx=10)
-
-        self.expense_label = ctk.CTkLabel(
-            self.contain_scroll_frame,
-            text="expenses",
-            text_color="black",
-            fg_color="white",
-            font=("Bold", 30),
-            corner_radius=5
-        )
-        self.expense_label.grid(
-            row=0, column=1, sticky="nswe", pady=10, padx=10)
 
         self.scrollable_frame = ctk.CTkScrollableFrame(
             self.contain_scroll_frame,
@@ -510,6 +499,17 @@ create one?
         )
         self.log_out_btn.place(relx=0.82, rely=0.01)
 
+        self.budget_name_label = ctk.CTkLabel(
+                self.dashboard_frame,
+                text="Budget Name",
+                text_color="black",
+                font=("Bold", 32),
+                fg_color="#D9D9D9",
+                width=210,
+                height=32
+            )
+        self.budget_name_label.place(relx=0.01, rely=0.25)
+
         self.balance_label = ctk.CTkLabel(
             self.dashboard_frame,
             text="Balance",
@@ -560,6 +560,7 @@ create one?
         self.expense_scroll_frame.place(relx=0.07, rely=0.53)
 
         self.create_expense_card(self.expense_scroll_frame)
+        self.update_dashboard_labels()
 
     def load_edit_budget(self):
 
@@ -717,6 +718,16 @@ to log out?""",
             self.set_expense_status_label.configure(text=message)
 
     def create_expense_card(self, scrollable_frame):
+
+        expense_label = ctk.CTkLabel(
+                scrollable_frame,
+                text="Expenses",
+                text_color="black",
+                font=("Arial", 24),
+                fg_color="#D9D9D9",
+            )
+        expense_label.pack(side="top", pady=10)
+
         for widget in scrollable_frame.winfo_children():
             widget.forget()
 
@@ -760,7 +771,7 @@ to log out?""",
 
             amount_label = ctk.CTkLabel(
                 expense_frame,
-                text=f"${amount}",
+                text=f"-${amount}",
                 font=("Arial", 20),
                 anchor="e",
                 fg_color="white",
@@ -785,6 +796,32 @@ to log out?""",
             self.load_dashboard()
         else:
             self.set_goal_frame_status_label.configure(text=message)
+
+    def update_dashboard_labels(self):
+        data = get_user_data(self.username)
+
+        if not data:
+            self.balance_label.configure(text="No budget")
+            self.goal_name_label.configure(text="No goal")
+            self.goal_amount_label.configure(text="")
+
+        if data["budget"]:
+            budget_data = data["budget"][0]
+            name = budget_data.get("name", "Budget")
+            amount = budget_data.get("amount", 0)
+            self.balance_label.configure(text=f"${amount}")
+            self.budget_name_label.configure(text=name)
+        else:
+            self.balance_label.configure(text="No budget")
+
+        if data["goals"]:
+            goal_data = data["goals"][0]
+            self.goal_name_label.configure(text=goal_data.get("name", ""))
+            self.goal_amount_label.configure(
+                text=f"${goal_data.get('amount', 0)}")
+        else:
+            self.goal_name_label.configure(text="No goal")
+            self.goal_amount_label.configure(text="")
 
 
 if __name__ == "__main__":
