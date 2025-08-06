@@ -237,7 +237,7 @@ create one?
             width=86,
             height=83,
             fg_color="#3EA428",
-            command=self.load_set_expense_category
+            command=self.load_set_your_expenses
         )
         self.add_btn.grid(row=0, column=0, sticky = 'nswe', pady=10, padx=10)
 
@@ -356,7 +356,7 @@ create one?
             width=293, 
             height= 51, 
             fg_color="#D9D9D9", 
-            command=self.create_expense_category
+            command=self.create_expense
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
@@ -559,7 +559,7 @@ create one?
         )
         self.expense_scroll_frame.place(relx=0.07, rely=0.53)
 
-        self.create_expense_category_card(self.expense_scroll_frame)
+        self.create_expense_card(self.expense_scroll_frame)
 
     def load_edit_budget(self):
 
@@ -697,7 +697,7 @@ to log out?""",
         else:
             self.set_budget_status_label.configure(text=message)
 
-    def create_expense_category(self):
+    def create_expense(self):
         name = self.expense_name_entry.get()
         amount = self.expense_amount_entry.get()
         username = self.username
@@ -713,7 +713,7 @@ to log out?""",
         else:
             self.set_expense_status_label.configure(text=message)
 
-    def create_expense_category_card(self, scrollable_frame):
+    def create_expense_card(self, scrollable_frame):
         for widget in scrollable_frame.winfo_children():
             widget.forget()
 
@@ -723,11 +723,12 @@ to log out?""",
         if not expenses:
             ctk.CTkLabel(
                 scrollable_frame, 
-                text="No expense found.", 
+                text="No expense found.",
+                text_color="black", 
                 font=("Arial", 20), 
                 fg_color="white",
                 width=675,
-                height=00,
+                height=100,
                 corner_radius=10,
             ).pack(pady=20)
 
@@ -781,6 +782,5 @@ to log out?""",
             self.set_goal_frame_status_label.configure(text=message)
 
     
-
 if __name__ == "__main__":
     BudgetMenu().mainloop()
