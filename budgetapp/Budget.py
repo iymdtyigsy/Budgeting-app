@@ -246,7 +246,7 @@ create one?
             height=311,
             fg_color="#D9D9D9"
         )
-        self.scrollable_frame.grid(row=1, column=1, sticky='nswe')
+        self.scrollable_frame.grid(row=0, column=1, sticky='nswe')
 
         self.confirm_btn = ctk.CTkButton(
             self.set_expense_frame,
@@ -471,7 +471,7 @@ create one?
             width=140,
             height=39,
             fg_color="#D9D9D9",
-            command=None
+            command=self.load_add_expense
         )
         self.add_expense_btn.place(relx=0.46, rely=0.01)
 
@@ -619,7 +619,7 @@ create one?
             width=293,
             height=51,
             fg_color="#D9D9D9",
-            command=None
+            command=self.load_dashboard
         )
         self.return_edit_budget_btn.pack(pady=100)
 
@@ -668,9 +668,85 @@ to log out?""",
             width=293,
             height=51,
             fg_color="#D9D9D9",
-            command=None
+            command=self.load_dashboard
         )
         self.return_btn.place(relx=0.3, rely=0.6)
+        
+    def load_add_expense(self):
+
+        self.delete_current()
+
+        self.set_expense_frame = ctk.CTkFrame(
+            self.mainframe_holder,
+            fg_color="white",
+            width=810,
+            height=780
+        )
+        self.set_expense_frame.pack(padx=10, pady=10, expand=True)
+        self.set_expense_frame.pack_propagate(False)
+
+        self.set_expense_label = ctk.CTkLabel(
+            self.set_expense_frame,
+            text="Add Expenses",
+            text_color="black",
+            fg_color="white",
+            font=("Bold", 64)
+        )
+        self.set_expense_label.pack(padx=10, pady=30)
+
+        self.contain_scroll_frame = ctk.CTkFrame(
+            self.set_expense_frame,
+            width=757,
+            height=411
+        )
+        self.contain_scroll_frame.grid_columnconfigure((0, 1), weight=1)
+        self.contain_scroll_frame.grid_rowconfigure((0, 1), weight=1)
+        self.contain_scroll_frame.pack(pady=20, padx=20)
+
+        self.add_btn = ctk.CTkButton(
+            self.contain_scroll_frame,
+            text="add",
+            font=("bold", 20),
+            width=86,
+            height=83,
+            fg_color="#3EA428",
+            command=self.load_set_your_expenses
+        )
+        self.add_btn.grid(row=0, column=0, sticky='nswe', pady=10, padx=10)
+
+        self.scrollable_frame = ctk.CTkScrollableFrame(
+            self.contain_scroll_frame,
+            width=675,
+            height=311,
+            fg_color="#D9D9D9"
+        )
+        self.scrollable_frame.grid(row=0, column=1, sticky='nswe')
+
+        self.confirm_btn = ctk.CTkButton(
+            self.set_expense_frame,
+            text="confirm",
+            font=("Bold", 40),
+            text_color="black",
+            width=293,
+            height=51,
+            fg_color="#D9D9D9",
+            command=self.load_dashboard
+        )
+        self.confirm_btn.pack(padx=50, pady=10)
+
+        self.return_btn = ctk.CTkButton(
+            self.set_expense_frame,
+            text="return",
+            font=("Bold", 40),
+            text_color="black",
+            width=293,
+            height=51,
+            fg_color="#D9D9D9",
+            command=self.load_dashboard
+        )
+        self.return_btn.pack(padx=50, pady=10)
+
+        self.create_expense_card(self.scrollable_frame)
 
     def check_if_budget_exist(self):
         exist = check_budget(self.username)
@@ -681,7 +757,7 @@ to log out?""",
             self.load_create_budget()
 
     def create_budget(self):
-        name = self.budget_name_entry.get()
+        name = self.budget_name_entry.get().strip()
         balance = self.budget_balance_entry.get()
         income = self.budget_income_entry.get()
         username = self.username
@@ -689,6 +765,22 @@ to log out?""",
         if not all([name, balance, income]):
             self.set_budget_status_label.configure(
                 text="Fill in name, balance, and income")
+            return
+        
+        if name.isalpha() is False or not name.isalpha():
+            print("called")
+            self.set_budget_status_label.configure(
+                text="Name must be in letters")
+            return
+            
+        if balance.isdigit() is False or income.isdigit() is False:
+            self.set_budget_status_label.configure(
+                text="Balance and income must be numbers/positive numbers")
+            return
+            
+        if balance.isdigit() and int(balance) <= 0 or income.isdigit() and int(income) <= 0:
+            self.set_budget_status_label.configure(
+                text="Balance and income must be greater than 0")
             return
 
         success, message = add_budget(username, name, balance, income)
@@ -700,7 +792,7 @@ to log out?""",
             self.set_budget_status_label.configure(text=message)
 
     def create_expense(self):
-        name = self.expense_name_entry.get()
+        name = self.expense_name_entry.get().strip()
         amount = self.expense_amount_entry.get()
         username = self.username
 
@@ -708,7 +800,22 @@ to log out?""",
             self.set_expense_status_label.configure(
                 text="Fill in name and amount")
             return
-
+        
+        if name.isdigit() or not name.isalpha():
+            self.set_expense_status_label.configure(
+                text="Name must be in letters")
+            return
+        
+        if amount.isdigit() is False:
+            self.set_expense_status_label.configure(
+                text="Amount must be a number/positive numbers")
+            return
+        
+        if amount.isdigit() and int(amount) <= 0:
+            self.set_expense_status_label.configure(
+                text="Amount must be greater than 0")
+            return
+        
         success, message = add_expenses(username, name, amount)
         if success:
             self.set_expense_status_label.configure(
@@ -719,17 +826,18 @@ to log out?""",
 
     def create_expense_card(self, scrollable_frame):
 
+        for widget in scrollable_frame.winfo_children():
+            widget.forget()
+
         expense_label = ctk.CTkLabel(
                 scrollable_frame,
                 text="Expenses",
                 text_color="black",
                 font=("Arial", 24),
-                fg_color="#D9D9D9",
+                fg_color="#FFFFFF",
+                corner_radius=10
             )
         expense_label.pack(side="top", pady=10)
-
-        for widget in scrollable_frame.winfo_children():
-            widget.forget()
 
         username = self.username
         expenses = get_expense(username)
@@ -742,7 +850,7 @@ to log out?""",
                 font=("Arial", 20),
                 fg_color="white",
                 width=675,
-                height=100,
+                height=50,
                 corner_radius=10,
             ).pack(pady=20)
 
@@ -755,7 +863,7 @@ to log out?""",
                 width=675,
                 height=300,
                 fg_color="white",
-                corner_radius=10
+                corner_radius=20
             )
             expense_frame.pack(fill="x", pady=5, padx=10)
 
@@ -780,7 +888,7 @@ to log out?""",
             amount_label.pack(side="right")
 
     def create_goal(self):
-        name = self.goal_name_entry.get()
+        name = self.goal_name_entry.get().strip()
         amount = self.goal_amount_entry.get()
         username = self.username
 
@@ -788,7 +896,22 @@ to log out?""",
             self.set_goal_frame_status_label.configure(
                 text="Fill in name and amount")
             return
+        
+        if name.isdigit() or not name.isalpha():
+            self.set_goal_frame_status_label.configure(
+                text="Name must be in letters")
+            return
+        
+        if amount.isdigit() is False:
+            self.set_goal_frame_status_label.configure(
+                text="Amount must be a number/positive numbers")
+            return
 
+        if amount.isdigit() and int(amount) <= 0:
+            self.set_goal_frame_status_label.configure(
+                text="Amount must be greater than 0")
+            return
+        
         success, message = add_goal(username, name, amount)
         if success:
             self.set_goal_frame_status_label.configure(
