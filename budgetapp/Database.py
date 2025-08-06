@@ -42,19 +42,19 @@ class Budget(Base):
 
     user = relationship("User", back_populates="budget")
 
-class Category(Base):
-    __tablename__ = 'category'
+class Expense(Base):
+    __tablename__ = 'expense'
 
-    id = Column(Integer, Sequence('category_id_seq'), primary_key=True)
+    id = Column(Integer, Sequence('expense_id_seq'), primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
-    category_name = Column(String, nullable=False)
-    category_amount = Column(Integer, nullable=False)
+    expense_name = Column(String, nullable=False)
+    expense_amount = Column(Integer, nullable=False)
 
     __table_args__ = (
-        UniqueConstraint('user_id', 'category_name', name='unique_user_category_name'),
+        UniqueConstraint('user_id', 'expense_name', name='unique_user_expense_name'),
     )
 
-    user = relationship("User", back_populates="category")
+    user = relationship("User", back_populates="expense")
 
 class Goal(Base):
     __tablename__ = 'goal'
@@ -128,22 +128,22 @@ def add_budget(username, name, amount, income):
     finally:
         session.close()
 
-def add_categories(username, name, amount):
+def add_expenses(username, name, amount):
     session = Session()
     user = session.query(User).filter(User.username == username).first()
 
     try:
-        new_catergory = Category(user_id = user.id, category_name = name, category_amount = amount)
-        session.add(new_catergory)
+        new_expense = Expense(user_id = user.id, expense_name = name, expense_amount = amount)
+        session.add(new_expense)
         session.commit()
         return True, "added"
     except IntegrityError:
         session.rollback()
-        return False, "Category name already exist"
+        return False, "Expense name already exist"
     finally:
         session.close()
 
-def get_expense_categories(username):
+def get_expense(username):
     session = Session()
     user = session.query(User).filter(User.username == username).first()
 
@@ -151,17 +151,17 @@ def get_expense_categories(username):
         session.close()
         return []
     
-    categories = session.query(Category).filter(Category.user_id == user.id).all()
+    expenses = session.query(Expense).filter(Expense.user_id == user.id).all()
     session.close()
-    return categories
+    return expenses
 
 def add_goal(username, name, amount):
     session = Session()
     user = session.query(User).filter(User.username == username).first()
 
     try:
-        new_goal = Goal(user_id = user.id, goal_name = name, goal_amount = amount)
-        session.add(new_goal)
+        goal = Goal(user_id = user.id, goal_name = name, goal_amount = amount)
+        session.add(goal)
         session.commit()
         return True, 'added'
     except IntegrityError:
@@ -169,5 +169,47 @@ def add_goal(username, name, amount):
         return False, "Goal name already exist"
     finally:
         session.close()
+
+def get_user_data(username):
+    session = Session()
+    user = session.query(User).filter(User.username == username).first()
+
+    if not user:
+        session.close()
+        return None
+    
+    user_data = {
+        "id": user.id,
+        "username": user.username,
+        "budget": [],
+        "expenses": [],
+        "goals": []
+    }
+
+    budgets = session.query(Budget).filter(Budget.user_id == user.id).all()
+    expenses = session.query(Expense).filter(Expense.user_id == user.id).all()
+    goals = session.query(Goal).filter(Goal.user_id == user.id).all()
+
+    for budget in budgets:
+        user_data["budget"].append({
+            "name": budget.budget_name,
+            "amount": budget.budget_amount,
+            "income": budget.budget_income
+        })
+
+    for expense in expenses:
+        user_data["expenses"].append({
+            "name": expense.expense_name,
+            "amount": expense.expense_amount
+        })
+
+    for goal in goals:
+        user_data["goals"].append({
+            "name": goal.goal_name,
+            "amount": goal.goal_amount
+        })
+
+    session.close()
+    return user_data
 
 add_user("testuser", "12345678")
