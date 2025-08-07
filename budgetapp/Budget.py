@@ -886,22 +886,18 @@ to log out?""",
         if not all([name, amount]):
             self.set_expense_status_label.configure(
                 text="Fill in name and amount")
-            return
         
         if name.isdigit() or not name.isalpha():
             self.set_expense_status_label.configure(
                 text="Name must be in letters")
-            return
         
         if amount.isdigit() is False:
             self.set_expense_status_label.configure(
                 text="Amount must be a number/positive numbers")
-            return
         
         if amount.isdigit() and int(amount) <= 0:
             self.set_expense_status_label.configure(
                 text="Amount must be greater than 0")
-            return
         
         success, message = add_expenses(username, name, amount)
         if success:
@@ -909,15 +905,12 @@ to log out?""",
                 self.set_expense_status_label.configure(
                     text=message, text_color="green")
                 self.load_set_your_expenses()
-                return
             elif location == "add_expense":
                 self.set_expense_status_label.configure(
                     text=message, text_color="green")
-                self.load_add_your_expenses()
-                return
+                self.load_add_your_expenses()   
         else:
             self.set_expense_status_label.configure(text=message)
-            return
 
     def create_expense_card(self, scrollable_frame):
 
