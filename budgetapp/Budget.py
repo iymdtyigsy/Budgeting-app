@@ -345,7 +345,7 @@ create one?
             width=293,
             height=51,
             fg_color="#D9D9D9",
-            command=self.create_expense
+            command=self.create_expense("set_expense")
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
@@ -748,6 +748,93 @@ to log out?""",
 
         self.create_expense_card(self.scrollable_frame)
 
+    def load_add_your_expenses(self):
+
+        self.delete_current()
+
+        self.set_expense_frame = ctk.CTkFrame(
+            self.mainframe_holder,
+            fg_color="white",
+            width=810,
+            height=780
+        )
+        self.set_expense_frame.pack(padx=10, pady=10, expand=True)
+        self.set_expense_frame.pack_propagate(False)
+
+        self.set_expense_label = ctk.CTkLabel(
+            self.set_expense_frame,
+            text="Set your expenses",
+            text_color="black",
+            fg_color="white",
+            font=("Bold", 64)
+        )
+        self.set_expense_label.pack(padx=10, pady=40)
+
+        self.set_expense_label_2 = ctk.CTkLabel(
+            self.set_expense_frame,
+            text="(Monthly)",
+            text_color="black",
+            fg_color="white",
+            font=("Bold", 50)
+        )
+        self.set_expense_label_2.pack(padx=10, pady=20)
+
+        self.expense_name_entry = ctk.CTkEntry(
+            self.set_expense_frame,
+            placeholder_text="Expense name",
+            placeholder_text_color="black",
+            text_color="black",
+            font=("Bold", 53),
+            fg_color="#D9D9D9",
+            width=726,
+            height=74
+        )
+        self.expense_name_entry.pack(pady=10)
+
+        self.expense_amount_entry = ctk.CTkEntry(
+            self.set_expense_frame,
+            placeholder_text="Expense amount",
+            placeholder_text_color="black",
+            text_color="black",
+            font=("Bold", 53),
+            fg_color="#D9D9D9",
+            width=726,
+            height=74
+        )
+        self.expense_amount_entry.pack(pady=10)
+
+        self.set_expense_status_label = ctk.CTkLabel(
+            self.set_expense_frame,
+            text="",
+            font=("Bold", 20),
+            text_color="red"
+        )
+        self.set_expense_status_label.pack(pady=10)
+
+        self.confirm_btn = ctk.CTkButton(
+            self.set_expense_frame,
+            text="confirm",
+            font=("Bold", 40),
+            text_color="black",
+            width=293,
+            height=51,
+            fg_color="#D9D9D9",
+            command=self.create_expense("add_expense")
+        )
+        self.confirm_btn.pack(padx=50, pady=10)
+
+        self.return_btn = ctk.CTkButton(
+            self.set_expense_frame,
+            text="return",
+            font=("Bold", 40),
+            text_color="black",
+            width=293,
+            height=51,
+            fg_color="#D9D9D9",
+            command=None
+        )
+        self.return_btn.pack(padx=50, pady=10)
+
     def check_if_budget_exist(self):
         exist = check_budget(self.username)
 
@@ -791,7 +878,7 @@ to log out?""",
         else:
             self.set_budget_status_label.configure(text=message)
 
-    def create_expense(self):
+    def create_expense(self, location):
         name = self.expense_name_entry.get().strip()
         amount = self.expense_amount_entry.get()
         username = self.username
@@ -818,11 +905,19 @@ to log out?""",
         
         success, message = add_expenses(username, name, amount)
         if success:
-            self.set_expense_status_label.configure(
-                text=message, text_color="green")
-            self.load_set_expense()
+            if location == "set_expense":
+                self.set_expense_status_label.configure(
+                    text=message, text_color="green")
+                self.load_set_your_expenses()
+                return
+            elif location == "add_expense":
+                self.set_expense_status_label.configure(
+                    text=message, text_color="green")
+                self.load_add_your_expenses()
+                return
         else:
             self.set_expense_status_label.configure(text=message)
+            return
 
     def create_expense_card(self, scrollable_frame):
 

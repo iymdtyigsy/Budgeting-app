@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Sequence, UniqueConstraint, create_engine
+from sqlalchemy import Column, Float, Integer, String, ForeignKey, Sequence, UniqueConstraint, create_engine
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 from sqlalchemy.exc import IntegrityError
 import bcrypt
@@ -33,8 +33,8 @@ class Budget(Base):
     id = Column(Integer, Sequence('budget_id_seq'), primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     budget_name = Column(String, nullable=False)
-    budget_amount = Column(Integer, nullable=False)
-    budget_income = Column(Integer, nullable=False)
+    budget_amount = Column(Float, nullable=False)
+    budget_income = Column(Float, nullable=False)
 
     __table_args__ = (
         UniqueConstraint('user_id', 'budget_name', name='unique_user_budget_name'),
@@ -48,7 +48,7 @@ class Expense(Base):
     id = Column(Integer, Sequence('expense_id_seq'), primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     expense_name = Column(String, nullable=False)
-    expense_amount = Column(Integer, nullable=False)
+    expense_amount = Column(Float, nullable=False)
 
     __table_args__ = (
         UniqueConstraint('user_id', 'expense_name', name='unique_user_expense_name'),
@@ -62,7 +62,7 @@ class Goal(Base):
     id = Column(Integer, Sequence('goal_id_seq'), primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     goal_name = Column(String, nullable=False)
-    goal_amount = Column(Integer, nullable=False)
+    goal_amount = Column(Float, nullable=False)
 
     __table_args__ = (
         UniqueConstraint('user_id', 'goal_name', name='unique_user_goal_name'),
