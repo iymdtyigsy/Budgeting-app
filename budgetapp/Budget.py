@@ -11,18 +11,6 @@ class BudgetMenu(ctk.CTk):
         self.maxsize(844, 844)
         self.minsize(844, 844)
 
-        """screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
-
-        window_width = int(screen_width * 0.6)
-        window_height = int(screen_height * 0.6)
-
-        x_coordinate = int((screen_width - window_width) / 2)
-        y_coordinate = int((screen_height - window_height) / 2)
-
-        self.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
-        self.resizable(False, False)"""
-
         self.mainframe = ctk.CTkFrame(
             self,
             fg_color="black",
@@ -141,9 +129,9 @@ create one?
         )
         self.budget_name_entry.pack(padx=50, pady=30)
 
-        self.budget_balance_entry = ctk.CTkEntry(
+        self.budget_amount_entry = ctk.CTkEntry(
             self.set_budget_frame,
-            placeholder_text="Budget balance",
+            placeholder_text="Budget amount",
             placeholder_text_color="black",
             text_color="black",
             font=("Bold", 40),
@@ -151,7 +139,7 @@ create one?
             width=726,
             height=74
         )
-        self.budget_balance_entry.pack(padx=50)
+        self.budget_amount_entry.pack(padx=50)
 
         self.budget_income_entry = ctk.CTkEntry(
             self.set_budget_frame,
@@ -181,7 +169,7 @@ create one?
             width=293,
             height=51,
             fg_color="#D9D9D9",
-            command=lambda:self.create_item("budget")
+            command=self.create_budget
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
@@ -344,7 +332,7 @@ create one?
             width=293,
             height=51,
             fg_color="#D9D9D9",
-            command=lambda: self.create_item("expense")
+            command=self.create_expense("set_expense")
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
@@ -422,7 +410,7 @@ create one?
             width=293,
             height=51,
             fg_color="#D9D9D9",
-            command=lambda: self.create_item("goal")
+            command=self.create_goal
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
@@ -818,7 +806,7 @@ to log out?""",
             width=293,
             height=51,
             fg_color="#D9D9D9",
-            command=lambda: self.create_item("expense")
+            command=self.create_expense("add_expense")
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
@@ -872,7 +860,7 @@ to log out?""",
         if success:
             self.set_budget_status_label.configure(
                 text=message, text_color="green")
-            self.load_set_budget()
+            self.load_set_expense()
             return
         else:
             self.set_budget_status_label.configure(text=message)
