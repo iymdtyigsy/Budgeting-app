@@ -842,97 +842,77 @@ to log out?""",
         else:
             self.load_create_budget()
 
-    def create_item(self, item_type):
-        """
-        Creates budget, expense, or goal without manually passing widgets or reload location.
-        Automatically detects entry widgets and reload functions.
-        """
+    def create_budget(self):
+        name = self.budget_name_entry.get().strip()
+        amount = self.budget_amount_entry.get()
+        income = self.budget_income_entry.get()
         username = self.username
 
-        # --- Auto-detect widgets ---
-        name_entry = getattr(self, f"{item_type}_name_entry", None)
-        amount_entry = getattr(self, f"{item_type}_amount_entry", None)
-        income_entry = getattr(self, f"{item_type}_income_entry", None) if item_type == "budget" else None
-
-        if not name_entry or not amount_entry:
-            self.set_status_label(item_type, f"{item_type.title()} entry fields not found", "red")
+        if not all([name, amount, income]):
+            self.set_budget_status_label.configure(
+                text="Fill in all fields")
             return
 
-        name = name_entry.get().strip()
-        amount_str = amount_entry.get().strip()
-        income_str = income_entry.get().strip() if income_entry else None
-
-        # --- Validation ---
-        if not name or not amount_str or (item_type == "budget" and not income_str):
-            self.set_status_label(item_type, "Fill in all required fields", "red")
+        if name.isdigit() or not name.isalpha():
+            self.set_budget_status_label.configure(
+                text="Name must be in letters")
             return
 
-        if not name.replace(" ", "").isalpha():
-            self.set_status_label(item_type, "Name must contain only letters", "red")
+        if amount.isdigit() is False:
+            self.set_budget_status_label.configure(
+                text="Amount must be a number/positive numbers")
             return
 
-        try:
-            amount = float(amount_str)
-            if amount <= 0:
-                self.set_status_label(item_type, "Amount must be greater than 0", "red")
-                return
-        except ValueError:
-            self.set_status_label(item_type, "Amount must be a valid number", "red")
+        if income.isdigit() is False:
+            self.set_budget_status_label.configure(
+                text="Income must be a number/positive numbers")
             return
 
-        if item_type == "budget":
-            try:
-                income = float(income_str)
-                if income <= 0:
-                    self.set_status_label(item_type, "Income must be greater than 0", "red")
-                    return
-            except ValueError:
-                self.set_status_label(item_type, "Income must be a valid number", "red")
-                return
-
-        # --- Database Insert ---
-        if item_type == "budget":
-            success, message = add_budget(username, name, amount, income)
-        elif item_type == "expense":
-            success, message = add_expenses(username, name, amount)
-        elif item_type == "goal":
-            success, message = add_goal(username, name, amount)
-        else:
-            self.set_status_label(item_type, "Unknown item type", "red")
-            return
-
-<<<<<<< HEAD
-        # --- Feedback ---
+        success, message = add_budget(username, name, amount, income)
         if success:
-            self.set_status_label(item_type, message, "green")
-
-            # --- Auto-find reload function ---
-            reload_options = [
-                f"load_set_your_{item_type}s",
-                f"load_add_your_{item_type}s",
-                f"load_{item_type}s"
-            ]
-            for method_name in reload_options:
-                reload_func = getattr(self, method_name, None)
-                if reload_func:
-                    reload_func()
-                    break
+            self.set_budget_status_label.configure(
+                text=message, text_color="green")
+            self.load_set_budget()
+            return
         else:
-            self.set_status_label(item_type, message, "red")
+            self.set_budget_status_label.configure(text=message)
+            return
 
+    def create_goal(self):
+        name = self.goal_name_entry.get().strip()
+        amount = self.goal_amount_entry.get()
+        username = self.username
 
-    def set_status_label(self, item_type, text, color):
-        label_map = {
-            "budget": getattr(self, "set_budget_status_label", None),
-            "expense": getattr(self, "set_expense_status_label", None),
-            "goal": getattr(self, "set_goal_status_label", None),
-        }
-        label = label_map.get(item_type)
-        if label:
-            label.configure(text=text, text_color=color)
+        if not all([name, amount]):
+            self.set_goal_status_label.configure(
+                text="Fill in name and amount")
+            return
+
+        if name.isdigit() or not name.isalpha():
+            self.set_goal_status_label.configure(
+                text="Name must be in letters")
+            return
+
+        if amount.isdigit() is False:
+            self.set_goal_status_label.configure(
+                text="Amount must be a number/positive numbers")
+            return
+
+        if amount.isdigit() and int(amount) <= 0:
+            self.set_goal_status_label.configure(
+                text="Amount must be greater than 0")
+            return
+
+        success, message = add_goal(username, name, amount)
+        if success:
+            self.set_goal_status_label.configure(
+                text=message, text_color="green")
+            self.load_set_goal()
+            return
         else:
-            print(f"Status label for '{item_type}' not found")
-=======
+            self.set_goal_status_label.configure(text=message)
+            return
+
     def create_expense(self, location):
         name = self.expense_name_entry.get().strip()
         amount = self.expense_amount_entry.get()
@@ -973,7 +953,6 @@ to log out?""",
         else:
             self.set_expense_status_label.configure(text=message)
             return
->>>>>>> parent of c7db058 (Update Budget.py)
 
     def create_expense_card(self, scrollable_frame):
 
