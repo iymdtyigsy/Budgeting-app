@@ -901,6 +901,7 @@ to log out?""",
             self.set_status_label(item_type, "Unknown item type", "red")
             return
 
+<<<<<<< HEAD
         # --- Feedback ---
         if success:
             self.set_status_label(item_type, message, "green")
@@ -931,6 +932,48 @@ to log out?""",
             label.configure(text=text, text_color=color)
         else:
             print(f"Status label for '{item_type}' not found")
+=======
+    def create_expense(self, location):
+        name = self.expense_name_entry.get().strip()
+        amount = self.expense_amount_entry.get()
+        username = self.username
+
+        if not all([name, amount]):
+            self.set_expense_status_label.configure(
+                text="Fill in name and amount")
+            return
+        
+        if name.isdigit() or not name.isalpha():
+            self.set_expense_status_label.configure(
+                text="Name must be in letters")
+            return
+        
+        if amount.isdigit() is False:
+            self.set_expense_status_label.configure(
+                text="Amount must be a number/positive numbers")
+            return
+        
+        if amount.isdigit() and int(amount) <= 0:
+            self.set_expense_status_label.configure(
+                text="Amount must be greater than 0")
+            return
+        
+        success, message = add_expenses(username, name, amount)
+        if success:
+            if location == "set_expense":
+                self.set_expense_status_label.configure(
+                    text=message, text_color="green")
+                self.load_set_your_expenses()
+                return
+            elif location == "add_expense":
+                self.set_expense_status_label.configure(
+                    text=message, text_color="green")
+                self.load_add_your_expenses()
+                return
+        else:
+            self.set_expense_status_label.configure(text=message)
+            return
+>>>>>>> parent of c7db058 (Update Budget.py)
 
     def create_expense_card(self, scrollable_frame):
 
