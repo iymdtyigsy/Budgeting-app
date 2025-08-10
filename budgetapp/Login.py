@@ -12,18 +12,6 @@ class LoginMenu(ctk.CTk):
         self.maxsize(844, 844)
         self.minsize(844, 844)
 
-        """screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
-
-        window_width = int(screen_width * 0.6)
-        window_height = int(screen_height * 0.6)
-
-        x_coordinate = int((screen_width - window_width) / 2)
-        y_coordinate = int((screen_height - window_height) / 2)
-
-        self.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
-        self.resizable(False, False)"""
-
         self.mainframe = ctk.CTkFrame(
             self, 
             fg_color="black", 
@@ -48,7 +36,7 @@ class LoginMenu(ctk.CTk):
             widget.forget()
        
     def load_login_menu(self):
-
+        """Load the login menu widgets."""
         self.delete_current()
 
         self.loginframe = ctk.CTkFrame(
@@ -125,7 +113,7 @@ class LoginMenu(ctk.CTk):
         self.loginframe_switchbtn.pack()
     
     def load_signup_menu(self):
-
+        """Load the signup menu widgets."""
         self.delete_current()
 
         self.signupframe = ctk.CTkFrame(
@@ -198,7 +186,7 @@ class LoginMenu(ctk.CTk):
             width=200, 
             height= 50, 
             fg_color="#D9D9D9", 
-            command=self.regiser_user
+            command=self.register_user
         )
         self.signupframe_signupbtn.pack(padx=50, pady=10)
 
@@ -213,7 +201,8 @@ class LoginMenu(ctk.CTk):
         )
         self.signupframe_switchbtn.pack()
 
-    def regiser_user(self):
+    def register_user(self):
+        """Register a new user."""
         username = self.signupframe_username.get().strip()
         password = self.signupframe_password.get()
         confirm = self.signupframe_confirmpassword.get()
@@ -238,6 +227,7 @@ class LoginMenu(ctk.CTk):
             self.signupframe_status_label.configure(text=message)
     
     def login_user(self):
+        """Login a user."""
         username = self.loginframe_username.get().strip()
         password = self.loginframe_password.get()
 
@@ -255,6 +245,3 @@ class LoginMenu(ctk.CTk):
     
 if __name__ == "__main__":
     LoginMenu().mainloop()
-    
-        
-    
