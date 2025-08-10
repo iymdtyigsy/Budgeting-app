@@ -1,3 +1,6 @@
+"""
+This is the Budget menu when the user successfully logged in
+"""
 import customtkinter as ctk
 from Database import (
     add_budget, 

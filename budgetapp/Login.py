@@ -1,3 +1,6 @@
+"""
+this the login menu where the user can log in or sign up
+"""
 import customtkinter as ctk
 from Database import add_user, auth_user
 from Budget import BudgetMenu

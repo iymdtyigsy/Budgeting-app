@@ -1,3 +1,6 @@
+"""
+This is the database module for the Budget App.
+"""
 from sqlalchemy import Column, Float, Integer, String, ForeignKey, Sequence, UniqueConstraint, create_engine
 from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 from sqlalchemy.exc import IntegrityError

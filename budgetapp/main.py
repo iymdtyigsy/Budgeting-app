@@ -1,6 +1,7 @@
-import tkinter as tk
+"""
+This is the main entry point for the Budget App.
+"""
+from Login import LoginMenu
 
-import customtkinter as ctk
-ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("blue")
-
+# Start the login menu
+LoginMenu().mainloop()
