@@ -8,9 +8,11 @@ import bcrypt
 import datetime
 import os
 
-db_dir = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(db_dir, 'account.db')
-engine = create_engine(f'sqlite:///{db_path}', echo=False)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_FOLDER = os.path.join(BASE_DIR, "data")
+os.makedirs(DB_FOLDER, exist_ok=True)
+DB_PATH = os.path.join(DB_FOLDER, "account.db")
+engine = create_engine(f'sqlite:///{DB_PATH}', echo=False)
 Session = sessionmaker(bind=engine)
 Base = declarative_base()
 

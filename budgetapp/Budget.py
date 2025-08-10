@@ -277,7 +277,7 @@ create one?
             width=293,
             height=51,
             fg_color="#D9D9D9",
-            command=None
+            command=self.load_set_expense
         )
         self.return_btn.pack(padx=50, pady=10)
 
@@ -367,14 +367,14 @@ create one?
         self.confirm_btn.pack(padx=50, pady=10)
 
         self.return_btn = ctk.CTkButton(
-            self.set_expense_frame,
+            self.add_expense_frame,
             text="return",
             font=("Bold", 40),
             text_color="black",
             width=293,
             height=51,
             fg_color="#D9D9D9",
-            command=None
+            command=self.load_add_expense
         )
         self.return_btn.pack(padx=50, pady=10)
 
@@ -673,10 +673,16 @@ create one?
 
         # Get current budget data to pre-fill the fields
         user_data = get_user_data(self.username)
-        current_budget = user_data.get("budget", [{}])[0]
-        old_name = current_budget.get("name", "")
-        old_amount = current_budget.get("amount", "")
-        old_income = current_budget.get("income", "") # Assuming 'income' is also stored and retrievable
+        budgets = user_data.get("budget", [])
+        if budgets:
+            current_budget = budgets[0]
+            old_name = current_budget.get("name", "")
+            old_amount = current_budget.get("amount", "")
+            old_income = current_budget.get("income", "")
+        else:
+            old_name = ""
+            old_amount = ""
+            old_income = ""
 
         budget_name_entry = ctk.CTkEntry(
             edit_budget_frame,
@@ -819,9 +825,14 @@ create one?
 
         # Get current goal data to pre-fill the fields
         user_data = get_user_data(self.username)
-        current_goal = user_data.get("goals", [{}])[0]
-        old_goal_name = current_goal.get("name", "")
-        old_goal_amount = current_goal.get("amount", "")
+        goals = user_data.get("goals", [])
+        if goals:
+            current_goal = goals[0]
+            old_goal_name = current_goal.get("name", "")
+            old_goal_amount = current_goal.get("amount", "")
+        else:
+            old_goal_name = ""
+            old_goal_amount = ""
 
         goal_name_entry = ctk.CTkEntry(
             edit_goal_frame,
@@ -1124,7 +1135,7 @@ to log out?""",
             width=293,
             height=51,
             fg_color="#D9D9D9",
-            command=None
+            command=self.load_add_expense
         )
         self.return_btn.pack(padx=50, pady=10)
 

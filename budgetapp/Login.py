@@ -3,7 +3,6 @@ this the login menu where the user can log in or sign up
 """
 import customtkinter as ctk
 from Database import add_user, auth_user
-from Budget import BudgetMenu
 
 class LoginMenu(ctk.CTk):
     def __init__(self):
@@ -242,6 +241,7 @@ class LoginMenu(ctk.CTk):
         if success:
             self.loginframe_status_label.configure(text=message, text_color="green")
             self.destroy()
+            from Budget import BudgetMenu
             BudgetMenu(username).mainloop()
         else:
             self.loginframe_status_label.configure(text=message)
