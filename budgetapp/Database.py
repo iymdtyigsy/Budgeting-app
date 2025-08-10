@@ -6,13 +6,16 @@ from sqlalchemy.orm import sessionmaker, relationship, declarative_base
 from sqlalchemy.exc import IntegrityError
 import bcrypt
 import datetime
+import os
 
-engine = create_engine('sqlite:///account.db', echo=False)
+db_dir = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(db_dir, 'account.db')
+engine = create_engine(f'sqlite:///{db_path}', echo=False)
 Session = sessionmaker(bind=engine)
 Base = declarative_base()
 
 class User(Base):
-    """User model for the database."""
+    # User model for the database.
     __tablename__ = 'user'
 
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
@@ -24,18 +27,18 @@ class User(Base):
     goal = relationship("Goal", back_populates="user")
 
     def hashpassword(self, password):
-        """Hash a password and store it."""
+        # Hash a password and store it.
         salt = bcrypt.gensalt()
         bytes = password.encode()
         self.hashedpassword = bcrypt.hashpw(bytes, salt).decode()
 
     def checkpassword(self, password):
-        """Check if a password is correct."""
+        # Check if a password is correct.
         bytes = password.encode()
         return bcrypt.checkpw(bytes, self.hashedpassword.encode())
 
 class Budget(Base):
-    """Budget model for the database."""
+    # Budget model for the database.
     __tablename__ = 'budget'
 
     id = Column(Integer, Sequence('budget_id_seq'), primary_key=True)
@@ -53,7 +56,7 @@ class Budget(Base):
     user = relationship("User", back_populates="budget")
 
 class Expense(Base):
-    """Expense model for the database."""
+    # Expense model for the database.
     __tablename__ = 'expense'
 
     id = Column(Integer, Sequence('expense_id_seq'), primary_key=True)
@@ -68,7 +71,7 @@ class Expense(Base):
     user = relationship("User", back_populates="expense")
 
 class Goal(Base):
-    """Goal model for the database."""
+    # Goal model for the database.
     __tablename__ = 'goal'
 
     id = Column(Integer, Sequence('goal_id_seq'), primary_key=True)
@@ -167,7 +170,12 @@ def add_budget(username, name, amount, income):
     user = session.query(User).filter(User.username == username).first()
 
     try:
-        new_budget = Budget(user_id = user.id, budget_name = name, budget_amount = amount, budget_income = income, balance=amount, last_updated=datetime.date.today().isoformat())
+        new_budget = Budget(user_id = user.id, 
+                            budget_name = name, 
+                            budget_amount = amount, 
+                            budget_income = income, 
+                            balance=amount, 
+                            last_updated=datetime.date.today().isoformat())
         session.add(new_budget)
         session.commit()
         return True, 'added'
@@ -197,7 +205,9 @@ def add_expenses(username, name, amount):
         return False, "User or budget not found"
 
     try:
-        new_expense = Expense(user_id = user.id, expense_name = name, expense_amount = amount)
+        new_expense = Expense(user_id = user.id, 
+                              expense_name = name, 
+                              expense_amount = amount)
         session.add(new_expense)
         budget.balance -= int(amount)
         session.commit()
@@ -243,7 +253,9 @@ def add_goal(username, name, amount):
     user = session.query(User).filter(User.username == username).first()
 
     try:
-        goal = Goal(user_id = user.id, goal_name = name, goal_amount = amount)
+        goal = Goal(user_id = user.id, 
+                    goal_name = name, 
+                    goal_amount = amount)
         session.add(goal)
         session.commit()
         return True, 'added'
