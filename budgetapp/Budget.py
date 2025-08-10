@@ -539,7 +539,8 @@ create one?
             self.dashboard_frame,
             orientation="horizontal",
             width=734,
-            height=36
+            height=36,
+            progress_color="#3EA428",
         )
         self.progess_bar.place(relx=0.05, rely=0.45)
 
@@ -571,7 +572,7 @@ create one?
             text_color="black",
             font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=210,
+            width=210,                                                                              
             height=32
         )
         self.goal_status_label.place(relx=0.72, rely=0.27)
