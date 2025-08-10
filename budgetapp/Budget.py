@@ -17,7 +17,7 @@ from Database import (
 )
 
 class BudgetMenu(ctk.CTk):
-    """Main application window for the Budgeting App."""
+    # Main application window for the Budgeting App.
     def __init__(self, username):
         """
         Initializes the BudgetMenu window.
@@ -52,12 +52,12 @@ class BudgetMenu(ctk.CTk):
         self.check_if_budget_exist()
 
     def delete_current(self):
-        """Clears all widgets from the mainframe_holder."""
+        # Clears all widgets from the mainframe_holder.
         for widget in self.mainframe_holder.winfo_children():
             widget.forget()
 
     def load_create_budget(self):
-        """Loads the screen to prompt the user to create a budget."""
+        # Loads the screen to prompt the user to create a budget.
         self.delete_current()
 
         self.create_budget_frame = ctk.CTkFrame(
@@ -109,7 +109,7 @@ create one?
         self.return_btn.pack(padx=50, pady=10)
 
     def load_set_budget(self):
-        """Loads the screen for the user to set their budget details."""
+        # Loads the screen for the user to set their budget details.
         self.delete_current()
 
         self.set_budget_frame = ctk.CTkFrame(
@@ -208,7 +208,7 @@ create one?
         self.return_btn.pack(padx=50, pady=10)
 
     def load_set_expense(self):
-        """Loads the screen for the user to set their initial expenses."""
+        # Loads the screen for the user to set their initial expenses.
         self.delete_current()
 
         self.set_expense_frame = ctk.CTkFrame(
@@ -292,7 +292,7 @@ create one?
         self.create_expense_card(self.scrollable_frame)
 
     def load_set_your_expenses(self):
-        """Loads the screen for the user to add a new expense during initial setup."""
+        # Loads the screen for the user to add a new expense during initial setup.
         self.delete_current()
 
         self.set_expense_frame = ctk.CTkFrame(
@@ -379,7 +379,7 @@ create one?
         self.return_btn.pack(padx=50, pady=10)
 
     def load_set_goal(self):
-        """Loads the screen for the user to set a financial goal."""
+        # Loads the screen for the user to set a financial goal.
         self.delete_current()
 
         self.set_goal_frame = ctk.CTkFrame(
@@ -457,7 +457,7 @@ create one?
         self.return_btn.pack(padx=50, pady=10)
 
     def load_dashboard(self):
-        """Loads the main dashboard screen."""
+        # Loads the main dashboard screen.
         self.delete_current()
 
         self.dashboard_frame = ctk.CTkFrame(
@@ -601,7 +601,7 @@ create one?
         self.update_dashboard_labels()
 
     def load_edit_budget(self):
-        """Loads the screen for editing budget, expenses, or goals."""
+        # Loads the screen for editing budget, expenses, or goals.
         self.delete_current()
 
         self.edit_budget_frame = ctk.CTkFrame(
@@ -650,7 +650,7 @@ create one?
         self.return_edit_budget_btn.pack(pady=100)
 
     def load_edit_budget_screen(self):
-        """Loads the screen for editing budget details."""
+        # Loads the screen for editing budget details.
         self.delete_current()
 
         edit_budget_frame = ctk.CTkFrame(
@@ -796,7 +796,7 @@ create one?
             status_label.configure(text=message, text_color="red")
 
     def load_edit_goal_screen(self):
-        """Loads the screen for editing a financial goal."""
+        # Loads the screen for editing a financial goal.
         self.delete_current()
 
         edit_goal_frame = ctk.CTkFrame(
@@ -918,7 +918,7 @@ create one?
             status_label.configure(text=message, text_color="red")
 
     def log_out(self):
-        """Displays a confirmation prompt for logging out."""
+        # Displays a confirmation prompt for logging out.
         self.delete_current()
 
         self.log_out_frame = ctk.CTkFrame(
@@ -967,7 +967,7 @@ to log out?""",
         self.return_btn.place(relx=0.3, rely=0.6)
         
     def load_add_expense(self):
-        """Loads the screen for adding a new expense from the dashboard."""
+        # Loads the screen for adding a new expense from the dashboard.
         self.delete_current()
 
         self.set_expense_frame = ctk.CTkFrame(
@@ -1051,7 +1051,7 @@ to log out?""",
         self.create_expense_card(self.scrollable_frame)
 
     def load_add_your_expenses(self):
-        """Loads the screen for the user to input details for a new expense."""
+        # Loads the screen for the user to input details for a new expense.
         self.delete_current()
 
         self.add_expense_frame = ctk.CTkFrame(
@@ -1129,7 +1129,7 @@ to log out?""",
         self.return_btn.pack(padx=50, pady=10)
 
     def check_if_budget_exist(self):
-        """Checks if a budget exists for the current user and loads the appropriate screen."""
+        # Checks if a budget exists for the current user and loads the appropriate screen.
         exist = check_budget(self.username)
 
         if exist:
@@ -1138,7 +1138,7 @@ to log out?""",
             self.load_create_budget()
 
     def create_budget(self):
-        """Handles the creation of a new budget."""
+        # Handles the creation of a new budget.
         name = self.budget_name_entry.get().strip()
         amount = self.budget_amount_entry.get()
         income = self.budget_income_entry.get()
@@ -1185,7 +1185,7 @@ to log out?""",
             return
 
     def create_goal(self):
-        """Handles the creation of a new financial goal."""
+        # Handles the creation of a new financial goal.
         name = self.goal_name_entry.get().strip()
         amount = self.goal_amount_entry.get()
         username = self.username
@@ -1487,7 +1487,7 @@ to log out?""",
                 self.set_expense_feedback_label.configure(text=status_message, text_color=status_color)
 
     def update_dashboard_labels(self):
-        """Updates the labels on the dashboard with the latest user data."""
+        # Updates the labels on the dashboard with the latest user data.
         data = get_user_data(self.username)
 
         if not data:
@@ -1532,7 +1532,7 @@ to log out?""",
             self.goal_status_label.configure(text="No goal set.", text_color="black")
     
     def perform_logout(self):
-        """Performs the actual logout by destroying the current window and opening the login menu."""
+        # Performs the actual logout by destroying the current window and opening the login menu.
         self.destroy()
         from Login import LoginMenu
         LoginMenu().mainloop()

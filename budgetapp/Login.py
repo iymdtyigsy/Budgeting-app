@@ -7,7 +7,7 @@ from Budget import BudgetMenu
 
 class LoginMenu(ctk.CTk):
     def __init__(self):
-        """Initialize the log in window."""
+        # Initialize the log in window.
         super().__init__()
 
         self.title("Budget app")
@@ -34,12 +34,12 @@ class LoginMenu(ctk.CTk):
         self.load_login_menu()
         
     def delete_current(self):
-        """Delete the current menu."""
+        # Delete the current menu.
         for widget in self.mainframe_holder.winfo_children():
             widget.forget()
        
     def load_login_menu(self):
-        """Load the login menu widgets."""
+        # Load the login menu widgets.
         self.delete_current()
 
         self.loginframe = ctk.CTkFrame(
@@ -116,7 +116,7 @@ class LoginMenu(ctk.CTk):
         self.loginframe_switchbtn.pack()
     
     def load_signup_menu(self):
-        """Load the signup menu widgets."""
+        # Load the signup menu widgets.
         self.delete_current()
 
         self.signupframe = ctk.CTkFrame(
@@ -205,7 +205,7 @@ class LoginMenu(ctk.CTk):
         self.signupframe_switchbtn.pack()
 
     def register_user(self):
-        """Register a new user."""
+        # Register a new user.
         username = self.signupframe_username.get().strip()
         password = self.signupframe_password.get()
         confirm = self.signupframe_confirmpassword.get()
@@ -230,7 +230,7 @@ class LoginMenu(ctk.CTk):
             self.signupframe_status_label.configure(text=message)
     
     def login_user(self):
-        """Login a user."""
+        # Login a user.
         username = self.loginframe_username.get().strip()
         password = self.loginframe_password.get()
 
