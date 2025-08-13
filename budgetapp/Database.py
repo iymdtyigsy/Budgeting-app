@@ -1,12 +1,21 @@
 """
 This is the database module for the Budget App.
 """
-from sqlalchemy import Column, Float, Integer, String, ForeignKey, Sequence, UniqueConstraint, create_engine
-from sqlalchemy.orm import sessionmaker, relationship, declarative_base
-from sqlalchemy.exc import IntegrityError
-import bcrypt
+
 import datetime
 import os
+import bcrypt
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    ForeignKey,
+    Sequence,
+    UniqueConstraint,
+    create_engine
+)
+from sqlalchemy.orm import sessionmaker, relationship, declarative_base
+from sqlalchemy.exc import IntegrityError
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_FOLDER = os.path.join(BASE_DIR, "data")
@@ -17,30 +26,35 @@ Session = sessionmaker(bind=engine)
 Base = declarative_base()
 
 class User(Base):
-    # User model for the database.
+    """Represents a user in the budgeting application."""
+    # Attributes: id, username, hashedpassword, budget, expense, goal
     __tablename__ = 'user'
 
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
-    username = Column(String(30), unique=True, nullable=False)
-    hashedpassword = Column(String(256), nullable=False)
+    username = Column(String, unique=True, nullable=False)
+    hashedpassword = Column(String, nullable=False)
 
     budget = relationship("Budget", back_populates="user")
     expense = relationship("Expense", back_populates="user")
     goal = relationship("Goal", back_populates="user")
 
     def hashpassword(self, password):
-        # Hash a password and store it.
+        """Hashes the provided password using bcrypt."""
+        # Args: password (str): The plain-text password to hash.
         salt = bcrypt.gensalt()
-        bytes = password.encode()
-        self.hashedpassword = bcrypt.hashpw(bytes, salt).decode()
-
+        encoded_password = password.encode()
+        self.hashedpassword = bcrypt.hashpw(encoded_password, salt).decode()
+        
     def checkpassword(self, password):
-        # Check if a password is correct.
-        bytes = password.encode()
-        return bcrypt.checkpw(bytes, self.hashedpassword.encode())
+        """Checks if the provided password matches the stored hashed password."""
+        # Args: password (str): The plain-text password to check.
+        # Returns: bool: True if the password matches, False otherwise.
+        encoded_password = password.encode()
+        return bcrypt.checkpw(encoded_password, self.hashedpassword.encode())
 
 class Budget(Base):
-    # Budget model for the database.
+    """Represents a user's budget."""
+    # Attributes: id, user_id, budget_name, budget_amount, budget_income, balance, last_updated, user
     __tablename__ = 'budget'
 
     id = Column(Integer, Sequence('budget_id_seq'), primary_key=True)
@@ -52,13 +66,15 @@ class Budget(Base):
     last_updated = Column(String, nullable=False)
 
     __table_args__ = (
-        UniqueConstraint('user_id', 'budget_name', name='unique_user_budget_name'),
+        UniqueConstraint('user_id', 'budget_name',
+                         name='unique_user_budget_name'),
     )
 
     user = relationship("User", back_populates="budget")
 
 class Expense(Base):
-    # Expense model for the database.
+    """Represents an expense recorded by a user."""
+    # Attributes: id, user_id, expense_name, expense_amount, user
     __tablename__ = 'expense'
 
     id = Column(Integer, Sequence('expense_id_seq'), primary_key=True)
@@ -67,13 +83,16 @@ class Expense(Base):
     expense_amount = Column(Integer, nullable=False)
 
     __table_args__ = (
-        UniqueConstraint('user_id', 'expense_name', name='unique_user_expense_name'),
+        UniqueConstraint('user_id', 'expense_name',
+                         name='unique_user_expense_name'),
     )
 
     user = relationship("User", back_populates="expense")
 
+
 class Goal(Base):
-    # Goal model for the database.
+    """Represents a financial goal set by a user."""
+    # Attributes: id, user_id, goal_name, goal_amount, user
     __tablename__ = 'goal'
 
     id = Column(Integer, Sequence('goal_id_seq'), primary_key=True)
@@ -87,18 +106,14 @@ class Goal(Base):
 
     user = relationship("User", back_populates="goal")
 
+
 Base.metadata.create_all(engine)
 
+
 def add_user(username, password):
-    """Add a new user to the database.
-
-    Args:
-        username (str): The username of the new user.
-        password (str): The password of the new user.
-
-    Returns:
-        tuple: A tuple containing a boolean indicating success and a message.
-    """
+    """Adds a new user to the database."""
+    # Args: username (str), password (str)
+    # Returns: tuple: (bool success, str message)
     session = Session()
 
     try:
@@ -113,16 +128,11 @@ def add_user(username, password):
     finally:
         session.close()
 
+
 def auth_user(username, password):
-    """Authenticate a user.
-
-    Args:
-        username (str): The username of the user.
-        password (str): The password of the user.
-
-    Returns:
-        tuple: A tuple containing a boolean indicating success and a message.
-    """
+    """Authenticates a user."""
+    # Args: username (str), password (str)
+    # Returns: tuple: (bool success, str message)
     session = Session()
 
     try:
@@ -133,50 +143,40 @@ def auth_user(username, password):
     finally:
         session.close()
 
+
 def check_budget(username):
-    """Check if a user has a budget.
-
-    Args:
-        username (str): The username of the user.
-
-    Returns:
-        bool: True if the user has a budget, False otherwise.
-    """
+    """Checks if a user has a budget."""
+    # Args: username (str)
+    # Returns: bool: True if budget exists, False otherwise.
     session = Session()
     user = session.query(User).filter(User.username == username).first()
 
     if not user:
         return False
-    
+
     try:
-        budget_exist = session.query(Budget).filter(Budget.user_id == user.id).first()
+        budget_exist = session.query(Budget).filter(
+            Budget.user_id == user.id).first()
         if budget_exist is not None:
             return True
         return False
     finally:
         session.close()
 
+
 def add_budget(username, name, amount, income):
-    """Add a new budget for a user.
-
-    Args:
-        username (str): The username of the user.
-        name (str): The name of the budget.
-        amount (int): The amount of the budget.
-        income (int): The income for the budget.
-
-    Returns:
-        tuple: A tuple containing a boolean indicating success and a message.
-    """
+    """Adds a new budget for a user."""
+    # Args: username (str), name (str), amount (int), income (int)
+    # Returns: tuple: (bool success, str message)
     session = Session()
     user = session.query(User).filter(User.username == username).first()
 
     try:
-        new_budget = Budget(user_id = user.id, 
-                            budget_name = name, 
-                            budget_amount = amount, 
-                            budget_income = income, 
-                            balance=amount, 
+        new_budget = Budget(user_id=user.id,
+                            budget_name=name,
+                            budget_amount=amount,
+                            budget_income=income,
+                            balance=amount,
                             last_updated=datetime.date.today().isoformat())
         session.add(new_budget)
         session.commit()
@@ -187,17 +187,11 @@ def add_budget(username, name, amount, income):
     finally:
         session.close()
 
+
 def add_expenses(username, name, amount):
-    """Add a new expense for a user.
-
-    Args:
-        username (str): The username of the user.
-        name (str): The name of the expense.
-        amount (int): The amount of the expense.
-
-    Returns:
-        tuple: A tuple containing a boolean indicating success and a message.
-    """
+    """Adds a new expense for a user."""
+    # Args: username (str), name (str), amount (int)
+    # Returns: tuple: (bool success, str message)
     session = Session()
     user = session.query(User).filter(User.username == username).first()
     budget = session.query(Budget).filter(Budget.user_id == user.id).first()
@@ -207,9 +201,9 @@ def add_expenses(username, name, amount):
         return False, "User or budget not found"
 
     try:
-        new_expense = Expense(user_id = user.id, 
-                              expense_name = name, 
-                              expense_amount = amount)
+        new_expense = Expense(user_id=user.id,
+                              expense_name=name,
+                              expense_amount=amount)
         session.add(new_expense)
         budget.balance -= int(amount)
         session.commit()
@@ -220,44 +214,34 @@ def add_expenses(username, name, amount):
     finally:
         session.close()
 
+
 def get_expense(username):
-    """Get all expenses for a user.
-
-    Args:
-        username (str): The username of the user.
-
-    Returns:
-        list: A list of Expense objects.
-    """
+    """Gets all expenses for a user."""
+    # Args: username (str)
+    # Returns: list: List of Expense objects.
     session = Session()
     user = session.query(User).filter(User.username == username).first()
 
     if not user:
         session.close()
         return []
-    
+
     expenses = session.query(Expense).filter(Expense.user_id == user.id).all()
     session.close()
     return expenses
 
+
 def add_goal(username, name, amount):
-    """Add a new goal for a user.
-
-    Args:
-        username (str): The username of the user.
-        name (str): The name of the goal.
-        amount (int): The amount of the goal.
-
-    Returns:
-        tuple: A tuple containing a boolean indicating success and a message.
-    """
+    """Adds a new goal for a user."""
+    # Args: username (str), name (str), amount (int)
+    # Returns: tuple: (bool success, str message)
     session = Session()
     user = session.query(User).filter(User.username == username).first()
 
     try:
-        goal = Goal(user_id = user.id, 
-                    goal_name = name, 
-                    goal_amount = amount)
+        goal = Goal(user_id=user.id,
+                    goal_name=name,
+                    goal_amount=amount)
         session.add(goal)
         session.commit()
         return True, 'added'
@@ -267,22 +251,18 @@ def add_goal(username, name, amount):
     finally:
         session.close()
 
+
 def get_user_data(username):
-    """Get all data for a user.
-
-    Args:
-        username (str): The username of the user.
-
-    Returns:
-        dict: A dictionary containing all user data.
-    """
+    """Gets all data for a user."""
+    # Args: username (str)
+    # Returns: dict: Dictionary containing all user data.
     session = Session()
     user = session.query(User).filter(User.username == username).first()
 
     if not user:
         session.close()
         return None
-    
+
     user_data = {
         "id": user.id,
         "username": user.username,
@@ -319,16 +299,11 @@ def get_user_data(username):
     session.close()
     return user_data
 
+
 def delete_expense(username, expense_name):
-    """Delete an expense for a user.
-
-    Args:
-        username (str): The username of the user.
-        expense_name (str): The name of the expense to delete.
-
-    Returns:
-        tuple: A tuple containing a boolean indicating success and a message.
-    """
+    """Deletes an expense for a user."""
+    # Args: username (str), expense_name (str)
+    # Returns: tuple: (bool success, str message)
     session = Session()
     user = session.query(User).filter(User.username == username).first()
     budget = session.query(Budget).filter(Budget.user_id == user.id).first()
@@ -338,7 +313,8 @@ def delete_expense(username, expense_name):
         return False, "User or budget not found"
 
     try:
-        expense = session.query(Expense).filter(Expense.user_id == user.id, Expense.expense_name == expense_name).first()
+        expense = session.query(Expense).filter(
+            Expense.user_id == user.id, Expense.expense_name == expense_name).first()
         if expense:
             budget.balance += expense.expense_amount
             session.delete(expense)
@@ -351,18 +327,11 @@ def delete_expense(username, expense_name):
     finally:
         session.close()
 
+
 def edit_expense(username, old_name, new_name, new_amount):
-    """Edit an expense for a user.
-
-    Args:
-        username (str): The username of the user.
-        old_name (str): The old name of the expense.
-        new_name (str): The new name of the expense.
-        new_amount (int): The new amount of the expense.
-
-    Returns:
-        tuple: A tuple containing a boolean indicating success and a message.
-    """
+    """Edits an expense for a user."""
+    # Args: username (str), old_name (str), new_name (str), new_amount (int)
+    # Returns: tuple: (bool success, str message)
     session = Session()
     user = session.query(User).filter(User.username == username).first()
     budget = session.query(Budget).filter(Budget.user_id == user.id).first()
@@ -372,7 +341,8 @@ def edit_expense(username, old_name, new_name, new_amount):
         return False, "User or budget not found"
 
     try:
-        expense = session.query(Expense).filter(Expense.user_id == user.id, Expense.expense_name == old_name).first()
+        expense = session.query(Expense).filter(
+            Expense.user_id == user.id, Expense.expense_name == old_name).first()
         if expense:
             budget.balance += expense.expense_amount
             expense.expense_name = new_name
@@ -390,19 +360,11 @@ def edit_expense(username, old_name, new_name, new_amount):
     finally:
         session.close()
 
+
 def edit_budget(username, old_name, new_name, new_amount, new_income):
-    """Edit a budget for a user.
-
-    Args:
-        username (str): The username of the user.
-        old_name (str): The old name of the budget.
-        new_name (str): The new name of the budget.
-        new_amount (int): The new amount of the budget.
-        new_income (int): The new income for the budget.
-
-    Returns:
-        tuple: A tuple containing a boolean indicating success and a message.
-    """
+    """Edits a budget for a user."""
+    # Args: username (str), old_name (str), new_name (str), new_amount (int), new_income (int)
+    # Returns: tuple: (bool success, str message)
     session = Session()
     user = session.query(User).filter(User.username == username).first()
 
@@ -411,7 +373,8 @@ def edit_budget(username, old_name, new_name, new_amount, new_income):
         return False, "User not found"
 
     try:
-        budget = session.query(Budget).filter(Budget.user_id == user.id, Budget.budget_name == old_name ).first()
+        budget = session.query(Budget).filter(
+            Budget.user_id == user.id, Budget.budget_name == old_name).first()
         if budget:
             budget.balance -= budget.budget_amount
             budget.balance += int(new_amount)
@@ -430,18 +393,11 @@ def edit_budget(username, old_name, new_name, new_amount, new_income):
     finally:
         session.close()
 
+
 def edit_goal(username, old_name, new_name, new_amount):
-    """Edit a goal for a user.
-
-    Args:
-        username (str): The username of the user.
-        old_name (str): The old name of the goal.
-        new_name (str): The new name of the goal.
-        new_amount (int): The new amount of the goal.
-
-    Returns:
-        tuple: A tuple containing a boolean indicating success and a message.
-    """
+    """Edits a goal for a user."""
+    # Args: username (str), old_name (str), new_name (str), new_amount (int)
+    # Returns: tuple: (bool success, str message)
     session = Session()
     user = session.query(User).filter(User.username == username).first()
 
@@ -450,7 +406,8 @@ def edit_goal(username, old_name, new_name, new_amount):
         return False, "User not found"
 
     try:
-        goal = session.query(Goal).filter(Goal.user_id == user.id, Goal.goal_name == old_name).first()
+        goal = session.query(Goal).filter(
+            Goal.user_id == user.id, Goal.goal_name == old_name).first()
         if goal:
             goal.goal_name = new_name
             goal.goal_amount = new_amount
@@ -466,12 +423,10 @@ def edit_goal(username, old_name, new_name, new_amount):
     finally:
         session.close()
 
-def update_budget_balance(username):
-    """Update the budget balance based on income and expenses.
 
-    Args:
-        username (str): The username of the user.
-    """
+def update_budget_balance(username):
+    """Updates the budget balance based on income and expenses."""
+    # Args: username (str)
     session = Session()
     user = session.query(User).filter(User.username == username).first()
 
@@ -486,14 +441,17 @@ def update_budget_balance(username):
 
     today = datetime.date.today()
     last_updated = datetime.date.fromisoformat(budget.last_updated)
-    
-    months_passed = (today.year - last_updated.year) * 12 + (today.month - last_updated.month)
+
+    months_passed = (today.year - last_updated.year) * \
+        12 + (today.month - last_updated.month)
 
     if months_passed > 0:
-        expenses = session.query(Expense).filter(Expense.user_id == user.id).all()
+        expenses = session.query(Expense).filter(
+            Expense.user_id == user.id).all()
         total_expenses = sum(expense.expense_amount for expense in expenses)
-        
-        budget.balance += (budget.budget_income - total_expenses) * months_passed
+
+        budget.balance += (budget.budget_income -
+                           total_expenses) * months_passed
         budget.last_updated = today.isoformat()
         session.commit()
 

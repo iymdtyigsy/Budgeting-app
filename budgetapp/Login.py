@@ -5,8 +5,9 @@ import customtkinter as ctk
 from Database import add_user, auth_user
 
 class LoginMenu(ctk.CTk):
+    """Main application window for user login and registration."""
     def __init__(self):
-        # Initialize the log in window.
+        """Initializes the LoginMenu window."""
         super().__init__()
 
         self.title("Budget app")
@@ -33,12 +34,12 @@ class LoginMenu(ctk.CTk):
         self.load_login_menu()
         
     def delete_current(self):
-        # Delete the current menu.
+        """Clears all widgets from the mainframe_holder."""
         for widget in self.mainframe_holder.winfo_children():
             widget.forget()
        
     def load_login_menu(self):
-        # Load the login menu widgets.
+        """Loads and displays the login form."""
         self.delete_current()
 
         self.loginframe = ctk.CTkFrame(
@@ -115,7 +116,7 @@ class LoginMenu(ctk.CTk):
         self.loginframe_switchbtn.pack()
     
     def load_signup_menu(self):
-        # Load the signup menu widgets.
+        """Loads and displays the signup form."""
         self.delete_current()
 
         self.signupframe = ctk.CTkFrame(
@@ -204,7 +205,7 @@ class LoginMenu(ctk.CTk):
         self.signupframe_switchbtn.pack()
 
     def register_user(self):
-        # Register a new user.
+        """Handles new user registration."""
         username = self.signupframe_username.get().strip()
         password = self.signupframe_password.get()
         confirm = self.signupframe_confirmpassword.get()
@@ -229,7 +230,7 @@ class LoginMenu(ctk.CTk):
             self.signupframe_status_label.configure(text=message)
     
     def login_user(self):
-        # Login a user.
+        """Handles existing user login."""
         username = self.loginframe_username.get().strip()
         password = self.loginframe_password.get()
 
@@ -245,6 +246,3 @@ class LoginMenu(ctk.CTk):
             BudgetMenu(username).mainloop()
         else:
             self.loginframe_status_label.configure(text=message)
-            
-if __name__ == "__main__":
-    LoginMenu().mainloop()
