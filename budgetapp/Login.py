@@ -245,6 +245,6 @@ class LoginMenu(ctk.CTk):
             BudgetMenu(username).mainloop()
         else:
             self.loginframe_status_label.configure(text=message)
-    
+            
 if __name__ == "__main__":
     LoginMenu().mainloop()

@@ -104,7 +104,7 @@ create one?
             width=200,
             height=50,
             fg_color="#D9D9D9",
-            command=None
+            command=self.perform_logout
         )
         self.return_btn.pack(padx=50, pady=10)
 
@@ -195,18 +195,6 @@ create one?
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
-        self.return_btn = ctk.CTkButton(
-            self.set_budget_frame,
-            text="return",
-            font=("Bold", 40),
-            text_color="black",
-            width=293,
-            height=51,
-            fg_color="#D9D9D9",
-            command=None
-        )
-        self.return_btn.pack(padx=50, pady=10)
-
     def load_set_expense(self):
         # Loads the screen for the user to set their initial expenses.
         self.delete_current()
@@ -269,18 +257,6 @@ create one?
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
-        self.return_btn = ctk.CTkButton(
-            self.set_expense_frame,
-            text="return",
-            font=("Bold", 40),
-            text_color="black",
-            width=293,
-            height=51,
-            fg_color="#D9D9D9",
-            command=self.load_set_expense
-        )
-        self.return_btn.pack(padx=50, pady=10)
-
         self.set_expense_feedback_label = ctk.CTkLabel(
             self.set_expense_frame,
             text="",
@@ -289,7 +265,7 @@ create one?
         )
         self.set_expense_feedback_label.pack(pady=10)
 
-        self.create_expense_card(self.scrollable_frame)
+        self.create_expense_card(self.scrollable_frame, "set_expense")
 
     def load_set_your_expenses(self):
         # Loads the screen for the user to add a new expense during initial setup.
@@ -367,14 +343,14 @@ create one?
         self.confirm_btn.pack(padx=50, pady=10)
 
         self.return_btn = ctk.CTkButton(
-            self.add_expense_frame,
+            self.set_expense_frame,
             text="return",
             font=("Bold", 40),
             text_color="black",
             width=293,
             height=51,
             fg_color="#D9D9D9",
-            command=self.load_add_expense
+            command=self.load_set_expense
         )
         self.return_btn.pack(padx=50, pady=10)
 
@@ -597,7 +573,7 @@ create one?
         self.dashboard_status_label.place(relx=0.07, rely=0.95)
 
         update_budget_balance(self.username)
-        self.create_expense_card(self.expense_scroll_frame)
+        self.create_expense_card(self.expense_scroll_frame, "dashboard")
         self.update_dashboard_labels()
 
     def load_edit_budget(self):
@@ -1059,7 +1035,7 @@ to log out?""",
         )
         self.add_expense_feedback_label.pack(pady=10)
 
-        self.create_expense_card(self.scrollable_frame)
+        self.create_expense_card(self.scrollable_frame, "add_expense")
 
     def load_add_your_expenses(self):
         # Loads the screen for the user to input details for a new expense.
@@ -1279,7 +1255,7 @@ to log out?""",
         else:
             status_label.configure(text=message)
 
-    def create_expense_card(self, scrollable_frame):
+    def create_expense_card(self, scrollable_frame, location):
         """
         Creates and displays expense cards in the given scrollable frame.
 
@@ -1352,7 +1328,7 @@ to log out?""",
                 text="Edit",
                 font=("Arial", 16),
                 width=50,
-                command=lambda name=name, amount=amount: self.load_edit_expense(name, amount)
+                command=lambda name=name, amount=amount: self.load_edit_expense(name, amount, location)
             )
             edit_btn.pack(side="right", padx=5)
 
@@ -1362,11 +1338,11 @@ to log out?""",
                 font=("Arial", 16),
                 width=50,
                 fg_color="red",
-                command=lambda expense_name=name: self.delete_expense(expense_name)
+                command=lambda expense_name=name: self.delete_expense(expense_name, location)
             )
             delete_btn.pack(side="right", padx=5)
 
-    def load_edit_expense(self, old_name, old_amount):
+    def load_edit_expense(self, old_name, old_amount, location):
         """
         Loads the screen for editing an expense.
 
@@ -1432,7 +1408,7 @@ to log out?""",
             width=293,
             height=51,
             fg_color="#D9D9D9",
-            command=lambda: self.update_expense(old_name, new_name_entry, new_amount_entry, status_label)
+            command=lambda: self.update_expense(old_name, new_name_entry, new_amount_entry, status_label, location)
         )
         confirm_btn.pack(padx=50, pady=10)
 
@@ -1444,11 +1420,11 @@ to log out?""",
             width=293,
             height=51,
             fg_color="#D9D9D9",
-            command=self.load_dashboard
+            command=lambda: self.load_dashboard() if location == "dashboard" else self.load_set_expense() if location == "set_expense" else self.load_add_expense()
         )
         return_btn.pack(padx=50, pady=10)
 
-    def update_expense(self, old_name, new_name_entry, new_amount_entry, status_label):
+    def update_expense(self, old_name, new_name_entry, new_amount_entry, status_label, location):
         """
         Handles the logic for updating an expense.
 
@@ -1472,11 +1448,16 @@ to log out?""",
         success, message = edit_expense(self.username, old_name, new_name, float(new_amount))
 
         if success:
-            self.load_dashboard()
+            if location == "set_expense":
+                self.load_set_expense()
+            elif location == "add_expense":
+                self.load_add_expense()
+            elif location == "dashboard":
+                self.load_dashboard()
         else:
             status_label.configure(text=message, text_color="red")
 
-    def delete_expense(self, expense_name):
+    def delete_expense(self, expense_name, location):
         """
         Deletes an expense.
 
@@ -1486,7 +1467,12 @@ to log out?""",
         success, message = delete_expense(self.username, expense_name)
         
         if success:
-            self.load_dashboard()
+            if location == "set_expense":
+                self.load_set_expense()
+            elif location == "add_expense":
+                self.load_add_expense()
+            elif location == "dashboard":
+                self.load_dashboard()
         else:
             status_message = message
             status_color = "red"
