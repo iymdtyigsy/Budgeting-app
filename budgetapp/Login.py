@@ -1,5 +1,5 @@
 """
-this the login menu where the user can log in or sign up
+This the login menu where the user can log in or sign up
 """
 import customtkinter as ctk
 from Database import add_user, auth_user
@@ -221,7 +221,11 @@ class LoginMenu(ctk.CTk):
         if confirm != password:
             self.signupframe_status_label.configure(text ="confirm password does not match")
             return
-        
+
+        if " " in username:
+            self.signupframe_status_label.configure(text="username must not contain spaces")
+            return
+
         success, message = add_user(username, password)
         if success:
             self.signupframe_status_label.configure(text=message, text_color="green")

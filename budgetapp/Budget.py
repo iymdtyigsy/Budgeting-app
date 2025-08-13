@@ -416,18 +416,6 @@ create one?
         )
         self.confirm_btn.pack(padx=50, pady=10)
 
-        self.return_btn = ctk.CTkButton(
-            self.set_goal_frame,
-            text="return",
-            font=("Bold", 40),
-            text_color="black",
-            width=293,
-            height=51,
-            fg_color="#D9D9D9",
-            command=None
-        )
-        self.return_btn.pack(padx=50, pady=10)
-
     def load_dashboard(self):
         """Loads the main dashboard with budget, balance, goals, and expenses."""
         self.delete_current()
@@ -730,7 +718,7 @@ create one?
     def update_budget(self, old_name, new_name_entry, new_amount_entry, new_income_entry, status_label):
         """Updates budget details based on user input."""
         # Args: old_name, new_name_entry, new_amount_entry, new_income_entry, status_label
-        new_name = new_name_entry.get().strip()
+        new_name = new_name_entry.get().strip().replace(" ", "-")
         new_amount = new_amount_entry.get()
         new_income = new_income_entry.get()
 
@@ -738,12 +726,12 @@ create one?
             status_label.configure(text="Fill in all fields")
             return
 
-        if new_name.isdigit() or not new_name.isalpha():
+        if new_name.isdigit():
             status_label.configure(text="Name must be in letters")
             return
 
         if not new_amount.isdigit():
-            status_label.configure(text="Amount must be a number/positive numbers")
+            status_label.configure(text="Amount must be a number/not contain spaces")
             return
 
         if int(new_amount) <= 0:
@@ -751,7 +739,7 @@ create one?
             return
 
         if not new_income.isdigit():
-            status_label.configure(text="Income must be a number/positive numbers")
+            status_label.configure(text="Income must be a number/not contain spaces")
             return
         
         if int(new_income) <= 0:
@@ -859,26 +847,29 @@ create one?
     def update_goal(self, old_name, new_name_entry, new_amount_entry, status_label):
         """Updates goal details based on user input."""
         # Args: old_name, new_name_entry, new_amount_entry, status_label
-        new_name = new_name_entry.get().strip()
+        new_name = new_name_entry.get().strip().replace(" ", "-")
         new_amount = new_amount_entry.get()
 
         if not all([new_name, new_amount]):
             status_label.configure(text="Fill in name and amount")
             return
 
-        if new_name.isdigit() or not new_name.isalpha():
+        if new_name.isdigit():
             status_label.configure(text="Name must be in letters")
             return
 
         if not new_amount.isdigit():
-            status_label.configure(text="Amount must be a number/positive numbers")
+            status_label.configure(text="Amount must be a number/not contain spaces")
             return
         
         if int(new_amount) <= 0:
             status_label.configure(text="Amount must be greater than 0")
             return
-
-        success, message = edit_goal(self.username, old_name, new_name, new_amount)
+        
+        if not old_name:
+            success, message = add_goal(self.username, new_name, new_amount)
+        else:
+            success, message = edit_goal(self.username, old_name, new_name, new_amount)
 
         if success:
             self.load_dashboard() # Or go back to edit menu
@@ -1107,7 +1098,7 @@ to log out?""",
 
     def create_budget(self):
         """Creates a new budget from user input."""
-        name = self.budget_name_entry.get().strip()
+        name = self.budget_name_entry.get().strip().replace(" ", "-")
         amount = self.budget_amount_entry.get()
         income = self.budget_income_entry.get()
         username = self.username
@@ -1117,14 +1108,14 @@ to log out?""",
                 text="Fill in all fields")
             return
 
-        if name.isdigit() or not name.isalpha():
+        if name.isdigit():
             self.set_budget_status_label.configure(
                 text="Name must be in letters")
             return
 
         if amount.isdigit() is False:
             self.set_budget_status_label.configure(
-                text="Amount must be a number/positive numbers")
+                text="Amount must be a number/not contain spaces")
             return
 
         if amount.isdigit() and int(amount) <= 0:
@@ -1134,7 +1125,7 @@ to log out?""",
 
         if income.isdigit() is False:
             self.set_budget_status_label.configure(
-                text="Income must be a number/positive numbers")
+                text="Income must be a number/not contain spaces")
             return
         
         if income.isdigit() and int(income) <= 0:
@@ -1154,7 +1145,7 @@ to log out?""",
 
     def create_goal(self):
         """Creates a new financial goal from user input."""
-        name = self.goal_name_entry.get().strip()
+        name = self.goal_name_entry.get().strip().replace(" ", "-")
         amount = self.goal_amount_entry.get()
         username = self.username
 
@@ -1163,14 +1154,14 @@ to log out?""",
                 text="Fill in name and amount")
             return
 
-        if name.isdigit() or not name.isalpha():
+        if name.isdigit():
             self.set_goal_status_label.configure(
                 text="Name must be in letters")
             return
 
         if amount.isdigit() is False:
             self.set_goal_status_label.configure(
-                text="Amount must be a number/positive numbers")
+                text="Amount must be a number/not contain spaces")
             return
 
         if amount.isdigit() and int(amount) <= 0:
@@ -1206,19 +1197,19 @@ to log out?""",
         else:
             return
 
-        name = name_entry.get().strip()
+        name = name_entry.get().strip().replace(" ", "-")
         amount = amount_entry.get()
 
         if not all([name, amount]):
             status_label.configure(text="Fill in name and amount")
             return
         
-        if name.isdigit() or not name.isalpha():
+        if name.isdigit():
             status_label.configure(text="Name must be in letters")
             return
 
         if not amount.isdigit():
-            status_label.configure(text="Amount must be a number/positive numbers")
+            status_label.configure(text="Amount must be a number/not contain spaces")
             return
         
         if int(amount) <= 0:
@@ -1395,7 +1386,7 @@ to log out?""",
     def update_expense(self, old_name, new_name_entry, new_amount_entry, status_label, location):
         """Updates an expense."""
         # Args: old_name, new_name_entry, new_amount_entry, status_label, location.
-        new_name = new_name_entry.get().strip()
+        new_name = new_name_entry.get().strip().replace(" ", "-")
         new_amount = new_amount_entry.get()
 
         if not all([new_name, new_amount]):
@@ -1403,7 +1394,7 @@ to log out?""",
             return
 
         if not new_amount.isdigit():
-            status_label.configure(text="Amount must be a number")
+            status_label.configure(text="Amount must be a number/not contain spaces")
             return
         
         success, message = edit_expense(self.username, old_name, new_name, float(new_amount))
