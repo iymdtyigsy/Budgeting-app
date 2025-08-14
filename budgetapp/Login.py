@@ -10,10 +10,18 @@ class LoginMenu(ctk.CTk):
         """Initializes the LoginMenu window."""
         super().__init__()
 
+        # Set window dimensions based on screen size
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        self.width = int(0.8 * screen_width)
+        self.height = int(0.8 * screen_height)
+        self.x = (screen_width // 2) - (self.width // 2)
+        self.y = (screen_height // 2) - (self.height // 2)
+
         self.title("Budget app")
-        self.geometry("844x844")
-        self.maxsize(844, 844)
-        self.minsize(844, 844)
+        self.geometry(f"{self.width}x{self.height}+{self.x}+{self.y}")
+        self.maxsize(self.width, self.height)
+        self.minsize(int(screen_width * 0.5), int(screen_height * 0.5))
 
         self.mainframe = ctk.CTkFrame(
             self, 

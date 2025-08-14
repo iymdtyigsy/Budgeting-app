@@ -23,11 +23,19 @@ class BudgetMenu(ctk.CTk):
         # Args: username (str): The logged-in user's username.
         super().__init__()
         self.username = username
+        
+        # Set window dimensions based on screen size
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        self.width = int(0.8 * screen_width)
+        self.height = int(0.8 * screen_height)
+        self.x = (screen_width // 2) - (self.width // 2)
+        self.y = (screen_height // 2) - (self.height // 2)
 
         self.title("Budget app")
-        self.geometry("844x844")
-        self.maxsize(844, 844)
-        self.minsize(844, 844)
+        self.geometry(f"{self.width}x{self.height}+{self.x}+{self.y}")
+        self.maxsize(self.width, self.height)
+        self.minsize(int(screen_width * 0.5), int(screen_height * 0.5))
 
         self.mainframe = ctk.CTkFrame(
             self,
@@ -436,7 +444,8 @@ create one?
             font=("Bold", 30),
             fg_color="#D9D9D9",
             width=312,
-            height=45
+            height=45,
+            corner_radius=5
         )
         self.username_label.place(relx=0.01, rely=0.01)
 
@@ -448,6 +457,7 @@ create one?
             width=140,
             height=39,
             fg_color="#D9D9D9",
+            corner_radius=5,
             command=self.load_add_expense
         )
         self.add_expense_btn.place(relx=0.46, rely=0.01)
@@ -460,6 +470,7 @@ create one?
             width=140,
             height=39,
             fg_color="#D9D9D9",
+            corner_radius=5,
             command=self.load_edit_budget
         )
         self.edit_btn.place(relx=0.64, rely=0.01)
@@ -472,6 +483,7 @@ create one?
             width=140,
             height=39,
             fg_color="#D9D9D9",
+            corner_radius=5,
             command=self.log_out
         )
         self.log_out_btn.place(relx=0.82, rely=0.01)
@@ -483,7 +495,8 @@ create one?
                 font=("Bold", 32),
                 fg_color="#D9D9D9",
                 width=210,
-                height=32
+                height=32,
+                corner_radius=5
             )
         self.budget_name_label.place(relx=0.01, rely=0.25)
 
@@ -494,7 +507,8 @@ create one?
             font=("Bold", 90),
             fg_color="#D9D9D9",
             width=400,
-            height=101
+            height=101,
+            corner_radius=5
         )
         self.balance_label.place(relx=0.01, rely=0.3)
 
@@ -514,7 +528,8 @@ create one?
             font=("Bold", 32),
             fg_color="#D9D9D9",
             width=210,
-            height=32
+            height=32,
+            corner_radius=5
         )
         self.goal_name_label.place(relx=0.72, rely=0.33)
 
@@ -525,7 +540,8 @@ create one?
             font=("Bold", 32),
             fg_color="#D9D9D9",
             width=210,
-            height=32
+            height=32,
+            corner_radius=5
         )
         self.goal_amount_label.place(relx=0.72, rely=0.39)
 
@@ -535,8 +551,9 @@ create one?
             text_color="black",
             font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=210,                                                                              
-            height=32
+            width=210,
+            height=32,
+            corner_radius=5
         )
         self.goal_status_label.place(relx=0.72, rely=0.27)
 
