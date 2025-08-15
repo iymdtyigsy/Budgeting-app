@@ -21,7 +21,7 @@ class LoginMenu(ctk.CTk):
         self.title("Budget app")
         self.geometry(f"{self.width}x{self.height}+{self.x}+{self.y}")
         self.maxsize(self.width, self.height)
-        self.minsize(int(screen_width * 0.5), int(screen_height * 0.5))
+        self.minsize(self.width, self.height)
 
         self.mainframe = ctk.CTkFrame(
             self, 
