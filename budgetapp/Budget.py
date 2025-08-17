@@ -81,7 +81,7 @@ class BudgetMenu(ctk.CTk):
             font=("Bold", 30),
             corner_radius=5
         )
-        self.create_budget_label.pack(padx=10, pady=5)
+        self.create_budget_label.pack(padx=10, pady=100)
 
         self.yes_btn = ctk.CTkButton(
             self.create_budget_frame,
@@ -455,7 +455,7 @@ class BudgetMenu(ctk.CTk):
             corner_radius=5,
             command=self.load_add_expense
         )
-        self.add_expense_btn.place(relx=0.46, rely=0.01)
+        self.add_expense_btn.place(relx=0.60, rely=0.01)
 
         self.edit_btn = ctk.CTkButton(
             self.dashboard_frame,
@@ -468,7 +468,7 @@ class BudgetMenu(ctk.CTk):
             corner_radius=5,
             command=self.load_edit_budget
         )
-        self.edit_btn.place(relx=0.64, rely=0.01)
+        self.edit_btn.place(relx=0.70, rely=0.01)
 
         self.log_out_btn = ctk.CTkButton(
             self.dashboard_frame,
@@ -481,7 +481,7 @@ class BudgetMenu(ctk.CTk):
             corner_radius=5,
             command=self.log_out
         )
-        self.log_out_btn.place(relx=0.82, rely=0.01)
+        self.log_out_btn.place(relx=0.80, rely=0.01)
 
         self.budget_name_label = ctk.CTkLabel(
                 self.dashboard_frame,
@@ -493,7 +493,7 @@ class BudgetMenu(ctk.CTk):
                 height=30,
                 corner_radius=5
             )
-        self.budget_name_label.place(relx=0.01, rely=0.25)
+        self.budget_name_label.place(relx=0.01, rely=0.23)
 
         self.balance_label = ctk.CTkLabel(
             self.dashboard_frame,
@@ -507,15 +507,6 @@ class BudgetMenu(ctk.CTk):
         )
         self.balance_label.place(relx=0.01, rely=0.3)
 
-        self.progess_bar = ctk.CTkProgressBar(
-            self.dashboard_frame,
-            orientation="horizontal",
-            width=600,
-            height=30,
-            progress_color="#3EA428",
-        )
-        self.progess_bar.place(relx=0.05, rely=0.45)
-
         self.goal_name_label = ctk.CTkLabel(
             self.dashboard_frame,
             text="goal name",
@@ -526,7 +517,7 @@ class BudgetMenu(ctk.CTk):
             height=30,
             corner_radius=5
         )
-        self.goal_name_label.place(relx=0.72, rely=0.33)
+        self.goal_name_label.place(relx=0.72, rely=0.3)
 
         self.goal_amount_label = ctk.CTkLabel(
             self.dashboard_frame,
@@ -538,7 +529,7 @@ class BudgetMenu(ctk.CTk):
             height=30,
             corner_radius=5
         )
-        self.goal_amount_label.place(relx=0.72, rely=0.39)
+        self.goal_amount_label.place(relx=0.72, rely=0.37)
 
         self.goal_status_label = ctk.CTkLabel(
             self.dashboard_frame,
@@ -550,7 +541,16 @@ class BudgetMenu(ctk.CTk):
             height=30,
             corner_radius=5
         )
-        self.goal_status_label.place(relx=0.72, rely=0.27)
+        self.goal_status_label.place(relx=0.72, rely=0.23)
+
+        self.progess_bar = ctk.CTkProgressBar(
+            self.dashboard_frame,
+            orientation="horizontal",
+            width=600,
+            height=30,
+            progress_color="#3EA428",
+        )
+        self.progess_bar.place(relx=0.08, rely=0.45)
 
         self.expense_scroll_frame = ctk.CTkScrollableFrame(
             self.dashboard_frame,
@@ -989,10 +989,10 @@ class BudgetMenu(ctk.CTk):
         self.confirm_btn = ctk.CTkButton(
             self.set_expense_frame,
             text="confirm",
-            font=("Bold", 40),
+            font=("Bold", 30),
             text_color="black",
-            width=293,
-            height=51,
+            width=250,
+            height=50,
             fg_color="#D9D9D9",
             command=self.load_dashboard
         )
@@ -1001,10 +1001,10 @@ class BudgetMenu(ctk.CTk):
         self.return_btn = ctk.CTkButton(
             self.set_expense_frame,
             text="return",
-            font=("Bold", 40),
+            font=("Bold", 30),
             text_color="black",
-            width=293,
-            height=51,
+            width=250,
+            height=50,
             fg_color="#D9D9D9",
             command=self.load_dashboard
         )
