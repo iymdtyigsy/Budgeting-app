@@ -1,6 +1,12 @@
 """
-This the login menu where the user can log in or sign up
+Login Menu
+Author: Tony Tan
+Date: 8/17/2025
+
+This the login menu where the user can log in or sign up account
+to then create, manage, and track their budgets and expenses.
 """
+
 import customtkinter as ctk
 from Database import add_user, auth_user
 

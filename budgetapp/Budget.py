@@ -1,6 +1,12 @@
 """
+Budget Menu
+Author: Tony Tan
+Date: 8/17/2025
+
 This is the Budget menu when the user successfully logged in
+where users can create, manage, and track their budgets and expenses.
 """
+
 import customtkinter as ctk
 from Database import (
     add_budget, 
@@ -739,23 +745,31 @@ class BudgetMenu(ctk.CTk):
             return
 
         if new_name.isdigit():
-            status_label.configure(text="Name must be in letters")
+            status_label.configure(text="Name must be in letters or have letters")
             return
 
         if not new_amount.isdigit():
-            status_label.configure(text="Amount must be a number/not contain spaces")
+            status_label.configure(text="Amount must be a positive full number/not contain spaces")
             return
 
         if int(new_amount) <= 0:
             status_label.configure(text="Amount must be greater than 0")
             return
 
+        if len(new_amount) > 8:
+            status_label.configure(text="Amount must not exceed 8 digits")
+            return
+
         if not new_income.isdigit():
-            status_label.configure(text="Income must be a number/not contain spaces")
+            status_label.configure(text="Income must be a positive full number/not contain spaces")
             return
         
         if int(new_income) <= 0:
             status_label.configure(text="Income must be greater than 0")
+            return
+
+        if len(new_income) > 8:
+            status_label.configure(text="Income must not exceed 8 digits")
             return
 
         success, message = edit_budget(self.username, old_name, new_name, new_amount, new_income)
@@ -867,11 +881,11 @@ class BudgetMenu(ctk.CTk):
             return
 
         if new_name.isdigit():
-            status_label.configure(text="Name must be in letters")
+            status_label.configure(text="Name must be in letters or have letters")
             return
 
         if not new_amount.isdigit():
-            status_label.configure(text="Amount must be a number/not contain spaces")
+            status_label.configure(text="Amount must be a positive full number/not contain spaces")
             return
         
         if int(new_amount) <= 0:
@@ -1121,12 +1135,17 @@ class BudgetMenu(ctk.CTk):
 
         if name.isdigit():
             self.set_budget_status_label.configure(
-                text="Name must be in letters")
+                text="Name must be in letters or have letters")
             return
 
         if amount.isdigit() is False:
             self.set_budget_status_label.configure(
-                text="Amount must be a number/not contain spaces")
+                text="Amount must be a positive full number/not contain spaces")
+            return
+
+        if len(amount) > 8:
+            self.set_budget_status_label.configure(
+                text="Amount must not exceed 8 digits")
             return
 
         if amount.isdigit() and int(amount) <= 0:
@@ -1136,7 +1155,12 @@ class BudgetMenu(ctk.CTk):
 
         if income.isdigit() is False:
             self.set_budget_status_label.configure(
-                text="Income must be a number/not contain spaces")
+                text="Income must be a positive full number/not contain spaces")
+            return
+
+        if len(income) > 8:
+            self.set_budget_status_label.configure(
+                text="Income must not exceed 8 digits")
             return
         
         if income.isdigit() and int(income) <= 0:
@@ -1167,12 +1191,12 @@ class BudgetMenu(ctk.CTk):
 
         if name.isdigit():
             self.set_goal_status_label.configure(
-                text="Name must be in letters")
+                text="Name must be in letters or have letters")
             return
 
         if amount.isdigit() is False:
             self.set_goal_status_label.configure(
-                text="Amount must be a number/not contain spaces")
+                text="Amount must be a positive full number/not contain spaces")
             return
 
         if amount.isdigit() and int(amount) <= 0:
@@ -1216,11 +1240,11 @@ class BudgetMenu(ctk.CTk):
             return
         
         if name.isdigit():
-            status_label.configure(text="Name must be in letters")
+            status_label.configure(text="Name must be in letters or have letters")
             return
 
         if not amount.isdigit():
-            status_label.configure(text="Amount must be a number/not contain spaces")
+            status_label.configure(text="Amount must be a positive full number/not contain spaces")
             return
         
         if int(amount) <= 0:
@@ -1405,7 +1429,12 @@ class BudgetMenu(ctk.CTk):
             return
 
         if not new_amount.isdigit():
-            status_label.configure(text="Amount must be a number/not contain spaces")
+            status_label.configure(text="Amount must be a positive full number/not contain spaces")
+            return
+        
+        if new_amount.isdigit() and int(new_amount) <= 0:
+            status_label.configure(
+                text="Amount must be greater than 0")
             return
         
         success, message = edit_expense(self.username, old_name, new_name, float(new_amount))

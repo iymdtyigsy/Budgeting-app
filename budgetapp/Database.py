@@ -1,10 +1,17 @@
 """
-This is the database module for the Budget App.
+Database File
+Author: Tony Tan
+Date: 8/17/2025
+
+This is the database module for the Budget App
+storing account detail, budget details.
 """
 
 import datetime
 import os
 import bcrypt
+from sqlalchemy.orm import sessionmaker, relationship, declarative_base
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy import (
     Column,
     Integer,
@@ -14,8 +21,6 @@ from sqlalchemy import (
     UniqueConstraint,
     create_engine
 )
-from sqlalchemy.orm import sessionmaker, relationship, declarative_base
-from sqlalchemy.exc import IntegrityError
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_FOLDER = os.path.join(BASE_DIR, "data")
