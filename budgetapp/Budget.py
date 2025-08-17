@@ -75,15 +75,10 @@ class BudgetMenu(ctk.CTk):
 
         self.create_budget_label = ctk.CTkLabel(
             self.create_budget_frame,
-            text="""
-looks like you don't 
-have a budget.
-Would you like to 
-create one? 
-        """,
+            text=f"looks like you don't have a budget.\n Would you like to create one?",
             text_color="black",
             fg_color="white",
-            font=("Bold", 55),
+            font=("Bold", 30),
             corner_radius=5
         )
         self.create_budget_label.pack(padx=10, pady=5)
@@ -150,7 +145,7 @@ create one?
             text_color="black",
             font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
+            width=600,
             height=50
         )
         self.budget_name_entry.pack(padx=50, pady=10)
@@ -162,7 +157,7 @@ create one?
             text_color="black",
             font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
+            width=600,
             height=50
         )
         self.budget_amount_entry.pack(padx=50)
@@ -174,7 +169,7 @@ create one?
             text_color="black",
             font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
+            width=600,
             height=50
         )
         self.budget_income_entry.pack(padx=50, pady=10)
@@ -206,8 +201,8 @@ create one?
         self.set_expense_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white",
-            width=810,
-            height=780
+            width=707,
+            height=585
         )
         self.set_expense_frame.pack(padx=10, pady=10, expand=True)
         self.set_expense_frame.pack_propagate(False)
@@ -217,14 +212,14 @@ create one?
             text="Set Expenses",
             text_color="black",
             fg_color="white",
-            font=("Bold", 64)
+            font=("Bold", 50)
         )
         self.set_expense_label.pack(padx=10, pady=30)
 
         self.contain_scroll_frame = ctk.CTkFrame(
             self.set_expense_frame,
-            width=757,
-            height=411
+            width=600,
+            height=400
         )
         self.contain_scroll_frame.grid_columnconfigure((0, 1), weight=1)
         self.contain_scroll_frame.grid_rowconfigure((0, 1), weight=1)
@@ -243,8 +238,8 @@ create one?
 
         self.scrollable_frame = ctk.CTkScrollableFrame(
             self.contain_scroll_frame,
-            width=675,
-            height=311,
+            width=600,
+            height=300,
             fg_color="#D9D9D9"
         )
         self.scrollable_frame.grid(row=0, column=1, sticky='nswe')
@@ -254,8 +249,8 @@ create one?
             text="confirm",
             font=("Bold", 40),
             text_color="black",
-            width=293,
-            height=51,
+            width=300,
+            height=50,
             fg_color="#D9D9D9",
             command=self.load_set_goal
         )
@@ -278,8 +273,8 @@ create one?
         self.set_expense_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white",
-            width=810,
-            height=780
+            width=707,
+            height=585
         )
         self.set_expense_frame.pack(padx=10, pady=10, expand=True)
         self.set_expense_frame.pack_propagate(False)
@@ -289,7 +284,7 @@ create one?
             text="Set your expenses",
             text_color="black",
             fg_color="white",
-            font=("Bold", 64)
+            font=("Bold", 50)
         )
         self.set_expense_label.pack(padx=10, pady=40)
 
@@ -307,10 +302,10 @@ create one?
             placeholder_text="Expense name",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 53),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
-            height=74
+            width=600,
+            height=50
         )
         self.set_expense_name_entry.pack(pady=10)
 
@@ -319,10 +314,10 @@ create one?
             placeholder_text="Expense amount",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 53),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
-            height=74
+            width=600,
+            height=50
         )
         self.set_expense_amount_entry.pack(pady=10)
 
@@ -339,8 +334,8 @@ create one?
             text="confirm",
             font=("Bold", 40),
             text_color="black",
-            width=293,
-            height=51,
+            width=300,
+            height=50,
             fg_color="#D9D9D9",
             command=lambda: self.create_expense("set_expense")
         )
@@ -351,8 +346,8 @@ create one?
             text="return",
             font=("Bold", 40),
             text_color="black",
-            width=293,
-            height=51,
+            width=300,
+            height=50,
             fg_color="#D9D9D9",
             command=self.load_set_expense
         )
@@ -365,8 +360,8 @@ create one?
         self.set_goal_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white",
-            width=810,
-            height=780
+            width=707,
+            height=585
         )
         self.set_goal_frame.pack(padx=10, pady=10, expand=True)
         self.set_goal_frame.pack_propagate(False)
@@ -376,7 +371,7 @@ create one?
             text="Set goal",
             text_color="black",
             fg_color="white",
-            font=("Bold", 64)
+            font=("Bold", 50)
         )
         self.set_goal_frame_label.pack(padx=10, pady=90)
 
@@ -385,10 +380,10 @@ create one?
             placeholder_text="Goal name",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 53),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
-            height=74
+            width=600,
+            height=50
         )
         self.goal_name_entry.pack(pady=10)
 
@@ -397,10 +392,10 @@ create one?
             placeholder_text="Goal amount",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 53),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
-            height=74
+            width=600,
+            height=50
         )
         self.goal_amount_entry.pack(pady=10)
 
@@ -417,8 +412,8 @@ create one?
             text="confirm",
             font=("Bold", 40),
             text_color="black",
-            width=293,
-            height=51,
+            width=300,
+            height=50,
             fg_color="#D9D9D9",
             command=self.create_goal
         )
@@ -431,8 +426,8 @@ create one?
         self.dashboard_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white",
-            width=810,
-            height=780
+            width=707,
+            height=585
         )
         self.dashboard_frame.pack(padx=10, pady=10, expand=True)
         self.dashboard_frame.pack_propagate(False)
@@ -441,10 +436,10 @@ create one?
             self.dashboard_frame,
             text=f"Hi, {self.username}",
             text_color="black",
-            font=("Bold", 30),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=312,
-            height=45,
+            width=200,
+            height=30,
             corner_radius=5
         )
         self.username_label.place(relx=0.01, rely=0.01)
@@ -452,10 +447,10 @@ create one?
         self.add_expense_btn = ctk.CTkButton(
             self.dashboard_frame,
             text="add",
-            font=("Bold", 36),
+            font=("Bold", 20),
             text_color="black",
-            width=140,
-            height=39,
+            width=50,
+            height=30,
             fg_color="#D9D9D9",
             corner_radius=5,
             command=self.load_add_expense
@@ -465,10 +460,10 @@ create one?
         self.edit_btn = ctk.CTkButton(
             self.dashboard_frame,
             text="edit",
-            font=("Bold", 36),
+            font=("Bold", 20),
             text_color="black",
-            width=140,
-            height=39,
+            width=50,
+            height=30,
             fg_color="#D9D9D9",
             corner_radius=5,
             command=self.load_edit_budget
@@ -478,10 +473,10 @@ create one?
         self.log_out_btn = ctk.CTkButton(
             self.dashboard_frame,
             text="log out",
-            font=("Bold", 36),
+            font=("Bold", 20),
             text_color="black",
-            width=140,
-            height=39,
+            width=50,
+            height=30,
             fg_color="#D9D9D9",
             corner_radius=5,
             command=self.log_out
@@ -492,10 +487,10 @@ create one?
                 self.dashboard_frame,
                 text="Budget Name",
                 text_color="black",
-                font=("Bold", 32),
+                font=("Bold", 20),
                 fg_color="#D9D9D9",
-                width=210,
-                height=32,
+                width=200,
+                height=30,
                 corner_radius=5
             )
         self.budget_name_label.place(relx=0.01, rely=0.25)
@@ -504,10 +499,10 @@ create one?
             self.dashboard_frame,
             text="Balance",
             text_color="black",
-            font=("Bold", 90),
+            font=("Bold", 60),
             fg_color="#D9D9D9",
-            width=400,
-            height=101,
+            width=300,
+            height=70,
             corner_radius=5
         )
         self.balance_label.place(relx=0.01, rely=0.3)
@@ -515,8 +510,8 @@ create one?
         self.progess_bar = ctk.CTkProgressBar(
             self.dashboard_frame,
             orientation="horizontal",
-            width=734,
-            height=36,
+            width=600,
+            height=30,
             progress_color="#3EA428",
         )
         self.progess_bar.place(relx=0.05, rely=0.45)
@@ -525,10 +520,10 @@ create one?
             self.dashboard_frame,
             text="goal name",
             text_color="black",
-            font=("Bold", 32),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=210,
-            height=32,
+            width=100,
+            height=30,
             corner_radius=5
         )
         self.goal_name_label.place(relx=0.72, rely=0.33)
@@ -537,10 +532,10 @@ create one?
             self.dashboard_frame,
             text="goal amount",
             text_color="black",
-            font=("Bold", 32),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=210,
-            height=32,
+            width=100,
+            height=30,
             corner_radius=5
         )
         self.goal_amount_label.place(relx=0.72, rely=0.39)
@@ -551,16 +546,16 @@ create one?
             text_color="black",
             font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=210,
-            height=32,
+            width=100,
+            height=30,
             corner_radius=5
         )
         self.goal_status_label.place(relx=0.72, rely=0.27)
 
         self.expense_scroll_frame = ctk.CTkScrollableFrame(
             self.dashboard_frame,
-            width=673,
-            height=320,
+            width=600   ,
+            height=200,
             fg_color="#D9D9D9"
         )
         self.expense_scroll_frame.place(relx=0.07, rely=0.53)
@@ -584,8 +579,8 @@ create one?
         self.edit_budget_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white",
-            width=810,
-            height=780
+            width=707,
+            height=585
         )
         self.edit_budget_frame.pack(padx=10, pady=10, expand=True)
         self.edit_budget_frame.pack_propagate(False)
@@ -595,8 +590,8 @@ create one?
             text="edit budget",
             font=("Bold", 40),
             text_color="black",
-            width=293,
-            height=51,
+            width=200,
+            height=50,
             fg_color="#D9D9D9",
             command=self.load_edit_budget_screen
         )
@@ -607,8 +602,8 @@ create one?
             text="edit goal",
             font=("Bold", 40),
             text_color="black",
-            width=293,
-            height=51,
+            width=200,
+            height=50,
             fg_color="#D9D9D9",
             command=self.load_edit_goal_screen
         )
@@ -619,8 +614,8 @@ create one?
             text="return",
             font=("Bold", 40),
             text_color="black",
-            width=293,
-            height=51,
+            width=200,
+            height=50,
             fg_color="#D9D9D9",
             command=self.load_dashboard
         )
@@ -633,8 +628,8 @@ create one?
         edit_budget_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white",
-            width=810,
-            height=780
+            width=707,
+            height=585
         )
         edit_budget_frame.pack(padx=10, pady=10, expand=True)
         edit_budget_frame.pack_propagate(False)
@@ -644,9 +639,9 @@ create one?
             text="Edit Budget",
             text_color="black",
             fg_color="white",
-            font=("Bold", 64)
+            font=("Bold", 50)
         )
-        edit_budget_label.pack(padx=10, pady=40)
+        edit_budget_label.pack(padx=10, pady=30)
 
         # Get current budget data to pre-fill the fields
         user_data = get_user_data(self.username)
@@ -666,10 +661,10 @@ create one?
             placeholder_text="Budget name",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 53),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
-            height=74
+            width=600,
+            height=50
         )
         budget_name_entry.insert(0, old_name)
         budget_name_entry.pack(pady=10)
@@ -679,10 +674,10 @@ create one?
             placeholder_text="Budget amount",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 53),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
-            height=74
+            width=600,
+            height=50
         )
         budget_amount_entry.insert(0, old_amount)
         budget_amount_entry.pack(pady=10)
@@ -692,10 +687,10 @@ create one?
             placeholder_text="Budget income",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 53),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
-            height=74
+            width=600,
+            height=50
         )
         budget_income_entry.insert(0, old_income)
         budget_income_entry.pack(pady=10)
@@ -777,8 +772,8 @@ create one?
         edit_goal_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white",
-            width=810,
-            height=780
+            width=707,
+            height=585
         )
         edit_goal_frame.pack(padx=10, pady=10, expand=True)
         edit_goal_frame.pack_propagate(False)
@@ -788,7 +783,7 @@ create one?
             text="Edit Goal",
             text_color="black",
             fg_color="white",
-            font=("Bold", 64)
+            font=("Bold", 50)
         )
         edit_goal_label.pack(padx=10, pady=40)
 
@@ -808,10 +803,10 @@ create one?
             placeholder_text="Goal name",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 53),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
-            height=74
+            width=600,
+            height=50   
         )
         goal_name_entry.insert(0, old_goal_name)
         goal_name_entry.pack(pady=10)
@@ -821,10 +816,10 @@ create one?
             placeholder_text="Goal amount",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 53),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
-            height=74
+            width=600,
+            height=50   
         )
         goal_amount_entry.insert(0, old_goal_amount)
         goal_amount_entry.pack(pady=10)
@@ -854,8 +849,8 @@ create one?
             text="return",
             font=("Bold", 40),
             text_color="black",
-            width=293,
-            height=51,
+            width=300,
+            height=50,
             fg_color="#D9D9D9",
             command=self.load_edit_budget # Go back to the edit menu
         )
@@ -900,18 +895,17 @@ create one?
         self.log_out_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white",
-            width=810,
-            height=780
+            width=707,
+            height=585
         )
         self.log_out_frame.pack(padx=10, pady=10, expand=True)
         self.log_out_frame.pack_propagate(False)
 
         self.confirm_label = ctk.CTkLabel(
             self.log_out_frame,
-            text="""Are you sure you want 
-to log out?""",
+            text="Are you sure you want to log out?",
             text_color="black",
-            font=("Bold", 70),
+            font=("Bold", 30),
             fg_color="white",
             width=210,
             height=40
@@ -949,8 +943,8 @@ to log out?""",
         self.set_expense_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white",
-            width=810,
-            height=780
+            width=707,
+            height=585
         )
         self.set_expense_frame.pack(padx=10, pady=10, expand=True)
         self.set_expense_frame.pack_propagate(False)
@@ -966,8 +960,8 @@ to log out?""",
 
         self.contain_scroll_frame = ctk.CTkFrame(
             self.set_expense_frame,
-            width=757,
-            height=411
+            width=600,
+            height=400
         )
         self.contain_scroll_frame.grid_columnconfigure((0, 1), weight=1)
         self.contain_scroll_frame.grid_rowconfigure((0, 1), weight=1)
@@ -986,8 +980,8 @@ to log out?""",
 
         self.scrollable_frame = ctk.CTkScrollableFrame(
             self.contain_scroll_frame,
-            width=675,
-            height=311,
+            width=600,
+            height=300,
             fg_color="#D9D9D9"
         )
         self.scrollable_frame.grid(row=0, column=1, sticky='nswe')
@@ -1002,7 +996,7 @@ to log out?""",
             fg_color="#D9D9D9",
             command=self.load_dashboard
         )
-        self.confirm_btn.pack(padx=50, pady=10)
+        self.confirm_btn.pack(padx=50)
 
         self.return_btn = ctk.CTkButton(
             self.set_expense_frame,
@@ -1033,8 +1027,8 @@ to log out?""",
         self.add_expense_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white",
-            width=810,
-            height=780
+            width=707,
+            height=585
         )
         self.add_expense_frame.pack(padx=10, pady=10, expand=True)
         self.add_expense_frame.pack_propagate(False)
@@ -1044,7 +1038,7 @@ to log out?""",
             text="Add your expenses",
             text_color="black",
             fg_color="white",
-            font=("Bold", 64)
+            font=("Bold", 50)
         )
         self.add_expense_label.pack(padx=10, pady=40)
 
@@ -1053,10 +1047,10 @@ to log out?""",
             placeholder_text="Expense name",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 53),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
-            height=74
+            width=600,
+            height=50
         )
         self.add_expense_name_entry.pack(pady=10)
 
@@ -1065,10 +1059,10 @@ to log out?""",
             placeholder_text="Expense amount",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 53),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
-            height=74
+            width=600,
+            height=50
         )
         self.add_expense_amount_entry.pack(pady=10)
 
@@ -1266,7 +1260,7 @@ to log out?""",
                 text_color="black",
                 font=("Arial", 20),
                 fg_color="white",
-                width=675,
+                width=600,
                 height=50,
                 corner_radius=10,
             ).pack(pady=20)
@@ -1277,7 +1271,7 @@ to log out?""",
 
             expense_frame = ctk.CTkFrame(
                 scrollable_frame,
-                width=675,
+                width=600,
                 height=50,
                 fg_color="white",
                 corner_radius=20
@@ -1331,8 +1325,8 @@ to log out?""",
         edit_expense_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white",
-            width=810,
-            height=780
+            width=707,
+            height=585
         )
         edit_expense_frame.pack(padx=10, pady=10, expand=True)
         edit_expense_frame.pack_propagate(False)
@@ -1342,17 +1336,17 @@ to log out?""",
             text="Edit Expense",
             text_color="black",
             fg_color="white",
-            font=("Bold", 64)
+            font=("Bold", 50)
         )
         edit_expense_label.pack(padx=10, pady=40)
 
         new_name_entry = ctk.CTkEntry(
             edit_expense_frame,
             text_color="black",
-            font=("Bold", 53),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
-            height=74
+            width=600,
+            height=50
         )
         new_name_entry.insert(0, old_name)
         new_name_entry.pack(pady=10)
@@ -1360,10 +1354,10 @@ to log out?""",
         new_amount_entry = ctk.CTkEntry(
             edit_expense_frame,
             text_color="black",
-            font=("Bold", 53),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
-            width=726,
-            height=74
+            width=600,
+            height=50
         )
         new_amount_entry.insert(0, old_amount)
         new_amount_entry.pack(pady=10)
@@ -1381,8 +1375,8 @@ to log out?""",
             text="confirm",
             font=("Bold", 40),
             text_color="black",
-            width=293,
-            height=51,
+            width=300,
+            height=50,
             fg_color="#D9D9D9",
             command=lambda: self.update_expense(old_name, new_name_entry, new_amount_entry, status_label, location)
         )
