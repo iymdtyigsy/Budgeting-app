@@ -119,8 +119,8 @@ create one?
         self.set_budget_frame = ctk.CTkFrame(
             self.mainframe_holder,
             fg_color="white",
-            width=810,
-            height=780
+            width=707,
+            height=585
         )
         self.set_budget_frame.pack(padx=10, pady=10, expand=True)
         self.set_budget_frame.pack_propagate(False)
@@ -130,7 +130,7 @@ create one?
             text="Create Budget",
             text_color="black",
             fg_color="white",
-            font=("Bold", 96)
+            font=("Bold", 50)
         )
         self.set_budget_label.pack(padx=10, pady=20)
 
@@ -148,22 +148,22 @@ create one?
             placeholder_text="Budget name",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 40),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
             width=726,
-            height=74
+            height=50
         )
-        self.budget_name_entry.pack(padx=50, pady=30)
+        self.budget_name_entry.pack(padx=50, pady=10)
 
         self.budget_amount_entry = ctk.CTkEntry(
             self.set_budget_frame,
             placeholder_text="Budget amount",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 40),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
             width=726,
-            height=74
+            height=50
         )
         self.budget_amount_entry.pack(padx=50)
 
@@ -172,12 +172,12 @@ create one?
             placeholder_text="Budget income",
             placeholder_text_color="black",
             text_color="black",
-            font=("Bold", 40),
+            font=("Bold", 20),
             fg_color="#D9D9D9",
             width=726,
-            height=74
+            height=50
         )
-        self.budget_income_entry.pack(padx=50, pady=30)
+        self.budget_income_entry.pack(padx=50, pady=10)
 
         self.set_budget_status_label = ctk.CTkLabel(
             self.set_budget_frame,
