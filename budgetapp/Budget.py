@@ -888,6 +888,10 @@ class BudgetMenu(ctk.CTk):
             status_label.configure(text="Amount must be a positive full number/not contain spaces")
             return
         
+        if len(new_amount) > 8:
+            status_label.configure(text="Amount must not exceed 8 digits")
+            return
+
         if int(new_amount) <= 0:
             status_label.configure(text="Amount must be greater than 0")
             return
@@ -1193,6 +1197,11 @@ class BudgetMenu(ctk.CTk):
             self.set_goal_status_label.configure(
                 text="Name must be in letters or have letters")
             return
+        
+        if len(amount) > 8:
+            self.set_goal_status_label.configure(
+                text="Amount must not exceed 8 digits")
+            return
 
         if amount.isdigit() is False:
             self.set_goal_status_label.configure(
@@ -1241,6 +1250,10 @@ class BudgetMenu(ctk.CTk):
         
         if name.isdigit():
             status_label.configure(text="Name must be in letters or have letters")
+            return
+
+        if len(amount) > 8:
+            status_label.configure(text="Amount must not exceed 8 digits")
             return
 
         if not amount.isdigit():
@@ -1427,11 +1440,19 @@ class BudgetMenu(ctk.CTk):
         if not all([new_name, new_amount]):
             status_label.configure(text="Fill in all fields")
             return
+        
+        if new_name.isdigit():
+            status_label.configure(text="Name must be in letters or have letters")
+            return
 
         if not new_amount.isdigit():
             status_label.configure(text="Amount must be a positive full number/not contain spaces")
             return
         
+        if len(new_amount) > 8:
+            status_label.configure(text="Amount must not exceed 8 digits")
+            return
+
         if new_amount.isdigit() and int(new_amount) <= 0:
             status_label.configure(
                 text="Amount must be greater than 0")
